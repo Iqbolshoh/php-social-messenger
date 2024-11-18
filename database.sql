@@ -9,7 +9,7 @@ CREATE TABLE users (
     email VARCHAR(120) NOT NULL UNIQUE,
     username VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    profile_picture VARCHAR(255),
+    profile_picture VARCHAR(255) DEFAULT 'default.png',
     bio VARCHAR(120),
     status ENUM('online', 'offline') DEFAULT 'offline',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required maxlength="100">
+                <input type="email" id="email" name="email" required maxlength="120">
                 <p id="email-message"></p>
             </div>
             <div class="form-group">
