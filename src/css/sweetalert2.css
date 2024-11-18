@@ -1,0 +1,39 @@
+.swal2-popup {
+    font-family: 'Arial', sans-serif;
+}
+
+.swal2-title {
+    color: #2c3e50;
+    font-size: 1.5rem;
+}
+
+.swal2-html-container {
+    color: #34495e;
+    font-size: 1rem;
+}
+
+.swal2-confirm {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5em 1em;
+    margin-left: 10px;
+}
+
+.swal2-cancel {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5em 1em;
+    margin-right: 10px;
+}
+
+.swal2-confirm:hover {
+    background-color: #218838;
+}
+
+.swal2-cancel:hover {
+    background-color: #c82333;
+}
