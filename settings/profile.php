@@ -11,8 +11,11 @@ include '../config.php';
 $query = new Database();
 
 $user_id = $_SESSION['user_id'];
-$user = $query->select('users', '*', $user_id)[0];
+$result = $query->select('users', '*', 'id = ?', [$user_id], 'i');
 
+if (isset($result[0])) {
+    $user = $result[0];
+}
 
 $username = $user['username'];
 
@@ -23,35 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $profile_picture = $user['profile_picture'];
-
-    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['profile_picture']['tmp_name'];
-        $fileName = $_FILES['profile_picture']['name'];
-        $fileNameCmps = explode(".", $fileName);
-        $fileExtension = strtolower(end($fileNameCmps));
-        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-        $uploadFileDir = '../src/images/profile-picture/';
-        $dest_path = $uploadFileDir . $newFileName;
-
-        if ($profile_picture && $profile_picture !== 'default.png') {
-            $oldFilePath = $uploadFileDir . $profile_picture;
-            if (file_exists($oldFilePath)) {
-                unlink($oldFilePath);
-            }
-        }
-
-        if (move_uploaded_file($fileTmpPath, $dest_path)) {
-            $profile_picture = $newFileName;
-        }
-    }
-
     $updateData = [
         'first_name' => $first_name,
         'last_name' => $last_name,
         'bio' => $bio,
-        'email' => $email,
-        'profile_picture' => $profile_picture
+        'email' => $email
     ];
 
     if (!empty($password)) {
@@ -82,37 +61,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="profile-container">
         <div class="profile-form-container">
             <div class="profile-header">
-                <img class="profile-picture"
-                    src="../src/images/profile-picture/<?php echo $user['profile_picture']; ?>"
-                    alt="Profile Image">
-                <h2 class="profile-name"><?php echo htmlspecialchars($user['username']); ?></h2>
+                <img class="profile-picture" src="../src/images/profile-picture/default.png" alt="Profile Image">
+                <h2 class="profile-name"><?= $user['username']; ?></h2>
             </div>
-            <form id="profile-form" action="profile.php" method="POST" enctype="multipart/form-data" class="profile-form">
+            <form id="profile-form" action="profile.php" method="POST" enctype="multipart/form-data"
+                class="profile-form">
                 <label for="first_name" class="form-label">First Name:</label>
                 <input type="text" id="first_name" name="first_name" class="form-input"
-                    value="<?php echo htmlspecialchars($user['first_name']); ?>" required maxlength="30">
+                    value="<?= $user['first_name']; ?>" required maxlength="30">
 
                 <label for="last_name" class="form-label">Last Name:</label>
-                <input type="text" id="last_name" name="last_name" class="form-input"
-                    value="<?php echo htmlspecialchars($user['last_name']); ?>" required maxlength="30">
-
-                <label for="profile_picture" class="form-label">Profile Image:</label>
-                <div class="custom-file-input">
-                    <input type="file" id="profile_picture" name="profile_picture" class="form-input" accept="image/*">
-                    <div class="file-input-content">
-                        <span class="file-label">Choose image</span>
-                        <i class="fa-solid fa-image"></i>
-                    </div>
-                </div>
+                <input type="text" id="last_name" name="last_name" class="form-input" value="<?= $user['last_name']; ?>"
+                    required maxlength="30">
 
                 <label for="bio" class="form-label">Bio:</label>
-                <input type="bio" id="bio" name="bio" class="form-input"
-                    value="<?php echo htmlspecialchars($user['bio']); ?>" required maxlength="120">
-
+                <textarea id="bio" name="bio" class="form-input" required
+                    maxlength="255" rows="4"><?= $user['bio']; ?></textarea>
 
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" id="email" name="email" class="form-input"
-                    value="<?php echo htmlspecialchars($user['email']); ?>" required maxlength="120">
+                <input type="email" id="email" name="email" class="form-input" value="<?= $user['email']; ?>" required
+                    maxlength="120">
 
 
                 <label for="username" class="form-label">Username:</label>
@@ -134,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script src="../src/js/sweetalert2.js"></script>
     <script>
-        document.getElementById('toggle-password').addEventListener('click', function() {
+        document.getElementById('toggle-password').addEventListener('click', function () {
             const passwordField = document.getElementById('password');
             const toggleIcon = this.querySelector('i');
 
@@ -149,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         });
 
-        document.getElementById('profile-form').addEventListener('submit', function(event) {
+        document.getElementById('profile-form').addEventListener('submit', function (event) {
             event.preventDefault();
 
             Swal.fire({

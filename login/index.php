@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
@@ -18,14 +17,18 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
         session_start();
     }
 
-    $result = $query->select('users', 'id', 'username', $_COOKIE['username'])[0];
+    $result = $query->select('users', 'id', "username = ?", [$_COOKIE['username']], 's');
 
-    $_SESSION['loggedin'] = true;
-    $_SESSION['username'] = $_COOKIE['username'];
-    $_SESSION['user_id'] = $result['id'];
+    if (!empty($result)) {
+        $user = $result[0];
 
-    header("Location: ../");
-    exit;
+        $_SESSION['loggedin'] = true;
+        $_SESSION['username'] = $_COOKIE['username'];
+        $_SESSION['user_id'] = $user['id'];
+
+        header("Location: ../");
+        exit;
+    }
 }
 
 if (isset($_POST['submit'])) {
@@ -33,7 +36,7 @@ if (isset($_POST['submit'])) {
     $password = $query->hashPassword($_POST['password']);
     $result = $query->select('users', '*', "username = ? AND password = ?", [$username, $password], 'ss');
 
-    if (count($result) > 0) {
+    if (!empty($result)) {
         $user = $result[0];
 
         $_SESSION['loggedin'] = true;
@@ -43,9 +46,9 @@ if (isset($_POST['submit'])) {
         setcookie('username', $username, time() + (86400 * 30), "/", "", true, true);
         setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
 
-?>
+        ?>
         <script>
-            window.onload = function() {
+            window.onload = function () {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -57,11 +60,11 @@ if (isset($_POST['submit'])) {
                 });
             };
         </script>
-    <?php
+        <?php
     } else {
-    ?>
+        ?>
         <script>
-            window.onload = function() {
+            window.onload = function () {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
@@ -71,7 +74,7 @@ if (isset($_POST['submit'])) {
                 });
             };
         </script>
-<?php
+        <?php
     }
 }
 ?>
@@ -96,7 +99,7 @@ if (isset($_POST['submit'])) {
 
         <form method="post" action="">
             <div class="form-group">
-                <label for="username">Username or Email</label>
+                <label for="username">Username</label>
                 <input type="text" id="username" name="username" required maxlength="30">
             </div>
             <div class="form-group">
@@ -120,7 +123,7 @@ if (isset($_POST['submit'])) {
 
     <script src="../src/js/sweetalert2.js"></script>
     <script>
-        document.getElementById('toggle-password').addEventListener('click', function() {
+        document.getElementById('toggle-password').addEventListener('click', function () {
             const passwordField = document.getElementById('password');
             const toggleIcon = this.querySelector('i');
 

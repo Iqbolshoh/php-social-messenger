@@ -200,3 +200,7 @@ footer {
 .custom-file-input input[type="file"]:focus+.file-input-content {
     border-color: #007bff;
 }
+
+textarea {
+    resize: none;
+}

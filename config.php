@@ -2,7 +2,7 @@
 define("DB_SERVER", "localhost");
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "");
-define("DB_NAME", "SocialChat");
+define("DB_NAME", "social_chat");
 
 class Database
 {
