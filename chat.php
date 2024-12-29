@@ -101,11 +101,11 @@ $message_count = count($private_messages);
                     </div>
 
                     <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content" style="background: #7F7FD5; background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);">
+                        <div class="modal-dialog" role="document" style="display:flex; justify-content:center;">
+                            <div class="modal-content" style="background: #7F7FD5; background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); border: none; border-radius: 11px; max-width:calc(100% - 20px); top: 15px">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="profileModalLabel"><?= $receiver_user['full_name'] ?>'s Profile</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" id="closeModalBtn" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -130,7 +130,7 @@ $message_count = count($private_messages);
 
                                 <?php if ($sender_id == $private_message['sender_id']): ?>
 
-                                    <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px">
+                                    <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="<?= $private_message['id'] ?>">
                                         <div style="display: flex; justify-content: center; align-items:center">
                                             <div class="relative-container" id="sender">
                                                 <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #78e08f;"></i></span>
@@ -154,7 +154,7 @@ $message_count = count($private_messages);
 
                                 <?php else : ?>
 
-                                    <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px">
+                                    <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px" data-message-id="<?= $private_message['id'] ?>">
                                         <div class="img_cont_msg">
                                             <img src="./src/images/profile-picture/<?= $receiver_user['profile_picture'] ?>" class="rounded-circle user_img_msg">
                                         </div>
@@ -219,23 +219,6 @@ $message_count = count($private_messages);
     <script>
         let isOpen = null;
 
-        document.querySelectorAll('.action_menu_btn').forEach((button) => {
-            button.addEventListener('click', function(event) {
-                event.stopPropagation();
-                const actionMenu = event.target.closest('.message-container').querySelector('.action_menu');
-                if (isOpen && isOpen !== actionMenu) {
-                    isOpen.style.display = 'none';
-                }
-                if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
-                    actionMenu.style.display = 'block';
-                    isOpen = actionMenu;
-                } else {
-                    actionMenu.style.display = 'none';
-                    isOpen = null;
-                }
-            });
-        });
-
         document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
             event.stopPropagation();
             var actionMenu = document.querySelector('.action_menu_user');
@@ -259,7 +242,44 @@ $message_count = count($private_messages);
         });
 
         document.querySelector('.action_menu_user ul li:first-child').addEventListener('click', function() {
-            $('#profileModal').modal('show');
+            const modal = document.getElementById('profileModal');
+            modal.classList.add('show');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+
+        document.getElementById('closeModalBtn').addEventListener('click', function() {
+            const modal = document.getElementById('profileModal');
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        document.getElementById('profileModal').addEventListener('click', function(event) {
+            const modalContent = document.querySelector('.modal-content');
+            if (!modalContent.contains(event.target)) {
+                const modal = document.getElementById('profileModal');
+                modal.classList.remove('show');
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        document.querySelectorAll('.action_menu_btn').forEach((button) => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const actionMenu = event.target.closest('.message-container').querySelector('.action_menu');
+                if (isOpen && isOpen !== actionMenu) {
+                    isOpen.style.display = 'none';
+                }
+                if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
+                    actionMenu.style.display = 'block';
+                    isOpen = actionMenu;
+                } else {
+                    actionMenu.style.display = 'none';
+                    isOpen = null;
+                }
+            });
         });
 
         document.querySelectorAll('.delete-option').forEach((deleteButton) => {
@@ -274,8 +294,22 @@ $message_count = count($private_messages);
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const messageContainer = event.target.closest('.message-container');
-                        messageContainer.remove();
-                        Swal.fire('Deleted!', 'Your message has been deleted.', 'success');
+                        const messageId = messageContainer.getAttribute('data-message-id');
+
+                        $.ajax({
+                            url: 'delete_message.php',
+                            method: 'POST',
+                            data: {
+                                message_id: messageId
+                            },
+                            success: function(response) {
+                                messageContainer.remove();
+                                Swal.fire('Deleted!', 'Your message has been deleted.', 'success');
+                            },
+                            error: function() {
+                                Swal.fire('Error!', 'Something went wrong.', 'error');
+                            }
+                        });
                     }
                 });
             });
@@ -284,7 +318,7 @@ $message_count = count($private_messages);
         document.querySelectorAll('.edit-option').forEach((editButton) => {
             editButton.addEventListener('click', function(event) {
                 const messageContainer = event.target.closest('.message-container');
-
+                const messageId = messageContainer.getAttribute('data-message-id');
                 const messageElement = messageContainer.querySelector('.msg_cotainer_send div');
                 const messageText = messageElement.textContent.trim();
 
@@ -309,8 +343,23 @@ $message_count = count($private_messages);
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        messageElement.textContent = result.value;
-                        Swal.fire('Updated!', 'Your message has been updated.', 'success');
+                        const newMessage = result.value;
+                        console.log(messageId, newMessage)
+                        $.ajax({
+                            url: 'edit_message.php',
+                            method: 'POST',
+                            data: {
+                                message_id: messageId,
+                                new_message: newMessage
+                            },
+                            success: function(response) {
+                                messageElement.textContent = newMessage;
+                                Swal.fire('Updated!', 'Your message has been updated.', 'success');
+                            },
+                            error: function() {
+                                Swal.fire('Error!', 'Something went wrong.', 'error');
+                            }
+                        });
                     }
                 });
             });

@@ -21,3 +21,6 @@ if (isset($_POST['clear']) && $_POST['clear'] == true) {
         "iiii"
     );
 }
+
+echo 'Delete all message successfully';
+
