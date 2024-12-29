@@ -20,10 +20,7 @@ if (isset($result[0])) {
 $username = $user['username'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $bio = $_POST['bio'];
-    $email = $_POST['email'];
+    $full_name = $_POST['full_name'];
     $password = $_POST['password'];
 
     $profile_picture = $user['profile_picture'];
@@ -50,10 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $updateData = [
-        'first_name' => $first_name,
-        'last_name' => $last_name,
-        'bio' => $bio,
-        'email' => $email,
+        'full_name' => $full_name,
         'profile_picture' => $profile_picture
     ];
 
@@ -62,6 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $query->update('users', $updateData, 'id = ?', [$user_id], 'i');
+
+    $_SESSION['full_name'] = $full_name;
+    $_SESSION['profile_picture'] = $profile_picture;
 
     header("Location: profile.php");
     exit;
@@ -91,13 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <form id="profile-form" action="profile.php" method="POST" enctype="multipart/form-data"
                 class="profile-form">
-                <label for="first_name" class="form-label">First Name:</label>
-                <input type="text" id="first_name" name="first_name" class="form-input"
-                    value="<?= $user['first_name'] ?>" required maxlength="30">
-
-                <label for="last_name" class="form-label">Last Name:</label>
-                <input type="text" id="last_name" name="last_name" class="form-input" value="<?= $user['last_name'] ?>"
-                    required maxlength="30">
+                <label for="full_name" class="form-label">Full Name:</label>
+                <input type="text" id="full_name" name="full_name" class="form-input"
+                    value="<?= $user['full_name'] ?>" required maxlength="35">
 
                 <label for="profile_picture" class="form-label">Profile Image:</label>
                 <div class="custom-file-input">
@@ -108,12 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
-                <label for="bio" class="form-label">Bio:</label>
-                <textarea id="bio" name="bio" class="form-input" required maxlength="255"
-                    rows="4"><?= $user['bio']; ?></textarea>
-
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" id="email" name="email" class="form-input" value="<?= $user['email'] ?>" required
+                <input type="email" id="email" name="email" class="form-input" value="<?= $user['email'] ?>" readonly
                     maxlength="120">
 
 
@@ -123,8 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <label for="password" class="form-label">New Password:</label>
                 <div class="password-container">
-                    <input type="password" id="password" name="password" class="password-input"
-                        placeholder="No change? Leave blank." maxlength="255">
+                    <input type="password" id="password" name="password" class="password-input" maxlength="255">
                     <a type="button" id="toggle-password" class="password-toggle"><i class="fas fa-eye"></i></a>
                 </div>
 
@@ -136,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script src="../src/js/sweetalert2.js"></script>
     <script>
-        document.getElementById('toggle-password').addEventListener('click', function () {
+        document.getElementById('toggle-password').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
             const toggleIcon = this.querySelector('i');
 
@@ -151,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         });
 
-        document.getElementById('profile-form').addEventListener('submit', function (event) {
+        document.getElementById('profile-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
             Swal.fire({

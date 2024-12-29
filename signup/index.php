@@ -11,15 +11,13 @@ $query = new Database();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $first_name = $query->validate($_POST['first_name']);
-    $last_name = $query->validate($_POST['last_name']);
+    $full_name = $query->validate($_POST['full_name']);
     $email = $query->validate($_POST['email']);
     $username = $query->validate($_POST['username']);
     $password = $query->hashPassword($_POST['password']);
 
     $data = [
-        'first_name' => $first_name,
-        'last_name' => $last_name,
+        'full_name' => $full_name,
         'email' => $email,
         'username' => $username,
         'password' => $password
@@ -31,14 +29,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_id = $query->select('users', 'id', 'username = ?', [$username], 's')[0]['id'];
 
         $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $username;
         $_SESSION['user_id'] = $user_id;
+        $_SESSION['full_name'] = $full_name;
+        $_SESSION['email'] = $email;
+        $_SESSION['username'] = $username;
+        $_SESSION['profile_picture'] = 'default.png';
 
         setcookie('username', $username, time() + (86400 * 30), "/", "", true, true);
         setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
-        ?>
+?>
         <script>
-            window.onload = function () {
+            window.onload = function() {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -51,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             };
         </script>
 
-        <?php
+<?php
     } else {
         echo "<script>
                     Swal.fire({
@@ -82,16 +83,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Sign Up</h1>
         <form id="signupForm" method="post" action="">
             <div class="form-group">
-                <label for="first_name">First Name</label>
-                <input type="text" id="first_name" name="first_name" required maxlength="30">
-            </div>
-            <div class="form-group">
-                <label for="last_name">Last Name</label>
-                <input type="text" id="last_name" name="last_name" required maxlength="30">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" required maxlength="35">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required maxlength="100">
+                <input type="email" id="email" name="email" required maxlength="150">
                 <p id="email-message"></p>
             </div>
             <div class="form-group">
@@ -122,16 +119,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         let isEmailAvailable = false;
         let isUsernameAvailable = false;
 
-        document.getElementById('email').addEventListener('input', function () {
+        document.getElementById('email').addEventListener('input', function() {
             let email = this.value;
             if (email.length > 0) {
                 fetch('check_availability.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `email=${encodeURIComponent(email)}`
-                })
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `email=${encodeURIComponent(email)}`
+                    })
                     .then(response => response.json())
                     .then(data => {
                         const messageElement = document.getElementById('email-message');
@@ -146,16 +143,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
 
-        document.getElementById('username').addEventListener('input', function () {
+        document.getElementById('username').addEventListener('input', function() {
             let username = this.value;
             if (username.length > 0) {
                 fetch('check_availability.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `username=${encodeURIComponent(username)}`
-                })
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `username=${encodeURIComponent(username)}`
+                    })
                     .then(response => response.json())
                     .then(data => {
                         const messageElement = document.getElementById('username-message');
@@ -175,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return emailPattern.test(email);
         }
 
-        document.getElementById('signupForm').addEventListener('submit', function (event) {
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
             let email = document.getElementById('email').value;
             const messageElement = document.getElementById('email-message');
 
@@ -197,7 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
 
-        document.getElementById('toggle-password').addEventListener('click', function () {
+        document.getElementById('toggle-password').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
             const toggleIcon = this.querySelector('i');
 
