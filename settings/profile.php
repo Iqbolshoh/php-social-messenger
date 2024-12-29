@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 class="profile-form">
                 <label for="full_name" class="form-label">Full Name:</label>
                 <input type="text" id="full_name" name="full_name" class="form-input"
-                    value="<?= $user['full_name'] ?>" required maxlength="35">
+                    value="<?= $user['full_name'] ?>" required maxlength="30">
 
                 <label for="profile_picture" class="form-label">Profile Image:</label>
                 <div class="custom-file-input">

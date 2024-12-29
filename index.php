@@ -48,7 +48,7 @@ $allUsers = $query->select('users', '*', 'id <> ?', [$user_id], 'i');
 
                             <?php foreach ($allUsers as $user) : ?>
 
-                                <li class="active">
+                                <li onclick="window.location.href='chat.php?id=<?= $user['id'] ?>'">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
                                             <img src="./src/images/profile-picture/<?= $user['profile_picture'] ?>"

@@ -9,6 +9,35 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 include './config.php';
 $query = new Database();
+
+$sender_id = $_SESSION['user_id'];
+$receiver_id = isset($_GET['id']) ? intval($_GET['id']) : null;
+
+if ($sender_id == $receiver_id || $receiver_id == null) {
+    header("Location: ./");
+    exit;
+}
+
+if (empty($query->select('users', '*', 'id = ?', [$receiver_id], 'i'))) {
+    header("Location: ./");
+    exit;
+}
+
+$message_count = 0;
+
+$sender_user = $query->select('users', '*', 'id = ?', [$sender_id], 'i')[0];
+$receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
+
+$private_messages = $query->select(
+    'private_messages',
+    '*',
+    "((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)) ORDER BY created_at",
+    [$sender_id, $receiver_id, $receiver_id, $sender_id],
+    "iiii"
+);
+
+$message_count = count($private_messages);
+
 ?>
 
 <!DOCTYPE html>
@@ -22,107 +51,143 @@ $query = new Database();
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+
+<style>
+    .no-message {
+        text-align: center;
+        margin-top: 20px;
+        padding: 55px 15px;
+        background-color: #82ccdd;
+        color: #212529;
+        border: 1px solid #82ccdd;
+        border-radius: 11px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+</style>
 
 <body>
     <div class="container-fluid h-100">
         <div class="row justify-content-center h-100">
 
             <div class="col-md-8 col-xl-6 chat">
+
                 <div class="card">
                     <div class="card-header msg_head">
                         <div class="d-flex bd-highlight">
                             <div class="img_cont">
-                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
+                                <img src="./src/images/profile-picture/<?= $receiver_user['profile_picture'] ?>"
                                     class="rounded-circle user_img">
                             </div>
                             <div class="user_info">
-                                <span>Chat with Khalid</span>
-                                <p>1767 Messages</p>
+                                <span><?= $receiver_user['full_name'] ?></span>
+                                <p><?= $message_count ?> Messages</p>
                             </div>
                         </div>
-                        <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
-                        <div class="action_menu">
+                        <span id="action_menu_btn_user" style="padding: 5px;">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </span>
+                        <div class="action_menu_user" style="display: none;">
                             <ul>
                                 <li><i class="fas fa-user-circle"></i> View profile</li>
-                                <li><i class="fas fa-users"></i> Add to close friends</li>
-                                <li><i class="fas fa-plus"></i> Add to group</li>
-                                <li><i class="fas fa-ban"></i> Block</li>
+                                <li style="color: orange" id="clearBtn"><i class="fas fa-times-circle"></i> Clear</li>
+                                <li style="color: red"><i class="fas fa-ban"></i> Block</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="card-body msg_card_body">
-                        <div class="d-flex justify-content-start mb-4">
-                            <div class="img_cont_msg">
-                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                    class="rounded-circle user_img_msg">
-                            </div>
-                            <div class="msg_cotainer">
-                                Hi, how are you samim?
-                                <span class="msg_time">8:40 AM, Today</span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end mb-4">
-                            <div class="msg_cotainer_send">
-                                Hi Khalid i am good tnx how about you?
-                                <span class="msg_time_send">8:55 AM, Today</span>
-                            </div>
-                            <div class="img_cont_msg">
-                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                    class="rounded-circle user_img_msg">
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-start mb-4">
-                            <div class="img_cont_msg">
-                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                    class="rounded-circle user_img_msg">
-                            </div>
-                            <div class="msg_cotainer">
-                                I am good too, thank you for your chat template
-                                <span class="msg_time">9:00 AM, Today</span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end mb-4">
-                            <div class="msg_cotainer_send">
-                                You are welcome
-                                <span class="msg_time_send">9:05 AM, Today</span>
-                            </div>
-                            <div class="img_cont_msg">
-                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                    class="rounded-circle user_img_msg">
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-start mb-4">
-                            <div class="img_cont_msg">
-                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                    class="rounded-circle user_img_msg">
-                            </div>
-                            <div class="msg_cotainer">
-                                I am looking for your next templates
-                                <span class="msg_time">9:07 AM, Today</span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end mb-4">
-                            <div class="msg_cotainer_send">
-                                Ok, thank you have a good day
-                                <span class="msg_time_send">9:10 AM, Today</span>
-                            </div>
-                            <div class="img_cont_msg">
-                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                    class="rounded-circle user_img_msg">
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-start mb-4">
-                            <div class="img_cont_msg">
-                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                    class="rounded-circle user_img_msg">
-                            </div>
-                            <div class="msg_cotainer">
-                                Bye, see you
-                                <span class="msg_time">9:12 AM, Today</span>
+
+                    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="background: #7F7FD5; background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="profileModalLabel"><?= $receiver_user['full_name'] ?>'s Profile</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="text-center">
+                                        <img src="./src/images/profile-picture/<?= $receiver_user['profile_picture'] ?>" class="rounded-circle mb-4" width="100" height="100">
+                                        <h5><?= $receiver_user['full_name'] ?></h5>
+                                        <p><?= $receiver_user['email'] ?></p>
+                                        <p>@<?= $receiver_user['username'] ?></p>
+                                        <p>Joined on: <?= date("F j, Y", strtotime($receiver_user['created_at'])) ?></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="card-body msg_card_body">
+
+                        <?php if (!empty($private_messages)) : ?>
+
+                            <?php foreach ($private_messages as $private_message): ?>
+
+                                <?php if ($sender_id == $private_message['sender_id']): ?>
+
+                                    <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px">
+                                        <div style="display: flex; justify-content: center; align-items:center">
+                                            <div class="relative-container" id="sender">
+                                                <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #78e08f;"></i></span>
+                                                <div class="action_menu">
+                                                    <ul>
+                                                        <li class="edit-option"><i class="fas fa-edit"></i> Edit</li>
+                                                        <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="msg_cotainer_send">
+                                                <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start"><?= $private_message['content'] ?></div>
+                                                <span class="msg_time_send"><?= $private_message['created_at'] ?></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="img_cont_msg">
+                                            <img src="./src/images/profile-picture/<?= $sender_user['profile_picture'] ?>" class="rounded-circle user_img_msg">
+                                        </div>
+                                    </div>
+
+                                <?php else : ?>
+
+                                    <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px">
+                                        <div class="img_cont_msg">
+                                            <img src="./src/images/profile-picture/<?= $receiver_user['profile_picture'] ?>" class="rounded-circle user_img_msg">
+                                        </div>
+
+                                        <div style="display: flex; justify-content: center; align-items:center">
+                                            <div class="msg_cotainer">
+                                                <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start"><?= $private_message['content'] ?></div>
+                                                <span class="msg_time"><?= $private_message['created_at'] ?></span>
+                                            </div>
+                                            <div class="relative-container" id="receiver">
+                                                <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #b8daff;"></i></span>
+                                                <div class="action_menu">
+                                                    <ul>
+                                                        <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <?php endif ?>
+
+                            <?php endforeach ?>
+
+                        <?php else : ?>
+                            <div class="no-message">
+                                <i class="fas fa-comment-dots"></i>
+                                The message is empty...
+                            </div>
+                        <?php endif ?>
+
+                    </div>
+
                     <div class="card-footer">
                         <div class="input-group">
                             <div class="input-group-append">
@@ -136,9 +201,159 @@ $query = new Database();
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const msgCardBody = document.querySelector(".msg_card_body");
+            if (msgCardBody) {
+                msgCardBody.scrollTop = msgCardBody.scrollHeight;
+            }
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
+    <script>
+        let isOpen = null;
+
+        document.querySelectorAll('.action_menu_btn').forEach((button) => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const actionMenu = event.target.closest('.message-container').querySelector('.action_menu');
+                if (isOpen && isOpen !== actionMenu) {
+                    isOpen.style.display = 'none';
+                }
+                if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
+                    actionMenu.style.display = 'block';
+                    isOpen = actionMenu;
+                } else {
+                    actionMenu.style.display = 'none';
+                    isOpen = null;
+                }
+            });
+        });
+
+        document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
+            event.stopPropagation();
+            var actionMenu = document.querySelector('.action_menu_user');
+            if (isOpen && isOpen !== actionMenu) {
+                isOpen.style.display = 'none';
+            }
+            if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
+                actionMenu.style.display = 'block';
+                isOpen = actionMenu;
+            } else {
+                actionMenu.style.display = 'none';
+                isOpen = null;
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (isOpen && !isOpen.contains(event.target) && !event.target.closest('.action_menu_btn') && !event.target.closest('#action_menu_btn_user')) {
+                isOpen.style.display = 'none';
+                isOpen = null;
+            }
+        });
+
+        document.querySelector('.action_menu_user ul li:first-child').addEventListener('click', function() {
+            $('#profileModal').modal('show');
+        });
+
+        document.querySelectorAll('.delete-option').forEach((deleteButton) => {
+            deleteButton.addEventListener('click', function(event) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, keep it'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const messageContainer = event.target.closest('.message-container');
+                        messageContainer.remove();
+                        Swal.fire('Deleted!', 'Your message has been deleted.', 'success');
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('.edit-option').forEach((editButton) => {
+            editButton.addEventListener('click', function(event) {
+                const messageContainer = event.target.closest('.message-container');
+
+                const messageElement = messageContainer.querySelector('.msg_cotainer_send div');
+                const messageText = messageElement.textContent.trim();
+
+                Swal.fire({
+                    title: 'Edit your message',
+                    input: 'textarea',
+                    inputValue: messageText,
+                    inputPlaceholder: 'Write your message here...',
+                    showCancelButton: true,
+                    confirmButtonText: 'Save changes',
+                    cancelButtonText: 'Cancel',
+                    inputAttributes: {
+                        'aria-label': 'Type your message'
+                    },
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'You need to write something!';
+                        }
+                    },
+                    customClass: {
+                        input: 'swal2-textarea'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        messageElement.textContent = result.value;
+                        Swal.fire('Updated!', 'Your message has been updated.', 'success');
+                    }
+                });
+            });
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to clear all?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, clear it!',
+                cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: 'clear_all_message.php',
+                        method: 'POST',
+                        data: {
+                            clear: true,
+                            receiver_id: <?= $receiver_id ?>
+                        },
+                        success: function(response) {
+                            Swal.fire(
+                                'Cleared!',
+                                'Your data has been cleared.',
+                                'success'
+                            ).then(() => {
+                                window.location.reload();
+                            });
+                        },
+                        error: function() {
+                            Swal.fire(
+                                'Error!',
+                                'Something went wrong.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

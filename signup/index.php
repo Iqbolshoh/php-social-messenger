@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form id="signupForm" method="post" action="">
             <div class="form-group">
                 <label for="full_name">Full Name</label>
-                <input type="text" id="full_name" name="full_name" required maxlength="35">
+                <input type="text" id="full_name" name="full_name" required maxlength="30">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>

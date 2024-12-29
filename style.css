@@ -19,9 +19,10 @@ html {
 }
 
 .contacts_body {
-    padding: 0.75rem 0 !important;
+    padding: 0.75rem !important;
     overflow-y: auto;
     white-space: nowrap;
+    border-top: .3px solid #e7e7ec8c;
 }
 
 .msg_card_body {
@@ -103,13 +104,14 @@ html {
     margin-bottom: 15px !important;
 }
 
-.active {
+.contacts li:hover {
     background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 11px;
 }
 
 .user_img {
-    height: 70px;
-    width: 70px;
+    height: 55px;
+    width: 55px;
     border: 1.5px solid #f5f6fa;
 
 }
@@ -123,8 +125,8 @@ html {
 
 .img_cont {
     position: relative;
-    height: 70px;
-    width: 70px;
+    height: 55px;
+    width: 55px;
 }
 
 .img_cont_msg {
@@ -154,7 +156,7 @@ html {
 }
 
 .user_info span {
-    font-size: 20px;
+    font-size: 17px;
     color: white;
 }
 
@@ -219,7 +221,8 @@ html {
     position: relative;
 }
 
-#action_menu_btn {
+#action_menu_btn,
+#action_menu_btn_user {
     position: absolute;
     right: 10px;
     top: 10px;
@@ -228,10 +231,39 @@ html {
     font-size: 20px;
 }
 
+.relative-container {
+    position: relative;
+}
+
+.relative-container ul li {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
 .action_menu {
     z-index: 1;
     position: absolute;
-    padding: 15px 0;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 15px;
+    display: none;
+    top: -5px;
+}
+
+#sender .action_menu {
+    left: 15px;
+}
+
+#receiver .action_menu {
+    right: 15px;
+}
+
+.action_menu_user {
+    z-index: 1;
+    position: absolute;
+    padding: 5px;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border-radius: 15px;
@@ -240,24 +272,29 @@ html {
     display: none;
 }
 
-.action_menu ul {
+.action_menu ul,
+.action_menu_user ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.action_menu ul li {
+.action_menu ul li,
+.action_menu_user ul li {
     width: 100%;
-    padding: 10px 15px;
+    padding: 10px 70px 10px 15px;
     margin-bottom: 5px;
+    border-radius: 11px;
 }
 
-.action_menu ul li i {
+.action_menu ul li i,
+.action_menu_user ul li i {
     padding-right: 10px;
 
 }
 
-.action_menu ul li:hover {
+.action_menu ul li:hover,
+.action_menu_user ul li:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.2);
 }
