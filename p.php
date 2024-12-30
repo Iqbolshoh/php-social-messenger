@@ -56,6 +56,20 @@ $message_count = count($private_messages);
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
+<style>
+    .no-message {
+        text-align: center;
+        margin-top: 20px;
+        padding: 55px 15px;
+        background-color: #82ccdd;
+        color: #212529;
+        border: 1px solid #82ccdd;
+        border-radius: 11px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+</style>
+
 <body>
     <div class="container-fluid h-100">
         <div class="row justify-content-center h-100">
@@ -165,6 +179,11 @@ $message_count = count($private_messages);
 
                             <?php endforeach ?>
 
+                        <?php else : ?>
+                            <div class="no-message">
+                                <i class="fas fa-comment-dots"></i>
+                                The message is empty...
+                            </div>
                         <?php endif ?>
 
                     </div>
@@ -201,21 +220,6 @@ $message_count = count($private_messages);
     <script>
         let isOpen = null;
 
-        document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
-            event.stopPropagation();
-            var actionMenu = document.querySelector('.action_menu_user');
-            if (isOpen && isOpen !== actionMenu) {
-                isOpen.style.display = 'none';
-            }
-            if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
-                actionMenu.style.display = 'block';
-                isOpen = actionMenu;
-            } else {
-                actionMenu.style.display = 'none';
-                isOpen = null;
-            }
-        });
-
         document.querySelector('.msg_card_body').addEventListener('click', function(event) {
             if (event.target.closest('.action_menu_btn')) {
                 event.stopPropagation();
@@ -231,54 +235,6 @@ $message_count = count($private_messages);
                     isOpen = null;
                 }
             }
-        });
-
-        document.addEventListener('click', function(event) {
-            if (isOpen && !isOpen.contains(event.target) && !event.target.closest('.action_menu_btn') && !event.target.closest('#action_menu_btn_user')) {
-                isOpen.style.display = 'none';
-                isOpen = null;
-            }
-        });
-
-        document.querySelector('.action_menu_user ul li:first-child').addEventListener('click', function() {
-            const modal = document.getElementById('profileModal');
-            modal.classList.add('show');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        });
-
-        document.getElementById('closeModalBtn').addEventListener('click', function() {
-            const modal = document.getElementById('profileModal');
-            modal.classList.remove('show');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-
-        document.getElementById('profileModal').addEventListener('click', function(event) {
-            const modalContent = document.querySelector('.modal-content');
-            if (!modalContent.contains(event.target)) {
-                const modal = document.getElementById('profileModal');
-                modal.classList.remove('show');
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        document.querySelectorAll('.action_menu_btn').forEach((button) => {
-            button.addEventListener('click', function(event) {
-                event.stopPropagation();
-                const actionMenu = event.target.closest('.message-container').querySelector('.action_menu');
-                if (isOpen && isOpen !== actionMenu) {
-                    isOpen.style.display = 'none';
-                }
-                if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
-                    actionMenu.style.display = 'block';
-                    isOpen = actionMenu;
-                } else {
-                    actionMenu.style.display = 'none';
-                    isOpen = null;
-                }
-            });
         });
 
         document.querySelector('.send_btn').addEventListener('click', function(event) {

@@ -10,11 +10,32 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 include './config.php';
 $query = new Database();
 
+$response = [
+    'status' => '',
+    'message' => ''
+];
+
 if (isset($_POST['message_id'])) {
     $message_id = $_POST['message_id'];
 
-    $query = new Database();
-    $query->delete('private_messages', 'id = ?', [$message_id], 'i');
+    $message =  $query->delete(
+        'private_messages',
+        'id = ?',
+        [$message_id],
+        'i'
+    );
 
-    echo 'Message deleted successfully';
+    if ($message > 0) {
+        $response['status'] = 'success';
+        $response['message'] = 'Message deleted successfully';
+    } else {
+        $response['status'] = 'error';
+        $response['message'] = 'Unable to delete the message';
+    }
+} else {
+    $response['status'] = 'error';
+    $response['message'] = 'Invalid request';
 }
+
+header('Content-Type: application/json');
+echo json_encode($response);
