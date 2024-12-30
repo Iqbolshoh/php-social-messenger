@@ -329,6 +329,61 @@ $message_count = count($private_messages);
             });
         });
 
+
+        // 
+        document.addEventListener('DOMContentLoaded', () => setInterval(checkUnreadMessages, 1000));
+
+        function checkUnreadMessages() {
+            $.post('unread_message.php', {
+                    id: <?= $receiver_id ?>
+                })
+                .done(response => {
+                    const messagesDiv = document.querySelector(".msg_card_body");
+                    response.private_messages.forEach(message => {
+                        if (!document.querySelector(`[data-message-id="${message.id}"]`)) {
+                            messagesDiv.insertAdjacentHTML('beforeend', createMessageHTML(message));
+                            markAsRead(message.id);
+                        }
+                    });
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                })
+                .fail(() => console.error("Error fetching messages."));
+        }
+
+        function createMessageHTML({
+            id,
+            content,
+            created_at
+        }) {
+            return `
+        <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px" data-message-id="${id}">
+            <div class="img_cont_msg">
+                <img src="./src/images/profile-picture/<?= $receiver_user['profile_picture'] ?>" class="rounded-circle user_img_msg">
+            </div>
+            <div style="display: flex; justify-content: center; align-items:center">
+            <div class="msg_cotainer">
+                <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${content}</div>
+                <span class="msg_time">${created_at}</span>
+            </div>
+            <div class="relative-container" id="receiver">
+                <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #b8daff;"></i></span>
+                <div class="action_menu">
+                    <ul>
+                        <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>`;
+        }
+
+        function markAsRead(messageId) {
+            $.post('update_message_status.php', {
+                    message_id: messageId
+                })
+                .fail(() => console.error("Error updating message status."));
+        }
+
         $(document).on('click', '.delete-option', function() {
             const messageId = $(this).closest('.message-container').data('message-id');
             Swal.fire({
@@ -474,7 +529,7 @@ $message_count = count($private_messages);
                         method: 'POST',
                         data: {
                             clear: true,
-                            receiver_id: <?= json_encode($receiver_id) ?>
+                            receiver_id: <?= $receiver_id ?>
                         },
                         success: function(response) {
                             if (response.status === 'success') {
