@@ -39,13 +39,7 @@ if (isset($_POST['content']) && !empty($_POST['content'])) {
         $response['status'] = 'success';
         $response['message'] = 'Message sent successfully';
         $response['data'] = $new_message;
-    } else {
-        $response['status'] = 'error';
-        $response['message'] = 'Failed to send message: ' . $result;
     }
-} else {
-    $response['status'] = 'error';
-    $response['message'] = 'Message cannot be empty';
 }
 
 header('Content-Type: application/json');

@@ -71,7 +71,7 @@ $message_count = count($private_messages);
                             </div>
                             <div class="user_info">
                                 <span><?= $receiver_user['full_name'] ?></span>
-                                <p><?= $message_count ?> Messages</p>
+                                <p><b style="font-weight:normal"><?= $message_count ?> </b>Messages</p>
                             </div>
                         </div>
                         <span id="action_menu_btn_user" style="padding: 5px;">
@@ -285,10 +285,7 @@ $message_count = count($private_messages);
             event.preventDefault();
             const messageInput = document.querySelector('.type_msg');
             const message = messageInput.value.trim();
-            if (!message) {
-                Swal.fire('Error!', 'Please enter a message.', 'error');
-                return;
-            }
+
             const receiver_id = <?= $receiver_id ?>;
             $.ajax({
                 url: 'send_message.php',
@@ -327,12 +324,7 @@ $message_count = count($private_messages);
                         messagesDiv.innerHTML += messageContainer;
                         messagesDiv.scrollTop = messagesDiv.scrollHeight;
                         messageInput.value = '';
-                    } else {
-                        Swal.fire('Error!', response.message, 'error');
                     }
-                },
-                error: function() {
-                    Swal.fire('Error!', 'Something went wrong.', 'error');
                 }
             });
         });
@@ -359,6 +351,14 @@ $message_count = count($private_messages);
                             if (response.status === 'success') {
                                 Swal.fire('Deleted!', 'Your message has been deleted.', 'success');
                                 $(`.message-container[data-message-id="${messageId}"]`).remove();
+                                let countElement = document.querySelector('.user_info p b');
+
+                                if (countElement) {
+                                    let currentCount = parseInt(countElement.textContent.trim());
+                                    if (!isNaN(currentCount) && currentCount > 0) {
+                                        countElement.textContent = currentCount - 1;
+                                    }
+                                }
                             } else {
                                 Swal.fire('Error!', response.message, 'error');
                             }
@@ -412,11 +412,8 @@ $message_count = count($private_messages);
                                 messageElement.textContent = newMessage;
                                 Swal.fire('Updated!', response.message, 'success');
                             } else {
-                                Swal.fire('Error!', response.message, 'error');
+                                Swal.fire('Updated!', response.message, 'success');
                             }
-                        },
-                        error: function() {
-                            Swal.fire('Error!', 'Something went wrong.', 'error');
                         }
                     });
                 }
@@ -490,18 +487,13 @@ $message_count = count($private_messages);
                                 });
                             } else {
                                 Swal.fire(
-                                    'Error!',
+                                    'Cleared!',
                                     response.message,
-                                    'error'
-                                );
+                                    'success'
+                                ).then(() => {
+                                    window.location.reload();
+                                });
                             }
-                        },
-                        error: function() {
-                            Swal.fire(
-                                'Error!',
-                                'Something went wrong.',
-                                'error'
-                            );
                         }
                     });
                 }

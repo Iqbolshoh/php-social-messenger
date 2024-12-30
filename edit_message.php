@@ -41,17 +41,8 @@ if (isset($_POST['message_id']) && isset($_POST['new_message'])) {
         if ($result > 0) {
             $response['status'] = 'success';
             $response['message'] = 'Message updated successfully';
-        } else {
-            $response['status'] = 'error';
-            $response['message'] = 'Unable to update the message';
         }
-    } else {
-        $response['status'] = 'error';
-        $response['message'] = 'You cannot edit this message';
     }
-} else {
-    $response['status'] = 'error';
-    $response['message'] = 'Invalid request';
 }
 
 header('Content-Type: application/json');

@@ -29,14 +29,8 @@ if (isset($_POST['clear']) && $_POST['clear'] == true) {
     if ($deleted) {
         $response['status'] = 'success';
         $response['message'] = 'Delete all messages successfully';
-    } else {
-        $response['status'] = 'error';
-        $response['message'] = 'Failed to delete messages';
     }
-} else {
-    $response['status'] = 'error';
-    $response['message'] = 'Invalid request';
-}
+} 
 
 header('Content-Type: application/json');
 echo json_encode($response);
