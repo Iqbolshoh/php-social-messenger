@@ -126,6 +126,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
     <script>
+        // Get All Message
         document.addEventListener("DOMContentLoaded", function() {
             const receiverId = <?= $receiver_id ?>;
             const senderId = <?= $sender_id ?>;
@@ -135,9 +136,14 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             const messagesContainer = document.getElementById('messages-container');
 
             function LoadMessages() {
-                fetch(`get_all_messages.php?id=${receiverId}`)
-                    .then(response => response.json())
-                    .then(privateMessages => {
+                $.ajax({
+                    url: 'get_all_messages.php',
+                    type: 'POST',
+                    data: {
+                        id: receiverId
+                    },
+                    dataType: 'json',
+                    success: function(privateMessages) {
                         if (privateMessages && privateMessages.length > 0) {
                             messagesContainer.innerHTML = '';
                             privateMessages.forEach(privateMessage => {
@@ -147,50 +153,50 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
                                 if (isSender) {
                                     const senderMessage = `
-                                <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${privateMessage.id}">
-                                    <div style="display: flex; justify-content: center; align-items:center">
-                                        <div class="relative-container" id="sender">
-                                            <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #78e08f;"></i></span>
-                                            <div class="action_menu">
-                                                <ul>
-                                                    <li class="edit-option"><i class="fas fa-edit"></i> Edit</li>
-                                                    <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="msg_cotainer_send">
-                                            <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${privateMessage.content}</div>
-                                            <span class="msg_time_send">${privateMessage.created_at}</span>
+                            <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${privateMessage.id}">
+                                <div style="display: flex; justify-content: center; align-items:center">
+                                    <div class="relative-container" id="sender">
+                                        <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #78e08f;"></i></span>
+                                        <div class="action_menu">
+                                            <ul>
+                                                <li class="edit-option"><i class="fas fa-edit"></i> Edit</li>
+                                                <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
+                                            </ul>
                                         </div>
                                     </div>
-                                    <div class="img_cont_msg">
-                                        <img src="./src/images/profile-picture/${senderProfilePicture}" class="rounded-circle user_img_msg">
+                                    <div class="msg_cotainer_send">
+                                        <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${privateMessage.content}</div>
+                                        <span class="msg_time_send">${privateMessage.created_at}</span>
                                     </div>
                                 </div>
-                            `;
+                                <div class="img_cont_msg">
+                                    <img src="./src/images/profile-picture/${senderProfilePicture}" class="rounded-circle user_img_msg">
+                                </div>
+                            </div>
+                        `;
                                     messagesContainer.innerHTML += senderMessage;
                                 } else {
                                     const receiverMessage = `
-                                <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px" data-message-id="${privateMessage.id}">
-                                    <div class="img_cont_msg">
-                                        <img src="./src/images/profile-picture/${receiverProfilePicture}" class="rounded-circle user_img_msg">
+                            <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px" data-message-id="${privateMessage.id}">
+                                <div class="img_cont_msg">
+                                    <img src="./src/images/profile-picture/${receiverProfilePicture}" class="rounded-circle user_img_msg">
+                                </div>
+                                <div style="display: flex; justify-content: center; align-items:center">
+                                    <div class="msg_cotainer">
+                                        <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${privateMessage.content}</div>
+                                        <span class="msg_time">${privateMessage.created_at}</span>
                                     </div>
-                                    <div style="display: flex; justify-content: center; align-items:center">
-                                        <div class="msg_cotainer">
-                                            <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${privateMessage.content}</div>
-                                            <span class="msg_time">${privateMessage.created_at}</span>
-                                        </div>
-                                        <div class="relative-container" id="receiver">
-                                            <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #b8daff;"></i></span>
-                                            <div class="action_menu">
-                                                <ul>
-                                                    <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
-                                                </ul>
-                                            </div>
+                                    <div class="relative-container" id="receiver">
+                                        <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #b8daff;"></i></span>
+                                        <div class="action_menu">
+                                            <ul>
+                                                <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                            `;
+                            </div>
+                        `;
                                     messagesContainer.innerHTML += receiverMessage;
                                 }
                             });
@@ -199,15 +205,19 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         } else {
                             messagesContainer.innerHTML = '<p class="no-messages">No messages available.</p>';
                         }
-                    })
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading messages:', error);
+                    }
+                });
             }
+
             LoadMessages();
+
         });
     </script>
-
-
     <script>
-        // action_menu
+        // Action_menu
         let isOpen = null;
 
         document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
