@@ -294,8 +294,59 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
         </ul>`;
         }
+    </script>
 
-        // Edit Message functionality
+    <script>
+        // Send Message
+        document.querySelector('.send_btn').addEventListener('click', function(event) {
+            event.preventDefault();
+            const messageInput = document.querySelector('.type_msg');
+            const message = messageInput.value.trim();
+
+            const receiver_id = <?= $receiver_id ?>;
+            $.ajax({
+                url: 'send_message.php',
+                method: 'POST',
+                data: {
+                    content: message,
+                    receiver_id: receiver_id
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        let messageContainer = `
+                        <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${response.data.id}">
+                            <div style="display: flex; justify-content: center; align-items:center">
+                                <div class="relative-container" id="sender">
+                                    <span class="action_menu_btn" style="cursor: pointer; padding: 5px">
+                                        <i class="fas fa-ellipsis-v" style="color: #78e08f;"></i>
+                                    </span>
+                                    <div class="action_menu" style="display: none;">
+                                        <ul>
+                                            <li class="edit-option"><i class="fas fa-edit"></i> Edit</li>
+                                            <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="msg_cotainer_send">
+                                    <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${response.data.content}</div>
+                                    <span class="msg_time_send">${response.data.created_at}</span>
+                                </div>
+                            </div>
+                            <div class="img_cont_msg">
+                                <img src="./src/images/profile-picture/<?= $sender_user['profile_picture'] ?>" class="rounded-circle user_img_msg">
+                            </div>
+                        </div>
+                    `;
+                        const messagesDiv = document.querySelector(".msg_card_body");
+                        messagesDiv.innerHTML += messageContainer;
+                        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                        messageInput.value = '';
+                    }
+                }
+            });
+        });
+
+        // Edit Message
         function edit(messageId) {
             const messageContainer = document.querySelector(`.message-container[data-message-id="${messageId}"]`);
 
@@ -363,7 +414,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }
         }
 
-        // Delete Message functionality
+        // Delete Message 
         function deleteMessage(messageId) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -411,57 +462,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                 }
             });
         }
-    </script>
-
-    <script>
-        // Send Message
-        document.querySelector('.send_btn').addEventListener('click', function(event) {
-            event.preventDefault();
-            const messageInput = document.querySelector('.type_msg');
-            const message = messageInput.value.trim();
-
-            const receiver_id = <?= $receiver_id ?>;
-            $.ajax({
-                url: 'send_message.php',
-                method: 'POST',
-                data: {
-                    content: message,
-                    receiver_id: receiver_id
-                },
-                success: function(response) {
-                    if (response.status === 'success') {
-                        let messageContainer = `
-                        <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${response.data.id}">
-                            <div style="display: flex; justify-content: center; align-items:center">
-                                <div class="relative-container" id="sender">
-                                    <span class="action_menu_btn" style="cursor: pointer; padding: 5px">
-                                        <i class="fas fa-ellipsis-v" style="color: #78e08f;"></i>
-                                    </span>
-                                    <div class="action_menu" style="display: none;">
-                                        <ul>
-                                            <li class="edit-option"><i class="fas fa-edit"></i> Edit</li>
-                                            <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="msg_cotainer_send">
-                                    <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${response.data.content}</div>
-                                    <span class="msg_time_send">${response.data.created_at}</span>
-                                </div>
-                            </div>
-                            <div class="img_cont_msg">
-                                <img src="./src/images/profile-picture/<?= $sender_user['profile_picture'] ?>" class="rounded-circle user_img_msg">
-                            </div>
-                        </div>
-                    `;
-                        const messagesDiv = document.querySelector(".msg_card_body");
-                        messagesDiv.innerHTML += messageContainer;
-                        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                        messageInput.value = '';
-                    }
-                }
-            });
-        });
 
         // Clear Messages
         document.getElementById('clearBtn').addEventListener('click', function() {
