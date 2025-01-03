@@ -132,6 +132,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             const senderId = <?= $sender_id ?>;
             const senderProfilePicture = "<?= $sender_user['profile_picture'] ?>";
             const receiverProfilePicture = "<?= $receiver_user['profile_picture'] ?>";
+            let countScrollHeight = 0;
 
             const messagesContainer = document.getElementById('messages-container');
 
@@ -201,7 +202,10 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                 }
                             });
 
-                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                            if (countScrollHeight == 0) {
+                                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                                countScrollHeight++;
+                            }
                         } else {
                             messagesContainer.innerHTML = '<p class="no-messages">No messages available.</p>';
                         }
