@@ -212,10 +212,12 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
             var actionMenu = document.querySelector(actionMenuSelector);
 
+            // Close other open menus
             if (isOpen && isOpen !== actionMenu) {
                 isOpen.style.display = 'none';
             }
 
+            // Toggle the menu visibility
             if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
                 actionMenu.style.display = 'block';
                 isOpen = actionMenu;
@@ -225,43 +227,46 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }
         }
 
+        // Open action menu when button is clicked
         document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
             toggleActionMenu(event, '.action_menu_user');
         });
 
+        // Open action menu when message is clicked
         document.querySelector('.msg_card_body').addEventListener('click', function(event) {
             if (event.target.closest('.action_menu_btn')) {
                 const messageContainer = event.target.closest('.message-container');
                 const messageId = messageContainer ? messageContainer.getAttribute('data-message-id') : null;
 
-                createMenu(messageId, messageContainer.id);
+                createMenu(messageId, messageContainer.id); // Create menu based on message id
 
                 toggleActionMenu(event, '.action_menu_user');
             }
         });
 
+        // Create action menu dynamically based on message id
         function createMenu(id, user) {
-
             const action_menu_user = document.querySelector('.action_menu_user');
 
             if (id == null && user == null) {
-                action_menu_user.innerHTML = ` <ul>
-                    <li><i class="fas fa-user-circle"></i> View profile</li>
-                    <li style="color: orange" id="clearBtn"><i class="fas fa-times-circle"></i> Clear</li>
-                    <li style="color: red"><i class="fas fa-ban"></i> Block</li>
-                </ul>`
+                action_menu_user.innerHTML = `<ul>
+                <li><i class="fas fa-user-circle"></i> View profile</li>
+                <li style="color: orange" onclick='clear()'><i class="fas fa-times-circle"></i> Clear</li>
+                <li style="color: red"><i class="fas fa-ban"></i> Block</li>
+            </ul>`;
             } else if (user == 'sender') {
                 action_menu_user.innerHTML = `<ul>
-                    <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
-                    <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-                </ul>`;
+                <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
+                <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+            </ul>`;
             } else {
                 action_menu_user.innerHTML = `<ul>
-                    <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-                </ul>`;
+                <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+            </ul>`;
             }
         }
 
+        // Close menu when clicking outside
         document.addEventListener('click', function(event) {
             if (isOpen && !isOpen.contains(event.target) && !event.target.closest('.action_menu_btn') && !event.target.closest('#action_menu_btn_user')) {
                 isOpen.style.display = 'none';
@@ -269,13 +274,17 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }
         });
 
-        document.querySelector('.action_menu_user ul li:first-child').addEventListener('click', function() {
-            const modal = document.getElementById('profileModal');
-            modal.classList.add('show');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
+        // Open profile modal on first menu item click
+        document.querySelector('.action_menu_user ul').addEventListener('click', function(event) {
+            if (event.target.closest('li:first-child')) {
+                const modal = document.getElementById('profileModal');
+                modal.classList.add('show');
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
         });
 
+        // Close modal when the close button is clicked
         document.getElementById('closeModalBtn').addEventListener('click', function() {
             const modal = document.getElementById('profileModal');
             modal.classList.remove('show');
@@ -283,6 +292,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             document.body.style.overflow = 'auto';
         });
 
+        // Close modal when clicking outside of modal content
         document.getElementById('profileModal').addEventListener('click', function(event) {
             const modalContent = document.querySelector('.modal-content');
             if (!modalContent.contains(event.target)) {
@@ -292,7 +302,49 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                 document.body.style.overflow = 'auto';
             }
         });
+
+        // Clear Messages function
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('#clearBtn')) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to clear all messages?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, clear it!',
+                    cancelButtonText: 'No, keep it'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // PHP receiver ID passed dynamically using inline PHP code
+                        const receiverId = <?= $receiver_id ?>;
+
+                        // AJAX request to clear messages
+                        $.ajax({
+                            url: 'clear_messages.php',
+                            method: 'POST',
+                            data: {
+                                clear: true,
+                                receiver_id: receiverId
+                            },
+                            success: function(response) {
+                                if (response.status === 'success') {
+                                    Swal.fire('Cleared!', response.message, 'success').then(() => {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    Swal.fire('Error!', response.message, 'error');
+                                }
+                            },
+                            error: function() {
+                                Swal.fire('Error!', 'Something went wrong.', 'error');
+                            }
+                        });
+                    }
+                });
+            }
+        });
     </script>
+
 
     <script>
         // Send Message
