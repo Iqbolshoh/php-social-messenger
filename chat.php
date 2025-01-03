@@ -154,16 +154,10 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
                                 if (isSender) {
                                     const senderMessage = `
-                            <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${privateMessage.id}">
+                            <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${privateMessage.id}" id="sender">
                                 <div style="display: flex; justify-content: center; align-items:center">
                                     <div class="relative-container" id="sender">
                                         <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #78e08f;"></i></span>
-                                        <div class="action_menu">
-                                            <ul>
-                                                <li class="edit-option"><i class="fas fa-edit"></i> Edit</li>
-                                                <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
-                                            </ul>
-                                        </div>
                                     </div>
                                     <div class="msg_cotainer_send">
                                         <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${privateMessage.content}</div>
@@ -178,7 +172,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                     messagesContainer.innerHTML += senderMessage;
                                 } else {
                                     const receiverMessage = `
-                            <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px" data-message-id="${privateMessage.id}">
+                            <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px" data-message-id="${privateMessage.id}" id="receiver">
                                 <div class="img_cont_msg">
                                     <img src="./src/images/profile-picture/${receiverProfilePicture}" class="rounded-circle user_img_msg">
                                 </div>
@@ -189,11 +183,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                     </div>
                                     <div class="relative-container" id="receiver">
                                         <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #b8daff;"></i></span>
-                                        <div class="action_menu">
-                                            <ul>
-                                                <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
-                                            </ul>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -251,6 +240,8 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                 const messageId = messageContainer ? messageContainer.getAttribute('data-message-id') : null;
 
                 createMenu(messageId);
+                console.log(messageContainer)
+
 
                 toggleActionMenu(event, '.action_menu_user');
             }
@@ -314,18 +305,12 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                 success: function(response) {
                     if (response.status === 'success') {
                         let messageContainer = `
-                        <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${response.data.id}">
+                        <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${response.data.id}" id="sender">>
                             <div style="display: flex; justify-content: center; align-items:center">
                                 <div class="relative-container" id="sender">
                                     <span class="action_menu_btn" style="cursor: pointer; padding: 5px">
                                         <i class="fas fa-ellipsis-v" style="color: #78e08f;"></i>
                                     </span>
-                                    <div class="action_menu" style="display: none;">
-                                        <ul>
-                                            <li class="edit-option"><i class="fas fa-edit"></i> Edit</li>
-                                            <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
-                                        </ul>
-                                    </div>
                                 </div>
                                 <div class="msg_cotainer_send">
                                     <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${response.data.content}</div>
