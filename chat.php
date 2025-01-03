@@ -157,13 +157,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                             <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${privateMessage.id}">
                                 <div style="display: flex; justify-content: center; align-items:center">
                                     <div class="relative-container" id="sender">
-                                        <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #78e08f;"></i></span>
-                                        <div class="action_menu">
-                                            <ul>
-                                                <li class="edit-option"><i class="fas fa-edit"></i> Edit</li>
-                                                <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
-                                            </ul>
-                                        </div>
+                                        <span class="action_menu_btn" style="cursor: pointer; padding: 5px" onclick="createMenu(${privateMessage.id, isSender})"><i class="fas fa-ellipsis-v" style="color: #78e08f;"></i></span>
                                     </div>
                                     <div class="msg_cotainer_send">
                                         <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${privateMessage.content}</div>
@@ -188,12 +182,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                         <span class="msg_time">${privateMessage.created_at}</span>
                                     </div>
                                     <div class="relative-container" id="receiver">
-                                        <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #b8daff;"></i></span>
-                                        <div class="action_menu">
-                                            <ul>
-                                                <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
-                                            </ul>
-                                        </div>
+                                        <span class="action_menu_btn" style="cursor: pointer; padding: 5px" onclick="createMenu(${privateMessage.id, isSender})"><i class="fas fa-ellipsis-v" style="color: #b8daff;"></i></span>
                                     </div>
                                 </div>
                             </div>
