@@ -40,6 +40,17 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+<style>
+    .no-messages {
+        text-align: center;
+        color: #fff;
+        background-color: #f1c40f;
+        padding: 20px;
+        border-radius: 8px;
+        font-size: 18px;
+        margin-top: 50px;
+    }
+</style>
 
 <body>
     <div class="container-fluid h-100">
@@ -185,14 +196,16 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                 }
                             });
                         } else {
-                            messagesContainer.innerHTML = '<p>No messages available.</p>';
+                            messagesContainer.innerHTML = '<p class="no-messages">No messages available.</p>';
                         }
                     })
             }
             LoadMessages();
         });
     </script>
+
     <script>
+        // action_menu
         let isOpen = null;
 
         document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
@@ -275,7 +288,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             });
         });
     </script>
-
     <script>
         // Send Message
         document.querySelector('.send_btn').addEventListener('click', function(event) {
@@ -424,6 +436,48 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         },
                         error: function() {
                             Swal.fire('Error!', 'Something went wrong.', 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Clear Messages
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to clear all?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, clear it!',
+                cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: 'clear_all_message.php',
+                        method: 'POST',
+                        data: {
+                            clear: true,
+                            receiver_id: <?= $receiver_id ?>
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                Swal.fire(
+                                    'Cleared!',
+                                    response.message,
+                                    'success'
+                                ).then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Cleared!',
+                                    response.message,
+                                    'success'
+                                ).then(() => {
+                                    window.location.reload();
+                                });
+                            }
                         }
                     });
                 }

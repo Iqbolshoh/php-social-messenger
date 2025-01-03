@@ -192,83 +192,8 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     </script>
 
     <script>
-        document.querySelectorAll('.delete-option').forEach((deleteButton) => {
-            deleteButton.addEventListener('click', function(event) {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You won\'t be able to revert this!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'No, keep it'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        const messageContainer = event.target.closest('.message-container');
-                        const messageId = messageContainer.getAttribute('data-message-id');
 
-                        $.ajax({
-                            url: 'delete_message.php',
-                            method: 'POST',
-                            data: {
-                                message_id: messageId
-                            },
-                            success: function(response) {
-                                if (response.status === 'success') {
-                                    messageContainer.remove();
-                                    Swal.fire('Deleted!', response.message, 'success');
-                                } else {
-                                    Swal.fire('Error!', response.message, 'error');
-                                }
-                            },
-                            error: function() {
-                                Swal.fire('Error!', 'Something went wrong.', 'error');
-                            }
-                        });
-                    }
-                });
-            });
-        });
 
-        document.getElementById('clearBtn').addEventListener('click', function() {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'Do you want to clear all?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, clear it!',
-                cancelButtonText: 'No, keep it'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: 'clear_all_message.php',
-                        method: 'POST',
-                        data: {
-                            clear: true,
-                            receiver_id: <?= $receiver_id ?>
-                        },
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                Swal.fire(
-                                    'Cleared!',
-                                    response.message,
-                                    'success'
-                                ).then(() => {
-                                    window.location.reload();
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Cleared!',
-                                    response.message,
-                                    'success'
-                                ).then(() => {
-                                    window.location.reload();
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        });
     </script>
 </body>
 
