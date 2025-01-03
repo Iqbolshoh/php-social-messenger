@@ -207,6 +207,29 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script>
         let isOpen = null;
 
+        // Create action menu dynamically based on message id
+        function createMenu(id, user) {
+            const action_menu_user = document.querySelector('.action_menu_user');
+
+            if (id == null && user == null) {
+                action_menu_user.innerHTML = `<ul>
+                <li><i class="fas fa-user-circle"></i> View profile</li>
+                <li style="color: orange" onclick="clearMessages()"><i class="fas fa-times-circle"></i> Clear</li>
+                <li style="color: red"><i class="fas fa-ban"></i> Block</li>
+            </ul>`;
+            } else if (user == 'sender') {
+                action_menu_user.innerHTML = `<ul>
+                <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
+                <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+            </ul>`;
+            } else {
+                action_menu_user.innerHTML = `<ul>
+                <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+            </ul>`;
+            }
+        }
+
+        // Toggle action menu
         function toggleActionMenu(event, actionMenuSelector) {
             event.stopPropagation();
 
@@ -238,49 +261,19 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                 const messageContainer = event.target.closest('.message-container');
                 const messageId = messageContainer ? messageContainer.getAttribute('data-message-id') : null;
 
-                createMenu(messageId, messageContainer.id); // Create menu based on message id
+                createMenu(messageId, messageContainer.id);
 
                 toggleActionMenu(event, '.action_menu_user');
             }
         });
 
-        // Create action menu dynamically based on message id
-        function createMenu(id, user) {
-            const action_menu_user = document.querySelector('.action_menu_user');
-
-            if (id == null && user == null) {
-                action_menu_user.innerHTML = `<ul>
-                <li><i class="fas fa-user-circle"></i> View profile</li>
-                <li style="color: orange" onclick="clearMessages()"><i class="fas fa-times-circle"></i> Clear</li>
-                <li style="color: red"><i class="fas fa-ban"></i> Block</li>
-            </ul>`;
-            } else if (user == 'sender') {
-                action_menu_user.innerHTML = `<ul>
-                <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
-                <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-            </ul>`;
-            } else {
-                action_menu_user.innerHTML = `<ul>
-                <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-            </ul>`;
-            }
-        }
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            if (isOpen && !isOpen.contains(event.target) && !event.target.closest('.action_menu_btn') && !event.target.closest('#action_menu_btn_user')) {
-                isOpen.style.display = 'none';
-                isOpen = null;
-            }
-        });
-
-        // Open profile modal on first menu item click
+        // Open profile modal on first menu item click (View Profile)
         document.querySelector('.action_menu_user ul').addEventListener('click', function(event) {
             if (event.target.closest('li:first-child')) {
                 const modal = document.getElementById('profileModal');
                 modal.classList.add('show');
                 modal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
             }
         });
 
@@ -289,7 +282,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             const modal = document.getElementById('profileModal');
             modal.classList.remove('show');
             modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = 'auto'; // Restore body scrolling when modal is closed
         });
 
         // Close modal when clicking outside of modal content
@@ -299,49 +292,18 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                 const modal = document.getElementById('profileModal');
                 modal.classList.remove('show');
                 modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = 'auto'; // Restore body scrolling
             }
         });
 
-        function clearMessages() {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'Do you want to clear all messages?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, clear it!',
-                cancelButtonText: 'No, keep it'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Get receiver ID dynamically from PHP
-                    const receiverId = <?= $receiver_id ?>;
-
-                    // AJAX request to clear messages
-                    $.ajax({
-                        url: 'clear_messages.php',
-                        method: 'POST',
-                        data: {
-                            clear: true,
-                            receiver_id: receiverId
-                        },
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                Swal.fire('Cleared!', response.message, 'success').then(() => {
-                                    window.location.reload(); // Reload the page after clearing
-                                });
-                            } else {
-                                Swal.fire('Error!', response.message, 'error');
-                            }
-                        },
-                        error: function() {
-                            Swal.fire('Error!', 'Something went wrong.', 'error');
-                        }
-                    });
-                }
-            });
-        }
+        // Close the menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (isOpen && !isOpen.contains(event.target) && !event.target.closest('.action_menu_btn') && !event.target.closest('#action_menu_btn_user')) {
+                isOpen.style.display = 'none';
+                isOpen = null;
+            }
+        });
     </script>
-
 
     <script>
         // Send Message
@@ -504,47 +466,42 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             });
         }
 
-        // Clear Messages
-        document.getElementById('clearBtn').addEventListener('click', function() {
+        function clearMessages() {
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'Do you want to clear all?',
+                text: 'Do you want to clear all messages?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, clear it!',
                 cancelButtonText: 'No, keep it'
             }).then((result) => {
                 if (result.isConfirmed) {
+
+                    const receiverId = <?= $receiver_id ?>;
+
                     $.ajax({
                         url: 'clear_messages.php',
                         method: 'POST',
                         data: {
                             clear: true,
-                            receiver_id: <?= $receiver_id ?>
+                            receiver_id: receiverId
                         },
                         success: function(response) {
                             if (response.status === 'success') {
-                                Swal.fire(
-                                    'Cleared!',
-                                    response.message,
-                                    'success'
-                                ).then(() => {
+                                Swal.fire('Cleared!', response.message, 'success').then(() => {
                                     window.location.reload();
                                 });
                             } else {
-                                Swal.fire(
-                                    'Cleared!',
-                                    response.message,
-                                    'success'
-                                ).then(() => {
-                                    window.location.reload();
-                                });
+                                Swal.fire('Error!', response.message, 'error');
                             }
+                        },
+                        error: function() {
+                            Swal.fire('Error!', 'Something went wrong.', 'error');
                         }
                     });
                 }
             });
-        });
+        }
     </script>
 </body>
 
