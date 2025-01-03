@@ -213,19 +213,19 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
             if (id == null && user == null) {
                 action_menu_user.innerHTML = `<ul>
-                <li><i class="fas fa-user-circle"></i> View profile</li>
-                <li style="color: orange" onclick="clearMessages()"><i class="fas fa-times-circle"></i> Clear</li>
-                <li style="color: red"><i class="fas fa-ban"></i> Block</li>
-            </ul>`;
+            <li><i class="fas fa-user-circle"></i> View profile</li>
+            <li style="color: orange" onclick="clearMessages()"><i class="fas fa-times-circle"></i> Clear</li>
+            <li style="color: red"><i class="fas fa-ban"></i> Block</li>
+        </ul>`;
             } else if (user == 'sender') {
                 action_menu_user.innerHTML = `<ul>
-                <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
-                <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-            </ul>`;
+            <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
+            <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+        </ul>`;
             } else {
                 action_menu_user.innerHTML = `<ul>
-                <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-            </ul>`;
+            <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+        </ul>`;
             }
         }
 
@@ -268,8 +268,8 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
         });
 
         // Open profile modal on first menu item click (View Profile)
-        document.querySelector('.action_menu_user ul').addEventListener('click', function(event) {
-            if (event.target.closest('li:first-child')) {
+        document.querySelector('.action_menu_user').addEventListener('click', function(event) {
+            if (event.target.closest('li') && event.target.closest('li').textContent.trim() === 'View profile') {
                 const modal = document.getElementById('profileModal');
                 modal.classList.add('show');
                 modal.style.display = 'block';
