@@ -213,7 +213,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }
 
             LoadMessages();
-
+            setInterval(LoadMessages, 1000);
         });
     </script>
     <script>
