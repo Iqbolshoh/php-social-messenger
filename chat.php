@@ -239,20 +239,25 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                 const messageContainer = event.target.closest('.message-container');
                 const messageId = messageContainer ? messageContainer.getAttribute('data-message-id') : null;
 
-                createMenu(messageId);
-                console.log(messageContainer)
-
+                createMenu(messageId, messageContainer.id);
 
                 toggleActionMenu(event, '.action_menu_user');
             }
         });
 
-        function createMenu(id) {
+        function createMenu(id, user) {
             const action_menu_user = document.querySelector('.action_menu_user');
-            action_menu_user.innerHTML = `<ul>
-            <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
-            <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-        </ul>`;
+
+            if (user == 'sender') {
+                action_menu_user.innerHTML = `<ul>
+                    <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
+                    <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+                </ul>`;
+            }else{
+                action_menu_user.innerHTML = `<ul>
+                    <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+                </ul>`;
+            }
         }
 
         document.addEventListener('click', function(event) {
