@@ -70,15 +70,10 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                 <p><b style="font-weight:normal"></b> Messages</p>
                             </div>
                         </div>
-                        <span id="action_menu_btn_user" style="padding: 5px;">
+                        <span id="action_menu_btn_user" style="padding: 5px;" onclick="createMenu(null, null)">
                             <i class="fas fa-ellipsis-v"></i>
                         </span>
                         <div class="action_menu_user" style="display: none;">
-                            <ul>
-                                <li><i class="fas fa-user-circle"></i> View profile</li>
-                                <li style="color: orange" id="clearBtn"><i class="fas fa-times-circle"></i> Clear</li>
-                                <li style="color: red"><i class="fas fa-ban"></i> Block</li>
-                            </ul>
                         </div>
                     </div>
 
@@ -246,14 +241,21 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
         });
 
         function createMenu(id, user) {
+
             const action_menu_user = document.querySelector('.action_menu_user');
 
-            if (user == 'sender') {
+            if (id == null && user == null) {
+                action_menu_user.innerHTML = ` <ul>
+                    <li><i class="fas fa-user-circle"></i> View profile</li>
+                    <li style="color: orange" id="clearBtn"><i class="fas fa-times-circle"></i> Clear</li>
+                    <li style="color: red"><i class="fas fa-ban"></i> Block</li>
+                </ul>`
+            } else if (user == 'sender') {
                 action_menu_user.innerHTML = `<ul>
                     <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
                     <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
                 </ul>`;
-            }else{
+            } else {
                 action_menu_user.innerHTML = `<ul>
                     <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
                 </ul>`;
