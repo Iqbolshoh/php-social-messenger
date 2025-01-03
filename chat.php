@@ -126,19 +126,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
     <script>
-        function createMenu(id) {
-            console.log(id)
-
-            const action_menu_user = document.querySelector('.action_menu_user');
-            action_menu_user.innerHTML = `<ul>
-                <li class="edit-option"><i class="fas fa-edit"></i> Edit</li>
-                <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
-            </ul>`
-            console.log(action_menu_user)
-
-
-        }
-
         // Fetch Message
         document.addEventListener("DOMContentLoaded", function() {
             const receiverId = <?= $receiver_id ?>;
@@ -234,15 +221,17 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
         });
     </script>
     <script>
-        // Action_menu
         let isOpen = null;
 
-        document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
+        function toggleActionMenu(event, actionMenuSelector) {
             event.stopPropagation();
-            var actionMenu = document.querySelector('.action_menu_user');
+
+            var actionMenu = document.querySelector(actionMenuSelector);
+
             if (isOpen && isOpen !== actionMenu) {
                 isOpen.style.display = 'none';
             }
+
             if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
                 actionMenu.style.display = 'block';
                 isOpen = actionMenu;
@@ -250,6 +239,10 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                 actionMenu.style.display = 'none';
                 isOpen = null;
             }
+        }
+
+        document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
+            toggleActionMenu(event, '.action_menu_user');
         });
 
         document.querySelector('.msg_card_body').addEventListener('click', function(event) {
@@ -259,19 +252,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
                 createMenu(messageId);
 
-                event.stopPropagation();
-
-                const actionMenu = event.target.closest('.message-container').querySelector('.action_menu');
-                if (isOpen && isOpen !== actionMenu) {
-                    isOpen.style.display = 'none';
-                }
-                if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
-                    actionMenu.style.display = 'block';
-                    isOpen = actionMenu;
-                } else {
-                    actionMenu.style.display = 'none';
-                    isOpen = null;
-                }
+                toggleActionMenu(event, '.action_menu_user');
             }
         });
 
@@ -306,23 +287,132 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }
         });
 
-        document.querySelectorAll('.action_menu_btn').forEach((button) => {
-            button.addEventListener('click', function(event) {
-                event.stopPropagation();
-                const actionMenu = event.target.closest('.message-container').querySelector('.action_menu');
-                if (isOpen && isOpen !== actionMenu) {
-                    isOpen.style.display = 'none';
-                }
-                if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
-                    actionMenu.style.display = 'block';
-                    isOpen = actionMenu;
+        function createMenu(id) {
+            const action_menu_user = document.querySelector('.action_menu_user');
+            action_menu_user.innerHTML = `<ul>
+            <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
+            <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+        </ul>`;
+        }
+
+        // Edit Message functionality
+        function edit(messageId) {
+            const messageContainer = document.querySelector(`.message-container[data-message-id="${messageId}"]`);
+
+            if (messageContainer) {
+                const messageElement = messageContainer.querySelector('.msg_cotainer_send div');
+
+                if (messageElement) {
+                    const messageText = messageElement.textContent.trim();
+
+                    Swal.fire({
+                        title: 'Edit your message',
+                        input: 'textarea',
+                        inputValue: messageText,
+                        inputPlaceholder: 'Write your message here...',
+                        showCancelButton: true,
+                        confirmButtonText: 'Save changes',
+                        cancelButtonText: 'Cancel',
+                        inputAttributes: {
+                            'aria-label': 'Type your message'
+                        },
+                        inputValidator: (value) => {
+                            if (!value) {
+                                return 'You need to write something!';
+                            }
+                        },
+                        customClass: {
+                            input: 'swal2-textarea'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const newMessage = result.value;
+
+                            $.ajax({
+                                url: 'edit_message.php',
+                                method: 'POST',
+                                data: {
+                                    message_id: messageId,
+                                    new_message: newMessage
+                                },
+                                success: function(response) {
+                                    if (response.status === 'success') {
+                                        messageElement.textContent = newMessage;
+                                        Swal.fire({
+                                            title: 'Updated!',
+                                            text: response.message,
+                                            icon: 'success',
+                                            showConfirmButton: false,
+                                            timer: 1000
+                                        });
+                                    } else {
+                                        Swal.fire('Error!', 'Failed to update message.', 'error');
+                                    }
+                                },
+                                error: function() {
+                                    Swal.fire('Error!', 'Something went wrong while updating.', 'error');
+                                }
+                            });
+                        }
+                    });
                 } else {
-                    actionMenu.style.display = 'none';
-                    isOpen = null;
+                    Swal.fire('Error!', 'Message content not found. Please try again.', 'error');
+                }
+            } else {
+                Swal.fire('Error!', 'Message container not found. Please try again.', 'error');
+            }
+        }
+
+        // Delete Message functionality
+        function deleteMessage(messageId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This message will be deleted!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: 'delete_message.php',
+                        method: 'POST',
+                        data: {
+                            message_id: messageId
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                Swal.fire('Deleted!', 'Your message has been deleted.', 'success');
+                                Swal.fire({
+                                    title: 'Deleted!',
+                                    text: 'Your message has been deleted.',
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
+                                $(`.message-container[data-message-id="${messageId}"]`).remove();
+
+                                let countElement = document.querySelector('.user_info p b');
+                                if (countElement) {
+                                    let currentCount = parseInt(countElement.textContent.trim());
+                                    if (!isNaN(currentCount) && currentCount > 0) {
+                                        countElement.textContent = currentCount - 1;
+                                    }
+                                }
+                            } else {
+                                Swal.fire('Error!', response.message, 'error');
+                            }
+                        },
+                        error: function() {
+                            Swal.fire('Error!', 'Something went wrong.', 'error');
+                        }
+                    });
                 }
             });
-        });
+        }
     </script>
+
     <script>
         // Send Message
         document.querySelector('.send_btn').addEventListener('click', function(event) {
@@ -369,110 +459,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         messagesDiv.scrollTop = messagesDiv.scrollHeight;
                         messageInput.value = '';
                     }
-                }
-            });
-        });
-
-        // Edit Message
-        $(document).on('click', '.edit-option', function() {
-            const messageContainer = event.target.closest('.message-container');
-            const messageId = messageContainer.getAttribute('data-message-id');
-            const messageElement = messageContainer.querySelector('.msg_cotainer_send div');
-            const messageText = messageElement.textContent.trim();
-
-            Swal.fire({
-                title: 'Edit your message',
-                input: 'textarea',
-                inputValue: messageText,
-                inputPlaceholder: 'Write your message here...',
-                showCancelButton: true,
-                confirmButtonText: 'Save changes',
-                cancelButtonText: 'Cancel',
-                inputAttributes: {
-                    'aria-label': 'Type your message'
-                },
-                inputValidator: (value) => {
-                    if (!value) {
-                        return 'You need to write something!';
-                    }
-                },
-                customClass: {
-                    input: 'swal2-textarea'
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const newMessage = result.value;
-
-                    $.ajax({
-                        url: 'edit_message.php',
-                        method: 'POST',
-                        data: {
-                            message_id: messageId,
-                            new_message: newMessage
-                        },
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                messageElement.textContent = newMessage;
-                                Swal.fire({
-                                    title: 'Updated!',
-                                    text: response.message,
-                                    icon: 'success',
-                                    showConfirmButton: false,
-                                    timer: 1000
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        });
-
-        // Delete Message 
-        $(document).on('click', '.delete-option', function() {
-            const messageId = $(this).closest('.message-container').data('message-id');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "This message will be deleted!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: 'delete_message.php',
-                        method: 'POST',
-                        data: {
-                            message_id: messageId
-                        },
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                Swal.fire('Deleted!', 'Your message has been deleted.', 'success');
-                                Swal.fire({
-                                    title: 'Deleted!',
-                                    text: 'Your message has been deleted.',
-                                    icon: 'success',
-                                    showConfirmButton: false,
-                                    timer: 1000
-                                });
-                                $(`.message-container[data-message-id="${messageId}"]`).remove();
-                                let countElement = document.querySelector('.user_info p b');
-
-                                if (countElement) {
-                                    let currentCount = parseInt(countElement.textContent.trim());
-                                    if (!isNaN(currentCount) && currentCount > 0) {
-                                        countElement.textContent = currentCount - 1;
-                                    }
-                                }
-                            } else {
-                                Swal.fire('Error!', response.message, 'error');
-                            }
-                        },
-                        error: function() {
-                            Swal.fire('Error!', 'Something went wrong.', 'error');
-                        }
-                    });
                 }
             });
         });
