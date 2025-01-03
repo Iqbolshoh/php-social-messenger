@@ -19,7 +19,7 @@ if (isset($_POST['message_id'])) {
     $message_id = $_POST['message_id'];
 
     $message =  $query->delete(
-        'private_messages',
+        'messages',
         'id = ?',
         [$message_id],
         'i'

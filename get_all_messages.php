@@ -13,8 +13,8 @@ $query = new Database();
 $sender_id = $_SESSION['user_id'];
 $receiver_id = isset($_GET['id']) ? intval($_GET['id']) : null;
 
-$private_messages = $query->select(
-    'private_messages',
+$messages = $query->select(
+    'messages',
     '*',
     "((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)) ORDER BY created_at",
     [$sender_id, $receiver_id, $receiver_id, $sender_id],
@@ -22,4 +22,4 @@ $private_messages = $query->select(
 );
 
 header('Content-Type: application/json');
-echo json_encode($private_messages);
+echo json_encode($messages);

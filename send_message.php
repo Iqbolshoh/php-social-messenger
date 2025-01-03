@@ -27,7 +27,7 @@ if (isset($_POST['content']) && !empty($_POST['content'])) {
         'created_at' => date('Y-m-d H:i:s')
     ];
 
-    $result = $query->insert('private_messages', $data);
+    $result = $query->insert('messages', $data);
 
     if (is_numeric($result)) {
         $new_message = [

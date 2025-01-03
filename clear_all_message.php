@@ -20,7 +20,7 @@ $response = [
 
 if (isset($_POST['clear']) && $_POST['clear'] == true) {
     $deleted = $query->delete(
-        'private_messages',
+        'messages',
         "((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)) ORDER BY created_at",
         [$sender_id, $receiver_id, $receiver_id, $sender_id],
         "iiii"

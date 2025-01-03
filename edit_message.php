@@ -21,7 +21,7 @@ if (isset($_POST['message_id']) && isset($_POST['new_message'])) {
     $user_id = $_SESSION['user_id'];
 
     $message = $query->select(
-        'private_messages',
+        'messages',
         '*',
         'id = ? AND sender_id = ?',
         [$message_id, $user_id],
@@ -31,7 +31,7 @@ if (isset($_POST['message_id']) && isset($_POST['new_message'])) {
     if ($message) {
         $data = ['content' => $new_message];
         $result = $query->update(
-            'private_messages',
+            'messages',
             $data,
             'id = ?',
             [$message_id],

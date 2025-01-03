@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS block (
     UNIQUE (blocked_by, blocked_user)
 );
 
-CREATE TABLE IF NOT EXISTS private_messages (
+CREATE TABLE IF NOT EXISTS messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     sender_id INT NOT NULL,
     receiver_id INT NOT NULL,
@@ -106,7 +106,7 @@ VALUES
         'default.png'
     );
 
-INSERT INTO private_messages (sender_id, receiver_id, content, status)
+INSERT INTO messages (sender_id, receiver_id, content, status)
 VALUES
     (2, 1, "Hello!", "read"),
     (2, 1, "Iqbolshoh, how are you?", "read"),
