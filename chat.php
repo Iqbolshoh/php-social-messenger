@@ -251,7 +251,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             if (id == null && user == null) {
                 action_menu_user.innerHTML = `<ul>
                 <li><i class="fas fa-user-circle"></i> View profile</li>
-                <li style="color: orange" onclick='clear()'><i class="fas fa-times-circle"></i> Clear</li>
+                <li style="color: orange" onclick="clearMessages()"><i class="fas fa-times-circle"></i> Clear</li>
                 <li style="color: red"><i class="fas fa-ban"></i> Block</li>
             </ul>`;
             } else if (user == 'sender') {
@@ -303,46 +303,43 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }
         });
 
-        // Clear Messages function
-        document.addEventListener('click', function(event) {
-            if (event.target.closest('#clearBtn')) {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'Do you want to clear all messages?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, clear it!',
-                    cancelButtonText: 'No, keep it'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // PHP receiver ID passed dynamically using inline PHP code
-                        const receiverId = <?= $receiver_id ?>;
+        function clearMessages() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to clear all messages?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, clear it!',
+                cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Get receiver ID dynamically from PHP
+                    const receiverId = <?= $receiver_id ?>;
 
-                        // AJAX request to clear messages
-                        $.ajax({
-                            url: 'clear_messages.php',
-                            method: 'POST',
-                            data: {
-                                clear: true,
-                                receiver_id: receiverId
-                            },
-                            success: function(response) {
-                                if (response.status === 'success') {
-                                    Swal.fire('Cleared!', response.message, 'success').then(() => {
-                                        window.location.reload();
-                                    });
-                                } else {
-                                    Swal.fire('Error!', response.message, 'error');
-                                }
-                            },
-                            error: function() {
-                                Swal.fire('Error!', 'Something went wrong.', 'error');
+                    // AJAX request to clear messages
+                    $.ajax({
+                        url: 'clear_messages.php',
+                        method: 'POST',
+                        data: {
+                            clear: true,
+                            receiver_id: receiverId
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                Swal.fire('Cleared!', response.message, 'success').then(() => {
+                                    window.location.reload(); // Reload the page after clearing
+                                });
+                            } else {
+                                Swal.fire('Error!', response.message, 'error');
                             }
-                        });
-                    }
-                });
-            }
-        });
+                        },
+                        error: function() {
+                            Swal.fire('Error!', 'Something went wrong.', 'error');
+                        }
+                    });
+                }
+            });
+        }
     </script>
 
 
