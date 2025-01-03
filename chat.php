@@ -123,14 +123,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             </div>
         </div>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const msgCardBody = document.querySelector(".msg_card_body");
-            if (msgCardBody) {
-                msgCardBody.scrollTop = msgCardBody.scrollHeight;
-            }
-        });
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
     <script>
@@ -202,6 +194,8 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                     messagesContainer.innerHTML += receiverMessage;
                                 }
                             });
+
+                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
                         } else {
                             messagesContainer.innerHTML = '<p class="no-messages">No messages available.</p>';
                         }
@@ -210,6 +204,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             LoadMessages();
         });
     </script>
+
 
     <script>
         // action_menu
