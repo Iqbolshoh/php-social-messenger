@@ -193,9 +193,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         } else {
                             messagesContainer.innerHTML = '<p class="no-messages">No messages available.</p>';
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error loading messages:', error);
                     }
                 });
             }
