@@ -35,6 +35,10 @@ CREATE TABLE IF NOT EXISTS private_messages (
     FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- CREATE TABLE IF NOT EXISTS action(
+
+-- );
+
 
 INSERT INTO
     `users` (

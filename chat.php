@@ -186,87 +186,9 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
 
     <script>
-        let isOpen = null;
+        
 
-        document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
-            event.stopPropagation();
-            var actionMenu = document.querySelector('.action_menu_user');
-            if (isOpen && isOpen !== actionMenu) {
-                isOpen.style.display = 'none';
-            }
-            if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
-                actionMenu.style.display = 'block';
-                isOpen = actionMenu;
-            } else {
-                actionMenu.style.display = 'none';
-                isOpen = null;
-            }
-        });
-
-        document.querySelector('.msg_card_body').addEventListener('click', function(event) {
-            if (event.target.closest('.action_menu_btn')) {
-                event.stopPropagation();
-                const actionMenu = event.target.closest('.message-container').querySelector('.action_menu');
-                if (isOpen && isOpen !== actionMenu) {
-                    isOpen.style.display = 'none';
-                }
-                if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
-                    actionMenu.style.display = 'block';
-                    isOpen = actionMenu;
-                } else {
-                    actionMenu.style.display = 'none';
-                    isOpen = null;
-                }
-            }
-        });
-
-        document.addEventListener('click', function(event) {
-            if (isOpen && !isOpen.contains(event.target) && !event.target.closest('.action_menu_btn') && !event.target.closest('#action_menu_btn_user')) {
-                isOpen.style.display = 'none';
-                isOpen = null;
-            }
-        });
-
-        document.querySelector('.action_menu_user ul li:first-child').addEventListener('click', function() {
-            const modal = document.getElementById('profileModal');
-            modal.classList.add('show');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        });
-
-        document.getElementById('closeModalBtn').addEventListener('click', function() {
-            const modal = document.getElementById('profileModal');
-            modal.classList.remove('show');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-
-        document.getElementById('profileModal').addEventListener('click', function(event) {
-            const modalContent = document.querySelector('.modal-content');
-            if (!modalContent.contains(event.target)) {
-                const modal = document.getElementById('profileModal');
-                modal.classList.remove('show');
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        document.querySelectorAll('.action_menu_btn').forEach((button) => {
-            button.addEventListener('click', function(event) {
-                event.stopPropagation();
-                const actionMenu = event.target.closest('.message-container').querySelector('.action_menu');
-                if (isOpen && isOpen !== actionMenu) {
-                    isOpen.style.display = 'none';
-                }
-                if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
-                    actionMenu.style.display = 'block';
-                    isOpen = actionMenu;
-                } else {
-                    actionMenu.style.display = 'none';
-                    isOpen = null;
-                }
-            });
-        });
+        // 
 
         document.querySelector('.send_btn').addEventListener('click', function(event) {
             event.preventDefault();
