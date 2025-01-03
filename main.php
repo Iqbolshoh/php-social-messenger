@@ -277,6 +277,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     </script>
 
     <script>
+        // Send Message
         document.querySelector('.send_btn').addEventListener('click', function(event) {
             event.preventDefault();
             const messageInput = document.querySelector('.type_msg');
@@ -321,6 +322,110 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         messagesDiv.scrollTop = messagesDiv.scrollHeight;
                         messageInput.value = '';
                     }
+                }
+            });
+        });
+
+        // Edit Message
+        $(document).on('click', '.edit-option', function() {
+            const messageContainer = event.target.closest('.message-container');
+            const messageId = messageContainer.getAttribute('data-message-id');
+            const messageElement = messageContainer.querySelector('.msg_cotainer_send div');
+            const messageText = messageElement.textContent.trim();
+
+            Swal.fire({
+                title: 'Edit your message',
+                input: 'textarea',
+                inputValue: messageText,
+                inputPlaceholder: 'Write your message here...',
+                showCancelButton: true,
+                confirmButtonText: 'Save changes',
+                cancelButtonText: 'Cancel',
+                inputAttributes: {
+                    'aria-label': 'Type your message'
+                },
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'You need to write something!';
+                    }
+                },
+                customClass: {
+                    input: 'swal2-textarea'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const newMessage = result.value;
+
+                    $.ajax({
+                        url: 'edit_message.php',
+                        method: 'POST',
+                        data: {
+                            message_id: messageId,
+                            new_message: newMessage
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                messageElement.textContent = newMessage;
+                                Swal.fire({
+                                    title: 'Updated!',
+                                    text: response.message,
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        // Delete Message 
+        $(document).on('click', '.delete-option', function() {
+            const messageId = $(this).closest('.message-container').data('message-id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This message will be deleted!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: 'delete_message.php',
+                        method: 'POST',
+                        data: {
+                            message_id: messageId
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                Swal.fire('Deleted!', 'Your message has been deleted.', 'success');
+                                Swal.fire({
+                                    title: 'Deleted!',
+                                    text: 'Your message has been deleted.',
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
+                                $(`.message-container[data-message-id="${messageId}"]`).remove();
+                                let countElement = document.querySelector('.user_info p b');
+
+                                if (countElement) {
+                                    let currentCount = parseInt(countElement.textContent.trim());
+                                    if (!isNaN(currentCount) && currentCount > 0) {
+                                        countElement.textContent = currentCount - 1;
+                                    }
+                                }
+                            } else {
+                                Swal.fire('Error!', response.message, 'error');
+                            }
+                        },
+                        error: function() {
+                            Swal.fire('Error!', 'Something went wrong.', 'error');
+                        }
+                    });
                 }
             });
         });
