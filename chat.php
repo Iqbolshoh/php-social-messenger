@@ -141,11 +141,12 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                     dataType: 'json',
                     success: function(privateMessages) {
                         if (privateMessages && privateMessages.length > 0) {
+                            let countElement = document.querySelector('.user_info p b');
+                            countElement.textContent = privateMessages.length;
+
                             messagesContainer.innerHTML = '';
                             privateMessages.forEach(privateMessage => {
                                 const isSender = privateMessage.sender_id === senderId;
-
-                                document.querySelector('.user_info p b').textContent = privateMessages.length;
 
                                 if (isSender) {
                                     const senderMessage = `
@@ -192,6 +193,8 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                             }
                         } else {
                             messagesContainer.innerHTML = '<p class="no-messages">No messages available.</p>';
+                            let countElement = document.querySelector('.user_info p b');
+                            countElement.textContent = privateMessages.length;
                         }
                     }
                 });
@@ -467,13 +470,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         },
                         success: function(response) {
                             if (response.status === 'success') {
-                                Swal.fire('Cleared!', response.message, 'success').then(() => {
-                                    let countElement = document.querySelector('.user_info p b');
-                                    if (countElement) {
-                                        let currentCount = parseInt(countElement.textContent.trim());
-                                        countElement.textContent = 0;
-                                    }
-                                });
+                                Swal.fire('Cleared!', response.message, 'success');
                             } else {
                                 Swal.fire('Error!', response.message, 'error');
                             }
