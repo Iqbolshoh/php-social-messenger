@@ -56,7 +56,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                             </div>
                             <div class="user_info">
                                 <span><?= $receiver_user['full_name'] ?></span>
-                                <p><b style="font-weight:normal"><?= 777 ?> </b>Messages</p>
+                                <p><b style="font-weight:normal"></b> Messages</p>
                             </div>
                         </div>
                         <span id="action_menu_btn_user" style="padding: 5px;">
@@ -133,6 +133,8 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                             privateMessages.forEach(privateMessage => {
                                 const isSender = privateMessage.sender_id === senderId;
 
+                                document.querySelector('.user_info p b').textContent = privateMessages.length;
+
                                 if (isSender) {
                                     const senderMessage = `
                                 <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${privateMessage.id}">
@@ -186,7 +188,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                             messagesContainer.innerHTML = '<p>No messages available.</p>';
                         }
                     })
-                    .catch(error => console.error('Error fetching messages:', error));
             }
             LoadMessages();
             setInterval(LoadMessages, 1000)
