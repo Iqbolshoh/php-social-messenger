@@ -22,10 +22,4 @@ $private_messages = $query->select(
 );
 
 header('Content-Type: application/json');
-
-if (empty($private_messages)) {
-    echo json_encode(['No message available']);
-    exit;
-}
-
 echo json_encode($private_messages);
