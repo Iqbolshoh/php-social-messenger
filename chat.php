@@ -256,6 +256,14 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }
         });
 
+        function createMenu(id) {
+            const action_menu_user = document.querySelector('.action_menu_user');
+            action_menu_user.innerHTML = `<ul>
+            <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
+            <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+        </ul>`;
+        }
+
         document.addEventListener('click', function(event) {
             if (isOpen && !isOpen.contains(event.target) && !event.target.closest('.action_menu_btn') && !event.target.closest('#action_menu_btn_user')) {
                 isOpen.style.display = 'none';
@@ -286,14 +294,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                 document.body.style.overflow = 'auto';
             }
         });
-
-        function createMenu(id) {
-            const action_menu_user = document.querySelector('.action_menu_user');
-            action_menu_user.innerHTML = `<ul>
-            <li class="edit-option" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
-            <li class="delete-option" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-        </ul>`;
-        }
     </script>
 
     <script>
