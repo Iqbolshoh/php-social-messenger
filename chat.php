@@ -128,8 +128,17 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script>
         function createMenu(id) {
             console.log(id)
+
+            const action_menu_user = document.querySelector('.action_menu_user');
+            action_menu_user.innerHTML = `<ul>
+                <li class="edit-option"><i class="fas fa-edit"></i> Edit</li>
+                <li class="delete-option"><i class="fas fa-trash-alt"></i> Delete</li>
+            </ul>`
+            console.log(action_menu_user)
+
+
         }
-        
+
         // Fetch Message
         document.addEventListener("DOMContentLoaded", function() {
             const receiverId = <?= $receiver_id ?>;
