@@ -126,7 +126,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
     <script>
-        // Get All Message
+        // Fetch Message
         document.addEventListener("DOMContentLoaded", function() {
             const receiverId = <?= $receiver_id ?>;
             const senderId = <?= $sender_id ?>;
@@ -137,7 +137,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
             function LoadMessages() {
                 $.ajax({
-                    url: 'get_all_messages.php',
+                    url: 'fetch_messages.php',
                     type: 'POST',
                     data: {
                         id: receiverId
@@ -466,7 +466,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: 'clear_all_message.php',
+                        url: 'clear_messages.php',
                         method: 'POST',
                         data: {
                             clear: true,
