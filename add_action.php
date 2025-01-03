@@ -10,14 +10,14 @@ include './config.php';
 $query = new Database();
 
 $sender_id = $_SESSION['user_id'];
+$receiver_id = $_POST['receiver_id'];
 
 $response = [
     'status' => '',
     'message' => ''
 ];
 
-if (isset($_POST['receiver_id']) && isset($_POST['action_type'])) {
-    $receiver_id = $_POST['receiver_id'];
+if (isset($receiver_id) && isset($_POST['action_type'])) {
     $action_type = $_POST['action_type'];
 
     $data = [
