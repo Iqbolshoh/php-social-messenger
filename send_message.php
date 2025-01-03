@@ -17,6 +17,7 @@ $response = [
 ];
 
 if (isset($_POST['content']) && !empty($_POST['content'])) {
+
     $message_text = htmlspecialchars($_POST['content'], ENT_QUOTES, 'UTF-8');
     $receiver_id = $_POST['receiver_id'];
 

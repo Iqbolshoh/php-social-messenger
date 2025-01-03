@@ -13,7 +13,6 @@ $query = new Database();
 $user_id = $_SESSION['user_id'];
 $allUsers = $query->select('users', '*', 'id <> ?', [$user_id], 'i');
 
-
 ?>
 
 <!DOCTYPE html>

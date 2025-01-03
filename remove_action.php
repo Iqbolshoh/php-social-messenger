@@ -16,8 +16,8 @@ $response = [
     'message' => ''
 ];
 
-if (isset($_GET['receiver_id'])) {
-    $receiver_id = $_GET['receiver_id'];
+if (isset($_POST['receiver_id'])) {
+    $receiver_id = $_POST['receiver_id'];
 
     $result = $query->delete(
         'action',

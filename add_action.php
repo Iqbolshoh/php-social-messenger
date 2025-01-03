@@ -16,9 +16,9 @@ $response = [
     'message' => ''
 ];
 
-if (isset($_GET['receiver_id']) && isset($_GET['action_type'])) {
-    $receiver_id = $_GET['receiver_id'];
-    $action_type = $_GET['action_type'];
+if (isset($_POST['receiver_id']) && isset($_POST['action_type'])) {
+    $receiver_id = $_POST['receiver_id'];
+    $action_type = $_POST['action_type'];
 
     $data = [
         'sender_id' => $sender_id,

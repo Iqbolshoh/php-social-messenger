@@ -20,11 +20,11 @@ $response = [
 
 if ($receiver_id) {
     $response = $query->select(
-        'messages',
+        'action',
         '*',
-        "((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)) ORDER BY created_at",
-        [$sender_id, $receiver_id, $receiver_id, $sender_id],
-        "iiii"
+        "sender_id = ? AND receiver_id = ?",
+        [$sender_id, $receiver_id],
+        "ii"
     );
 }
 
