@@ -126,6 +126,10 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
     <script>
+        function createMenu(id) {
+            console.log(id)
+        }
+        
         // Fetch Message
         document.addEventListener("DOMContentLoaded", function() {
             const receiverId = <?= $receiver_id ?>;
@@ -241,7 +245,13 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
         document.querySelector('.msg_card_body').addEventListener('click', function(event) {
             if (event.target.closest('.action_menu_btn')) {
+                const messageContainer = event.target.closest('.message-container');
+                const messageId = messageContainer ? messageContainer.getAttribute('data-message-id') : null;
+
+                createMenu(messageId);
+
                 event.stopPropagation();
+
                 const actionMenu = event.target.closest('.message-container').querySelector('.action_menu');
                 if (isOpen && isOpen !== actionMenu) {
                     isOpen.style.display = 'none';
