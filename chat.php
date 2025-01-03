@@ -386,12 +386,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                             showConfirmButton: false,
                                             timer: 1000
                                         });
-                                    } else {
-                                        Swal.fire('Error!', 'Failed to update message.', 'error');
                                     }
-                                },
-                                error: function() {
-                                    Swal.fire('Error!', 'Something went wrong while updating.', 'error');
                                 }
                             });
                         }
@@ -444,9 +439,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                             } else {
                                 Swal.fire('Error!', response.message, 'error');
                             }
-                        },
-                        error: function() {
-                            Swal.fire('Error!', 'Something went wrong.', 'error');
                         }
                     });
                 }
@@ -476,14 +468,15 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         success: function(response) {
                             if (response.status === 'success') {
                                 Swal.fire('Cleared!', response.message, 'success').then(() => {
-                                    window.location.reload();
+                                    let countElement = document.querySelector('.user_info p b');
+                                    if (countElement) {
+                                        let currentCount = parseInt(countElement.textContent.trim());
+                                        countElement.textContent = 0;
+                                    }
                                 });
                             } else {
                                 Swal.fire('Error!', response.message, 'error');
                             }
-                        },
-                        error: function() {
-                            Swal.fire('Error!', 'Something went wrong.', 'error');
                         }
                     });
                 }
