@@ -207,7 +207,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script>
         let isOpen = null;
 
-        // Create action menu dynamically based on message id
         function createMenu(id, user) {
             const action_menu_user = document.querySelector('.action_menu_user');
 
@@ -229,18 +228,15 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }
         }
 
-        // Toggle action menu
         function toggleActionMenu(event, actionMenuSelector) {
             event.stopPropagation();
 
             var actionMenu = document.querySelector(actionMenuSelector);
 
-            // Close other open menus
             if (isOpen && isOpen !== actionMenu) {
                 isOpen.style.display = 'none';
             }
 
-            // Toggle the menu visibility
             if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
                 actionMenu.style.display = 'block';
                 isOpen = actionMenu;
@@ -250,12 +246,10 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }
         }
 
-        // Open action menu when button is clicked
         document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
             toggleActionMenu(event, '.action_menu_user');
         });
 
-        // Open action menu when message is clicked
         document.querySelector('.msg_card_body').addEventListener('click', function(event) {
             if (event.target.closest('.action_menu_btn')) {
                 const messageContainer = event.target.closest('.message-container');
@@ -267,36 +261,32 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }
         });
 
-        // Open profile modal on first menu item click (View Profile)
         document.querySelector('.action_menu_user').addEventListener('click', function(event) {
             if (event.target.closest('li') && event.target.closest('li').textContent.trim() === 'View profile') {
                 const modal = document.getElementById('profileModal');
                 modal.classList.add('show');
                 modal.style.display = 'block';
-                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+                document.body.style.overflow = 'hidden';
             }
         });
 
-        // Close modal when the close button is clicked
         document.getElementById('closeModalBtn').addEventListener('click', function() {
             const modal = document.getElementById('profileModal');
             modal.classList.remove('show');
             modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restore body scrolling when modal is closed
+            document.body.style.overflow = 'auto';
         });
 
-        // Close modal when clicking outside of modal content
         document.getElementById('profileModal').addEventListener('click', function(event) {
             const modalContent = document.querySelector('.modal-content');
             if (!modalContent.contains(event.target)) {
                 const modal = document.getElementById('profileModal');
                 modal.classList.remove('show');
                 modal.style.display = 'none';
-                document.body.style.overflow = 'auto'; // Restore body scrolling
+                document.body.style.overflow = 'auto';
             }
         });
 
-        // Close the menu when clicking outside
         document.addEventListener('click', function(event) {
             if (isOpen && !isOpen.contains(event.target) && !event.target.closest('.action_menu_btn') && !event.target.closest('#action_menu_btn_user')) {
                 isOpen.style.display = 'none';
@@ -323,7 +313,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                 success: function(response) {
                     if (response.status === 'success') {
                         let messageContainer = `
-                        <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${response.data.id}" id="sender">>
+                        <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${response.data.id}" id="sender">
                             <div style="display: flex; justify-content: center; align-items:center">
                                 <div class="relative-container" id="sender">
                                     <span class="action_menu_btn" style="cursor: pointer; padding: 5px">
