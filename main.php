@@ -113,42 +113,28 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
         </div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const msgCardBody = document.querySelector(".msg_card_body");
-            if (msgCardBody) {
-                msgCardBody.scrollTop = msgCardBody.scrollHeight;
-            }
-        });
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
-</body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const receiverId = <?= $receiver_id ?>;
+            const senderId = <?= $sender_id ?>;
+            const senderProfilePicture = "<?= $sender_user['profile_picture'] ?>";
+            const receiverProfilePicture = "<?= $receiver_user['profile_picture'] ?>";
 
-</html>
+            const messagesContainer = document.getElementById('messages-container');
 
+            function LoadMessages() {
+                fetch(`get_all_messages.php?id=${receiverId}`)
+                    .then(response => response.json())
+                    .then(privateMessages => {
+                        if (privateMessages && privateMessages.length > 0) {
+                            messagesContainer.innerHTML = '';
+                            privateMessages.forEach(privateMessage => {
+                                const isSender = privateMessage.sender_id === senderId;
 
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const receiverId = <?= $receiver_id ?>;
-        const senderId = <?= $sender_id ?>;
-        const senderProfilePicture = "<?= $sender_user['profile_picture'] ?>";
-        const receiverProfilePicture = "<?= $receiver_user['profile_picture'] ?>";
-
-        const messagesContainer = document.getElementById('messages-container');
-
-        function getMessages() {
-            fetch(`get_all_messages.php?id=${receiverId}`)
-                .then(response => response.json())
-                .then(privateMessages => {
-                    if (privateMessages && privateMessages.length > 0) {
-                        messagesContainer.innerHTML = '';
-                        privateMessages.forEach(privateMessage => {
-                            const isSender = privateMessage.sender_id === senderId;
-
-                            if (isSender) {
-                                const senderMessage = `
+                                if (isSender) {
+                                    const senderMessage = `
                                 <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${privateMessage.id}">
                                     <div style="display: flex; justify-content: center; align-items:center">
                                         <div class="relative-container" id="sender">
@@ -170,9 +156,9 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                     </div>
                                 </div>
                             `;
-                                messagesContainer.innerHTML += senderMessage;
-                            } else {
-                                const receiverMessage = `
+                                    messagesContainer.innerHTML += senderMessage;
+                                } else {
+                                    const receiverMessage = `
                                 <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px" data-message-id="${privateMessage.id}">
                                     <div class="img_cont_msg">
                                         <img src="./src/images/profile-picture/${receiverProfilePicture}" class="rounded-circle user_img_msg">
@@ -193,15 +179,19 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                     </div>
                                 </div>
                             `;
-                                messagesContainer.innerHTML += receiverMessage;
-                            }
-                        });
-                    } else {
-                        messagesContainer.innerHTML = '<p>No messages available.</p>';
-                    }
-                })
-                .catch(error => console.error('Error fetching messages:', error));
-        }
-        setInterval(getMessages, 1000)
-    });
-</script>
+                                    messagesContainer.innerHTML += receiverMessage;
+                                }
+                            });
+                        } else {
+                            messagesContainer.innerHTML = '<p>No messages available.</p>';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching messages:', error));
+            }
+            LoadMessages();
+            setInterval(LoadMessages, 1000)
+        });
+    </script>
+</body>
+
+</html>
