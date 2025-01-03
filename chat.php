@@ -23,21 +23,8 @@ if (empty($query->select('users', '*', 'id = ?', [$receiver_id], 'i'))) {
     exit;
 }
 
-$message_count = 0;
-
 $sender_user = $query->select('users', '*', 'id = ?', [$sender_id], 'i')[0];
 $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
-
-$private_messages = $query->select(
-    'private_messages',
-    '*',
-    "((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)) ORDER BY created_at",
-    [$sender_id, $receiver_id, $receiver_id, $sender_id],
-    "iiii"
-);
-
-$message_count = count($private_messages);
-
 ?>
 
 <!DOCTYPE html>
