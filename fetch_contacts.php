@@ -21,26 +21,28 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 $searchTermLike = "%" . $searchTerm . "%";
 
 $sql = 'SELECT 
-        u.id AS user_id, 
-        u.full_name, 
-        u.username, 
-        u.profile_picture, 
-        m.receiver_id, 
-        MAX(m.created_at) AS last_message_time
-    FROM 
-        users u 
-    LEFT JOIN 
-        messages m ON m.receiver_id = u.id AND m.sender_id = ? 
-    WHERE 
-        u.id != ? AND 
-        (u.full_name LIKE ? OR u.username LIKE ?) 
-    GROUP BY 
-        u.id 
-    ORDER BY 
-        last_message_time DESC, 
-        u.id ASC;';
+            u.id AS user_id, 
+            u.full_name, 
+            u.username, 
+            u.profile_picture, 
+            COUNT(m.id) AS unread_messages,
+            m.receiver_id, 
+            MAX(m.created_at) AS last_message_time
+        FROM 
+            users u 
+        LEFT JOIN 
+            messages m ON m.receiver_id = u.id AND m.receiver_id = ? 
+            AND m.status = "unread" 
+        WHERE 
+            u.id != ? AND 
+            (u.full_name LIKE ? OR u.username LIKE ?) 
+        GROUP BY 
+            u.id 
+        ORDER BY 
+            last_message_time DESC, 
+            u.id ASC;';
 
-$allUsers = $query->executeQuery($sql, [$sender_id, $sender_id, $searchTermLike, $searchTermLike], 'iiis')->get_result();
+$allUsers = $query->executeQuery($sql, [$receiver_id, $sender_id, $searchTermLike, $searchTermLike], 'iiis')->get_result();
 
 if ($allUsers) {
     $result = [];
