@@ -77,6 +77,7 @@ $sender_id = $_SESSION['user_id'];
                         contactsList.innerHTML = '';
 
                         contacts.forEach(user => {
+
                             const highlightedFullName = highlightSearchTerm(user.full_name, searchTerm);
                             const highlightedUsername = highlightSearchTerm(user.username, searchTerm);
 
@@ -103,8 +104,7 @@ $sender_id = $_SESSION['user_id'];
 
         function highlightSearchTerm(text, searchTerm) {
             if (!searchTerm) return text;
-
-            const regex = new RegExp(`(${searchTerm.split(' ').join('|')})`, 'gi');
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
             return text.replace(regex, '<span style="color: red;">$1</span>');
         }
 

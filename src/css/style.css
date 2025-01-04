@@ -261,43 +261,56 @@ html {
 }
 
 .action_menu_user {
-    z-index: 1;
+    z-index: 100;
     position: absolute;
     padding: 5px;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border-radius: 15px;
-    top: 30px;
-    right: 15px;
+    top: 22px;
+    right: 22px;
+    font-size: 17px;
     display: none;
+    width: 100%;
+    max-width: 300px;
 }
 
-.action_menu ul,
 .action_menu_user ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
 }
 
-.action_menu ul li,
 .action_menu_user ul li {
-    width: 100%;
-    padding: 10px 70px 10px 15px;
+    padding: 10px 15px;
     margin-bottom: 5px;
     border-radius: 11px;
+    width: 100%;
 }
 
-.action_menu ul li i,
 .action_menu_user ul li i {
     padding-right: 10px;
-
 }
 
-.action_menu ul li:hover,
 .action_menu_user ul li:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.2);
 }
+
+/* Optional: Styling for the normal .action_menu if needed */
+.action_menu ul li {
+    padding: 10px 90px 10px 15px;
+    margin-bottom: 5px;
+    border-radius: 11px;
+    width: 100%;
+}
+
+.action_menu ul li:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
 
 @media(max-width: 576px) {
     .contacts_card {
