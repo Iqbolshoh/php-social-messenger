@@ -10,19 +10,19 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 include './config.php';
 $query = new Database();
 
-$sender_id = $_SESSION['user_id'];
-$receiver_id = isset($_POST['id']) ? intval($_POST['id']) : null;
-
 $response = [
     'status' => '',
     'message' => '',
     'data' => ''
 ];
 
-if ($receiver_id) {
+if (isset($_POST['receiver_id'])) {
+
+    $sender_id = $_SESSION['user_id'];
+    $receiver_id = $_POST['receiver_id'];
+
     $response['status'] = 'success';
     $response['message'] = 'Fetch Message successfully';
-    
     $response['data'] = $query->select(
         'messages',
         '*',

@@ -16,15 +16,16 @@ $response = [
 ];
 
 if (isset($_POST['message_id']) && isset($_POST['new_message'])) {
+    
     $message_id = $_POST['message_id'];
     $new_message = $_POST['new_message'];
-    $user_id = $_SESSION['user_id'];
+    $sender_id = $_SESSION['user_id'];
 
     $message = $query->select(
         'messages',
         '*',
         'id = ? AND sender_id = ?',
-        [$message_id, $user_id],
+        [$message_id, $sender_id],
         'ii'
     );
 

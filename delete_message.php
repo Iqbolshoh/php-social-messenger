@@ -16,8 +16,8 @@ $response = [
 ];
 
 if (isset($_POST['message_id'])) {
+    
     $message_id = $_POST['message_id'];
-
     $message =  $query->delete(
         'messages',
         'id = ?',
@@ -28,9 +28,6 @@ if (isset($_POST['message_id'])) {
     if ($message > 0) {
         $response['status'] = 'success';
         $response['message'] = 'Message deleted successfully';
-    } else {
-        $response['status'] = 'error';
-        $response['message'] = 'Unable to delete the message';
     }
 }
 

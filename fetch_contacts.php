@@ -46,7 +46,7 @@ if ($allUsers) {
         $result[] = $user;
     }
 
-    $response['status'] = 'succes';
+    $response['status'] = 'success';
     $response['message'] = 'Contact sent successfully';
     $response['data'] = $result;
 }

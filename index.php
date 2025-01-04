@@ -11,18 +11,19 @@ include './config.php';
 $query = new Database();
 
 $sender_id = $_SESSION['user_id'];
+
 ?>
 <script>
     fetch('fetch_contacts.php')
         .then(response => response.json())
         .then(response => {
-            if (response.status == 'succes') {
+            if (response.status == 'success') {
                 console.log(response.data); 
-            } else {
-                console.error('Error fetching contacts:', data.message);
             }
         })
 </script>
+
+
 <!-- <!DOCTYPE html>
 <html lang="en">
 

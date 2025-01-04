@@ -9,9 +9,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 include './config.php';
 $query = new Database();
 
-$sender_id = $_SESSION['user_id'];
-$receiver_id = $_POST['receiver_id'];
-
 $response = [
     'status' => '',
     'message' => '',
@@ -19,8 +16,10 @@ $response = [
 ];
 
 if (isset($_POST['content']) && !empty($_POST['content'])) {
-
-    $message_text = htmlspecialchars($_POST['content'], ENT_QUOTES, 'UTF-8');
+    
+    $sender_id = $_SESSION['user_id'];
+    $receiver_id = $_POST['receiver_id'];
+    $message_text = $_POST['content'];
 
     $data = [
         'sender_id' => $sender_id,
@@ -28,7 +27,7 @@ if (isset($_POST['content']) && !empty($_POST['content'])) {
         'content' => $message_text,
         'created_at' => date('Y-m-d H:i:s')
     ];
-    
+
     $result = $query->insert('messages', $data);
 
     if (is_numeric($result)) {

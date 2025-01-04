@@ -10,15 +10,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 include './config.php';
 $query = new Database();
 
-$sender_id = $_SESSION['user_id'];
-$receiver_id = $_POST['receiver_id'];
-
 $response = [
     'status' => '',
     'message' => ''
 ];
 
 if (isset($_POST['clear']) && $_POST['clear'] == true) {
+    $sender_id = $_SESSION['user_id'];
+    $receiver_id = $_POST['receiver_id'];
+    
     $deleted = $query->delete(
         'messages',
         "((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)) ORDER BY created_at",
