@@ -35,6 +35,19 @@ CREATE TABLE IF NOT EXISTS block_users (
     UNIQUE (blocked_by, blocked_user)
 );
 
+SELECT
+    sender_id,
+    receiver_id,
+    MAX(created_at) AS last_message_time
+FROM
+    messages
+WHERE
+    sender_id = 1
+GROUP BY
+    receiver_id
+ORDER BY
+    last_message_time DESC;
+
 INSERT INTO
     `users` (
         `full_name`,
