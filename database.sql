@@ -52,51 +52,44 @@ VALUES
         '7261b37e4658f361ec3585b582455f74.jpg'
     ),
     (
-        'User One',
-        'user1@example.com',
-        'user1',
-        '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
-        'default.png'
-    ),
-    (
         'User Two',
-        'user2@example.com',
-        'user2',
+        'user2@iqbolshoh.uz',
+        'user_2',
         '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
         'default.png'
     ),
     (
         'User Three',
-        'user3@example.com',
-        'user3',
+        'user3@iqbolshoh.uz',
+        'user_3',
         '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
         'default.png'
     ),
     (
         'User Four',
-        'user4@example.com',
-        'user4',
+        'user4@iqbolshoh.uz',
+        'user_4',
         '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
         'default.png'
     ),
     (
         'User Five',
-        'user5@example.com',
-        'user5',
+        'user5@iqbolshoh.uz',
+        'user_5',
         '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
         'default.png'
     ),
     (
         'User Six',
-        'user6@example.com',
-        'user6',
+        'user6@iqbolshoh.uz',
+        'user_6',
         '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
         'default.png'
     ),
     (
         'User Seven',
-        'user7@example.com',
-        'user7',
+        'user7@iqbolshoh.uz',
+        'user_7',
         '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
         'default.png'
     );
