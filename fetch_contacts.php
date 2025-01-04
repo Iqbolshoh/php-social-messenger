@@ -21,31 +21,41 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 $searchTermLike = "%" . $searchTerm . "%";
 
 $sql = 'SELECT 
-        u.id AS user_id, 
-        u.full_name, 
-        u.username, 
-        u.profile_picture, 
-        m.receiver_id, 
-        MAX(m.created_at) AS last_message_time
-    FROM 
-        users u 
-    LEFT JOIN 
-        messages m ON m.receiver_id = u.id AND m.sender_id = ? 
-    WHERE 
-        u.id != ? AND 
-        (u.full_name LIKE ? OR u.username LIKE ?) 
-    GROUP BY 
-        u.id 
-    ORDER BY 
-        last_message_time DESC, 
-        u.id ASC;';
+            u.id AS user_id, 
+            u.full_name, 
+            u.username, 
+            u.profile_picture, 
+            m.receiver_id, 
+            MAX(m.created_at) AS last_message_time
+        FROM 
+            users u 
+        LEFT JOIN 
+            messages m ON m.receiver_id = u.id AND m.sender_id = ? 
+        WHERE 
+            u.id != ? AND 
+            (u.full_name LIKE ? OR u.username LIKE ?) 
+        GROUP BY 
+            u.id 
+        ORDER BY 
+            last_message_time DESC, 
+            u.id ASC;';
 
 $allUsers = $query->executeQuery($sql, [$sender_id, $sender_id, $searchTermLike, $searchTermLike], 'iiis')->get_result();
 
 if ($allUsers) {
     $result = [];
     foreach ($allUsers as $user) {
-        $user['unread_messages'] = 1;
+        $unread_messages = $query->executeQuery(
+            '
+            SELECT COUNT(*) AS unread_messages 
+            FROM messages 
+            WHERE receiver_id = ? AND sender_id = ? AND status = "unread"',
+            [$sender_id, $user['user_id']],
+            'ii'
+        )->get_result()->fetch_assoc();
+
+        $user['unread_messages'] = $unread_messages['unread_messages'];
+
         $result[] = $user;
     }
 
