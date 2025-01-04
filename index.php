@@ -20,16 +20,16 @@ $allUsers = $query->executeQuery('
         m.receiver_id, 
         MAX(m.created_at) AS last_message_time
     FROM 
-        messages m
+        users u
     LEFT JOIN 
-        users u ON u.id = m.receiver_id
+        messages m ON m.receiver_id = u.id AND m.sender_id = ?
     WHERE 
-        m.sender_id = ?
+        u.id != ?
     GROUP BY 
-        m.receiver_id, u.id
+        u.id
     ORDER BY 
         last_message_time DESC;
-', [$user_id], 'i')->get_result();
+', [$user_id, $user_id], 'ii')->get_result();
 ?>
 
 <!DOCTYPE html>
