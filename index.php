@@ -160,23 +160,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
     <script>
+        let fetchInterval = setInterval(fetchContacts, 1000);
+
         const searchInput = document.getElementById('search');
         let timeout = null;
 
         searchInput.addEventListener('input', function() {
             const searchTerm = searchInput.value.trim();
 
-            if (searchTerm !== '') {
-                if (timeout) {
-                    clearTimeout(timeout);
-                }
+            clearInterval(fetchInterval);
 
-                timeout = setTimeout(function() {
-                    fetchContacts(searchTerm)
-                }, 1000);
-            } else {
-                fetchContacts();
+            if (timeout) {
+                clearTimeout(timeout);
             }
+
+            timeout = setTimeout(function() {
+                fetchContacts(searchTerm);
+            }, 1000);
+        });
+
+        searchInput.addEventListener('blur', function() {
+            fetchInterval = setInterval(fetchContacts, 1000);
         });
 
         function fetchContacts(searchTerm = '') {
