@@ -15,15 +15,6 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS block_users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    blocked_by INT NOT NULL,
-    blocked_user INT NOT NULL,
-    FOREIGN KEY (blocked_by) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (blocked_user) REFERENCES users(id) ON DELETE CASCADE,
-    UNIQUE (blocked_by, blocked_user)
-);
-
 CREATE TABLE IF NOT EXISTS messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     sender_id INT NOT NULL,
@@ -33,6 +24,15 @@ CREATE TABLE IF NOT EXISTS messages (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS block_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    blocked_by INT NOT NULL,
+    blocked_user INT NOT NULL,
+    FOREIGN KEY (blocked_by) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (blocked_user) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE (blocked_by, blocked_user)
 );
 
 INSERT INTO
