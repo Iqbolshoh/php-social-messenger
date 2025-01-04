@@ -227,6 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         fetchContacts();
+        // setInterval(fetchContacts, 1000);
 
         // Logout function
         function logout() {
