@@ -40,27 +40,6 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
-<style>
-    .no-messages-container {
-        position: relative;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: #888;
-    }
-
-    .no-messages-container i {
-        font-size: 4.5rem;
-        color: #aaa;
-        margin-bottom: 15px;
-    }
-
-    .no-messages-container .no-messages {
-        font-size: 18px;
-        font-weight: 600;
-    }
-</style>
 
 <body>
     <div class="container-fluid h-100">

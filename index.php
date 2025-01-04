@@ -160,6 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
     <script>
+        // Set Interval
         let fetchInterval = setInterval(fetchContacts, 1000);
 
         const searchInput = document.getElementById('search');
@@ -183,6 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             fetchInterval = setInterval(fetchContacts, 1000);
         });
 
+        // Fetch Contact
         function fetchContacts(searchTerm = '') {
             fetch('fetch_contacts.php?search=' + encodeURIComponent(searchTerm))
                 .then(response => response.json())

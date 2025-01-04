@@ -347,3 +347,23 @@ html {
     font-size: 12px;
     padding: 5px 10px;
 }
+
+.no-messages-container {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #888;
+}
+
+.no-messages-container i {
+    font-size: 4.5rem;
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+.no-messages-container .no-messages {
+    font-size: 18px;
+    font-weight: 600;
+}
