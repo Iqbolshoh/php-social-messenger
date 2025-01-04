@@ -3,11 +3,11 @@
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
+    header("Location: ./login/");
     exit;
 }
 
-include '../config.php';
+include './config.php';
 $query = new Database();
 
 $user_id = $_SESSION['user_id'];
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileNameCmps = explode(".", $fileName);
         $fileExtension = strtolower(end($fileNameCmps));
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-        $uploadFileDir = '../src/images/profile-picture/';
+        $uploadFileDir = './src/images/profile-picture/';
         $dest_path = $uploadFileDir . $newFileName;
 
         if ($profile_picture && $profile_picture !== 'default.png') {
@@ -72,9 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
-    <link rel="stylesheet" href="../src/css/profile.css">
-    <link rel="stylesheet" href="../src/css/sweetalert2.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon.ico">
+    <link rel="stylesheet" href="./src/css/profile.css">
+    <link rel="stylesheet" href="./src/css/sweetalert2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="profile-container">
         <div class="profile-form-container">
             <div class="profile-header">
-                <img class="profile-picture" src="../src/images/profile-picture/<?= $user['profile_picture']; ?>"
+                <img class="profile-picture" src="./src/images/profile-picture/<?= $user['profile_picture']; ?>"
                     alt="Profile Image">
                 <h2 class="profile-name"><?= $user['username'] ?></h2>
             </div>
@@ -121,8 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-
-    <script src="../src/js/sweetalert2.js"></script>
+    <script src="./src/js/sweetalert2.js"></script>
     <script>
         document.getElementById('toggle-password').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
