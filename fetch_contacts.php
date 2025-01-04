@@ -18,37 +18,43 @@ $response = [
     'data' => ''
 ];
 
-$sql = 'SELECT 
-        u.id AS user_id, 
-        u.full_name, 
-        u.email, 
-        u.profile_picture, 
-        m.receiver_id, 
-        MAX(m.created_at) AS last_message_time
-    FROM 
-        users u 
-    LEFT JOIN 
-        messages m ON m.receiver_id = u.id AND m.sender_id = ? 
-    WHERE 
-        u.id != ? 
-    GROUP BY 
-        u.id 
-    ORDER BY 
-        last_message_time DESC, 
-        u.id ASC;';
+$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
 
-$allUsers = $query->executeQuery($sql, [$sender_id, $sender_id], 'ii')->get_result();
+$sql = 'SELECT 
+            u.id AS user_id, 
+            u.full_name, 
+            u.username, 
+            u.profile_picture, 
+            m.receiver_id, 
+            MAX(m.created_at) AS last_message_time
+        FROM 
+            users u 
+        LEFT JOIN 
+            messages m ON m.receiver_id = u.id AND m.sender_id = ? 
+        WHERE 
+            u.id != ? AND 
+            (LOWER(u.full_name) LIKE LOWER(?) OR LOWER(u.username) LIKE LOWER(?))
+        GROUP BY 
+            u.id 
+        ORDER BY 
+            last_message_time DESC, 
+            u.id ASC;';
+
+$searchTermLike = "%" . $searchTerm . "%";
+$allUsers = $query->executeQuery($sql, [$sender_id, $sender_id, $searchTermLike, $searchTermLike], 'iiis')->get_result();
 
 if ($allUsers) {
-
     $result = [];
     foreach ($allUsers as $user) {
         $result[] = $user;
     }
 
     $response['status'] = 'success';
-    $response['message'] = 'Contact sent successfully';
+    $response['message'] = 'Contacts retrieved successfully';
     $response['data'] = $result;
+} else {
+    $response['status'] = 'error';
+    $response['message'] = 'No contacts found';
 }
 
 header('Content-Type: application/json');

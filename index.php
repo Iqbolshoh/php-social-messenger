@@ -34,7 +34,7 @@ $sender_id = $_SESSION['user_id'];
                 <div class="card">
                     <div class="card-header">
                         <div class="input-group">
-                            <input type="text" placeholder="Search..." name="search" class="form-control search">
+                            <input type="text" placeholder="Search..." name="search" id="search" class="form-control search">
                             <div class="input-group-prepend">
                                 <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
                             </div>
@@ -50,31 +50,52 @@ $sender_id = $_SESSION['user_id'];
     </div>
 
     <script>
-        function fetchContacts() {
-            fetch('fetch_contacts.php')
+        const searchInput = document.getElementById('search');
+
+        let intervalId = null;
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = searchInput.value.trim();
+
+            if (searchTerm === '') {
+                if (intervalId === null) {
+                    intervalId = setInterval(() => fetchContacts(), 1000);
+                }
+            } else {
+                clearInterval(intervalId);
+                intervalId = null;
+                fetchContacts(searchTerm);
+            }
+        });
+
+        function fetchContacts(searchTerm = '') {
+
+            fetch('fetch_contacts.php?search=' + encodeURIComponent(searchTerm))
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
+
                         const contacts = data.data;
                         const contactsList = document.getElementById('contacts-list');
                         contactsList.innerHTML = '';
 
                         contacts.forEach(user => {
+
                             const listItem = document.createElement('li');
                             listItem.setAttribute('onclick', `window.location.href='chat.php?id=${user.user_id}'`);
                             listItem.innerHTML = `
-                            <div class="d-flex bd-highlight">
-                                <div class="img_cont">
-                                    <img src="./src/images/profile-picture/${user.profile_picture}" 
-                                         class="rounded-circle user_img" 
-                                         alt="${user.full_name}">
-                                </div>
-                                <div class="user_info">
-                                    <span>${user.full_name}</span>
-                                    <p>${user.email}</p>
-                                </div>
-                            </div>
-                        `;
+                    <div class="d-flex bd-highlight">
+                        <div class="img_cont">
+                            <img src="./src/images/profile-picture/${user.profile_picture}" 
+                                 class="rounded-circle user_img" 
+                                 alt="${user.full_name}">
+                        </div>
+                        <div class="user_info">
+                            <span>${user.full_name}</span>
+                            <p>${user.username}</p>
+                        </div>
+                    </div>
+                    `;
                             contactsList.appendChild(listItem);
                         });
                     }
@@ -82,7 +103,6 @@ $sender_id = $_SESSION['user_id'];
         }
 
         fetchContacts();
-        setInterval(fetchContacts, 1000);
     </script>
 
 </body>
