@@ -18,8 +18,7 @@ $response = [
     'data' => ''
 ];
 
-$allUsers = $query->executeQuery('
-    SELECT 
+$sql = 'SELECT 
         u.id AS user_id, 
         u.full_name, 
         u.email, 
@@ -27,17 +26,18 @@ $allUsers = $query->executeQuery('
         m.receiver_id, 
         MAX(m.created_at) AS last_message_time
     FROM 
-        users u
+        users u 
     LEFT JOIN 
-        messages m ON m.receiver_id = u.id AND m.sender_id = ?
+        messages m ON m.receiver_id = u.id AND m.sender_id = ? 
     WHERE 
-        u.id != ?
+        u.id != ? 
     GROUP BY 
-        u.id
+        u.id 
     ORDER BY 
-        last_message_time DESC;
-        ', [$sender_id, $sender_id], 'ii')->get_result();
+        last_message_time DESC, 
+        u.id ASC;';
 
+$allUsers = $query->executeQuery($sql, [$sender_id, $sender_id], 'ii')->get_result();
 
 if ($allUsers) {
 
