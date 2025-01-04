@@ -19,7 +19,10 @@ $response = [
 ];
 
 if ($receiver_id) {
-    $response = $query->select(
+    $response['status'] = 'success';
+    $response['message'] = 'Fetch Message successfully';
+    
+    $response['data'] = $query->select(
         'messages',
         '*',
         "((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)) ORDER BY created_at",

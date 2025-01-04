@@ -139,13 +139,14 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         id: receiverId
                     },
                     dataType: 'json',
-                    success: function(privateMessages) {
-                        if (privateMessages && privateMessages.length > 0) {
+                    success: function(response) {
+                        Messages = response.data
+                        if (Messages && Messages.length > 0) {
                             let countElement = document.querySelector('.user_info p b');
-                            countElement.textContent = privateMessages.length;
+                            countElement.textContent = Messages.length;
 
                             messagesContainer.innerHTML = '';
-                            privateMessages.forEach(privateMessage => {
+                            Messages.forEach(privateMessage => {
                                 const isSender = privateMessage.sender_id === senderId;
 
                                 if (isSender) {
@@ -194,7 +195,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         } else {
                             messagesContainer.innerHTML = '<p class="no-messages">No messages available.</p>';
                             let countElement = document.querySelector('.user_info p b');
-                            countElement.textContent = privateMessages.length;
+                            countElement.textContent = Messages.length;
                         }
                     }
                 });

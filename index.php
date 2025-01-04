@@ -10,26 +10,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 include './config.php';
 $query = new Database();
 
-$user_id = $_SESSION['user_id'];
-$allUsers = $query->executeQuery('
-    SELECT 
-        u.id AS user_id, 
-        u.full_name, 
-        u.email, 
-        u.profile_picture, 
-        m.receiver_id, 
-        MAX(m.created_at) AS last_message_time
-    FROM 
-        users u
-    LEFT JOIN 
-        messages m ON m.receiver_id = u.id AND m.sender_id = ?
-    WHERE 
-        u.id != ?
-    GROUP BY 
-        u.id
-    ORDER BY 
-        last_message_time DESC;
-', [$user_id, $user_id], 'ii')->get_result();
+$sender_id = $_SESSION['user_id'];
 ?>
 
 <!DOCTYPE html>

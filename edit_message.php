@@ -29,6 +29,7 @@ if (isset($_POST['message_id']) && isset($_POST['new_message'])) {
     );
 
     if ($message) {
+
         $data = ['content' => $new_message];
         $result = $query->update(
             'messages',
