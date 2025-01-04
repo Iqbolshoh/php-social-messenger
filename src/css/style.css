@@ -346,6 +346,8 @@ html {
 .badge {
     font-size: 12px;
     padding: 5px 10px;
+    border-radius: 77px;
+
 }
 
 .no-messages-container {
