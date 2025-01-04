@@ -18,27 +18,27 @@ $response = [
     'data' => ''
 ];
 
-$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 
 $sql = 'SELECT 
-            u.id AS user_id, 
-            u.full_name, 
-            u.username, 
-            u.profile_picture, 
-            m.receiver_id, 
-            MAX(m.created_at) AS last_message_time
-        FROM 
-            users u 
-        LEFT JOIN 
-            messages m ON m.receiver_id = u.id AND m.sender_id = ? 
-        WHERE 
-            u.id != ? AND 
-            (LOWER(u.full_name) LIKE LOWER(?) OR LOWER(u.username) LIKE LOWER(?))
-        GROUP BY 
-            u.id 
-        ORDER BY 
-            last_message_time DESC, 
-            u.id ASC;';
+        u.id AS user_id, 
+        u.full_name, 
+        u.username, 
+        u.profile_picture, 
+        m.receiver_id, 
+        MAX(m.created_at) AS last_message_time
+    FROM 
+        users u 
+    LEFT JOIN 
+        messages m ON m.receiver_id = u.id AND m.sender_id = ? 
+    WHERE 
+        u.id != ? AND 
+        (u.full_name LIKE ? OR u.username LIKE ?) 
+    GROUP BY 
+        u.id 
+    ORDER BY 
+        last_message_time DESC, 
+        u.id ASC;';
 
 $searchTermLike = "%" . $searchTerm . "%";
 $allUsers = $query->executeQuery($sql, [$sender_id, $sender_id, $searchTermLike, $searchTermLike], 'iiis')->get_result();

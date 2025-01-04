@@ -41,14 +41,25 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <style>
-    .no-messages {
+    .no-messages-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999999;
         text-align: center;
-        color: #fff;
-        background-color: #f1c40f;
-        padding: 20px;
-        border-radius: 8px;
+        color: #888;
+    }
+
+    .no-messages-container i {
+        font-size: 4.5rem;
+        color: #aaa;
+        margin-bottom: 15px;
+    }
+
+    .no-messages-container .no-messages {
         font-size: 18px;
-        margin-top: 50px;
+        font-weight: 600;
     }
 </style>
 
@@ -193,7 +204,12 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                                 countScrollHeight++;
                             }
                         } else {
-                            messagesContainer.innerHTML = '<p class="no-messages">No messages available.</p>';
+                            messagesContainer.innerHTML = `
+                            <div class="no-messages-container">
+                                <i class="fas fa-comment-slash fa-3x"></i>
+                                <p class="no-messages">No messages available.</p>
+                            </div>`;
+
                             let countElement = document.querySelector('.user_info p b');
                             countElement.textContent = Messages.length;
                         }
@@ -449,6 +465,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             });
         }
 
+        // Clear Messages
         function clearMessages() {
             Swal.fire({
                 title: 'Are you sure?',
@@ -471,9 +488,13 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         },
                         success: function(response) {
                             if (response.status === 'success') {
-                                Swal.fire('Cleared!', response.message, 'success');
-                            } else {
-                                Swal.fire('Error!', response.message, 'error');
+                                Swal.fire({
+                                    title: 'Cleared!',
+                                    text: response.message,
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
                             }
                         }
                     });
