@@ -42,11 +42,10 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 </head>
 <style>
     .no-messages-container {
-        position: absolute;
+        position: relative;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 999999;
         text-align: center;
         color: #888;
     }
