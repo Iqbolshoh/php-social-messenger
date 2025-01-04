@@ -25,16 +25,6 @@ $allUsers = $query->executeQuery('
     ORDER BY
         last_message_time DESC;
 ', [$user_id], 'i')->get_result();
-
-if ($allUsers) {
-    echo "<pre>";
-    foreach ($allUsers as $user) {
-        print_r($user);
-    }
-    echo "<pre>";
-    exit;
-}
-
 ?>
 
 <!DOCTYPE html>
