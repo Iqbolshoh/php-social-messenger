@@ -11,29 +11,29 @@ include './config.php';
 $query = new Database();
 
 $user_id = $_SESSION['user_id'];
-$allUsersId = $query->executeQuery('
-    SELECT
-        sender_id,
-        receiver_id,
-        MAX(created_at) AS last_message_time
-    FROM
-        messages
-    WHERE
-        sender_id = ?
-    GROUP BY
-        receiver_id
-    ORDER BY
+$allUsers = $query->executeQuery('
+    SELECT 
+        u.id AS user_id, 
+        u.full_name, 
+        u.email, 
+        u.profile_picture, 
+        m.receiver_id, 
+        MAX(m.created_at) AS last_message_time
+    FROM 
+        messages m
+    LEFT JOIN 
+        users u ON u.id = m.receiver_id
+    WHERE 
+        m.sender_id = ?
+    GROUP BY 
+        m.receiver_id, u.id
+    ORDER BY 
         last_message_time DESC;
 ', [$user_id], 'i')->get_result();
 
-$allUsers = [];
-if ($allUsersId) {
-    foreach ($allUsersId as $userId) {
-        $receiverUserId = $userId['receiver_id'];
-        $allUsers[] = $query->select('users', '*', 'id = ?', [$receiverUserId], 'i');
-    }
+foreach($allUsers as $user){
+    print_r($user);
 }
-print_r($allUsers);
 exit;
 ?>
 
