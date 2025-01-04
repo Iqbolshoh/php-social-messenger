@@ -11,7 +11,7 @@ include './config.php';
 $query = new Database();
 
 $user_id = $_SESSION['user_id'];
-$allUsers = $query->executeQuery('
+$allUsersId = $query->executeQuery('
     SELECT
         sender_id,
         receiver_id,
@@ -25,6 +25,16 @@ $allUsers = $query->executeQuery('
     ORDER BY
         last_message_time DESC;
 ', [$user_id], 'i')->get_result();
+
+$allUsers = [];
+if ($allUsersId) {
+    foreach ($allUsersId as $userId) {
+        $receiverUserId = $userId['receiver_id'];
+        $allUsers[] = $query->select('users', '*', 'id = ?', [$receiverUserId], 'i');
+    }
+}
+print_r($allUsers);
+exit;
 ?>
 
 <!DOCTYPE html>
