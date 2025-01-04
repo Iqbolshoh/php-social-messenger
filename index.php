@@ -32,7 +32,9 @@ $allUsers = $query->executeQuery('
 ', [$user_id], 'i')->get_result();
 
 foreach($allUsers as $user){
+    echo "<pre>";
     print_r($user);
+    echo "<pre>";
 }
 exit;
 ?>
