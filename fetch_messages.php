@@ -16,13 +16,14 @@ $response = [
     'data' => ''
 ];
 
-if (isset($_POST['receiver_id'])) {
+if (isset($_POST['id'])) {
 
     $sender_id = $_SESSION['user_id'];
-    $receiver_id = $_POST['receiver_id'];
+    $receiver_id = $_POST['id'];
 
     $response['status'] = 'success';
     $response['message'] = 'Fetch Message successfully';
+
     $response['data'] = $query->select(
         'messages',
         '*',
