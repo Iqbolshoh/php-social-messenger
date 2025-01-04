@@ -59,10 +59,13 @@ $sender_id = $_SESSION['user_id'];
 
             timeout = setTimeout(function() {
                 fetchContacts(searchTerm);
-            }, 100);
+            }, 1000);
+
+            console.log(1)
         });
 
         function fetchContacts(searchTerm = '') {
+            console.log(2)
             fetch('fetch_contacts.php?search=' + encodeURIComponent(searchTerm))
                 .then(response => response.json())
                 .then(data => {
@@ -80,20 +83,20 @@ $sender_id = $_SESSION['user_id'];
                             listItem.setAttribute('onclick', `window.location.href='chat.php?id=${user.user_id}'`);
 
                             listItem.innerHTML = `
-                        <div class="d-flex bd-highlight">
-                            <div class="img_cont">
-                                <img src="./src/images/profile-picture/${user.profile_picture}" 
-                                     class="rounded-circle user_img" 
-                                     alt="${user.full_name}">
-                            </div>
-                            <div class="user_info">
-                                <span>${highlightedFullName}</span>
-                                <p>${highlightedUsername}</p>
-                            </div>
-                            <div class="message_count">
-                                ${unreadMessages > 0 ? `<span class="badge badge-warning">${unreadMessages}</span>` : ''}
-                            </div>
-                        </div>`;
+                            <div class="d-flex bd-highlight">
+                                <div class="img_cont">
+                                    <img src="./src/images/profile-picture/${user.profile_picture}" 
+                                        class="rounded-circle user_img" 
+                                        alt="${user.full_name}">
+                                </div>
+                                <div class="user_info">
+                                    <span>${highlightedFullName}</span>
+                                    <p>${highlightedUsername}</p>
+                                </div>
+                                <div class="message_count">
+                                    ${unreadMessages > 0 ? `<span class="badge badge-warning">${unreadMessages}</span>` : ''}
+                                </div>
+                            </div>`;
 
                             contactsList.appendChild(listItem);
                         });
