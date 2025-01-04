@@ -49,17 +49,18 @@ $sender_id = $_SESSION['user_id'];
 
     <script>
         const searchInput = document.getElementById('search');
-
+        let timeout = null;
         searchInput.addEventListener('input', function() {
             const searchTerm = searchInput.value.trim();
-            fetchContacts(searchTerm);
-        });
 
-        function highlightSearchTerm(text, searchTerm) {
-            if (!searchTerm) return text;
-            const regex = new RegExp(`(${searchTerm})`, 'gi');
-            return text.replace(regex, '<span style="color: red;">$1</span>');
-        }
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+
+            timeout = setTimeout(function() {
+                fetchContacts(searchTerm);
+            }, 100);
+        });
 
         function fetchContacts(searchTerm = '') {
             fetch('fetch_contacts.php?search=' + encodeURIComponent(searchTerm))
@@ -73,32 +74,42 @@ $sender_id = $_SESSION['user_id'];
                         contacts.forEach(user => {
                             const highlightedFullName = highlightSearchTerm(user.full_name, searchTerm);
                             const highlightedUsername = highlightSearchTerm(user.username, searchTerm);
+                            const unreadMessages = user.unread_messages;
 
                             const listItem = document.createElement('li');
                             listItem.setAttribute('onclick', `window.location.href='chat.php?id=${user.user_id}'`);
 
                             listItem.innerHTML = `
-                            <div class="d-flex bd-highlight">
-                                <div class="img_cont">
-                                    <img src="./src/images/profile-picture/${user.profile_picture}" 
-                                         class="rounded-circle user_img" 
-                                         alt="${user.full_name}">
-                                </div>
-                                <div class="user_info">
-                                    <span>${highlightedFullName}</span>
-                                    <p>${highlightedUsername}</p>
-                                </div>
+                        <div class="d-flex bd-highlight">
+                            <div class="img_cont">
+                                <img src="./src/images/profile-picture/${user.profile_picture}" 
+                                     class="rounded-circle user_img" 
+                                     alt="${user.full_name}">
                             </div>
-                        `;
+                            <div class="user_info">
+                                <span>${highlightedFullName}</span>
+                                <p>${highlightedUsername}</p>
+                            </div>
+                            <div class="message_count">
+                                ${unreadMessages > 0 ? `<span class="badge badge-warning">${unreadMessages}</span>` : ''}
+                            </div>
+                        </div>`;
+
                             contactsList.appendChild(listItem);
                         });
                     }
                 })
         }
 
+        function highlightSearchTerm(text, searchTerm) {
+            if (!searchTerm) return text;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span style="color: red;">$1</span>');
+        }
+
         fetchContacts();
-        setInterval(fetchContacts, 3000);
     </script>
+
 </body>
 
 </html>

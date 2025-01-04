@@ -335,3 +335,15 @@ html {
 .custom-file-input:lang(en)~.custom-file-label::after {
     content: "Browse";
 }
+
+.message_count {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge {
+    font-size: 12px;
+    padding: 5px 10px;
+}
