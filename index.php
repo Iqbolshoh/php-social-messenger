@@ -193,6 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         contacts.forEach(user => {
                             const highlightedFullName = highlightSearchTerm(user.full_name, searchTerm);
                             const highlightedUsername = highlightSearchTerm(user.username, searchTerm);
+                            const unreadMessages = user.unread_messages;
 
                             const listItem = document.createElement('li');
                             listItem.setAttribute('onclick', `window.location.href='chat.php?id=${user.user_id}'`);
@@ -200,11 +201,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             listItem.innerHTML = `
                         <div class="d-flex bd-highlight">
                             <div class="img_cont">
-                                <img src="./src/images/profile-picture/${user.profile_picture}" class="rounded-circle user_img" alt="${user.full_name}">
+                                <img src="./src/images/profile-picture/${user.profile_picture}" 
+                                     class="rounded-circle user_img" 
+                                     alt="${user.full_name}">
                             </div>
                             <div class="user_info">
                                 <span>${highlightedFullName}</span>
                                 <p>${highlightedUsername}</p>
+                            </div>
+                            <div class="message_count">
+                                ${unreadMessages > 0 ? `<span class="badge badge-warning">${unreadMessages}</span>` : ''}
                             </div>
                         </div>`;
 
@@ -241,6 +247,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </script>
 
+    <style>
+        .message_count {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .badge {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+    </style>
 </body>
 
 </html>
