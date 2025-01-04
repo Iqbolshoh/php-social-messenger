@@ -14,7 +14,8 @@ $sender_id = $_SESSION['user_id'];
 
 $response = [
     'status' => '',
-    'message' => ''
+    'message' => '',
+    'data' => ''
 ];
 
 $allUsers = $query->executeQuery('
@@ -35,16 +36,19 @@ $allUsers = $query->executeQuery('
         u.id
     ORDER BY 
         last_message_time DESC;
-', [$sender_id, $sender_id], 'ii')->get_result();
+        ', [$sender_id, $sender_id], 'ii')->get_result();
+
 
 if ($allUsers) {
 
-    $response['status'] = 'succes';
-    $response['message'] = 'Message sent successfully';
-
+    $result = [];
     foreach ($allUsers as $user) {
-        $response[] = $user;
+        $result[] = $user;
     }
+
+    $response['status'] = 'succes';
+    $response['message'] = 'Contact sent successfully';
+    $response['data'] = $result;
 }
 
 header('Content-Type: application/json');

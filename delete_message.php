@@ -32,9 +32,6 @@ if (isset($_POST['message_id'])) {
         $response['status'] = 'error';
         $response['message'] = 'Unable to delete the message';
     }
-} else {
-    $response['status'] = 'error';
-    $response['message'] = 'Invalid request';
 }
 
 header('Content-Type: application/json');

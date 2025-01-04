@@ -14,7 +14,8 @@ $receiver_id = $_POST['receiver_id'];
 
 $response = [
     'status' => '',
-    'message' => ''
+    'message' => '',
+    'data' => ''
 ];
 
 if (isset($_POST['content']) && !empty($_POST['content'])) {

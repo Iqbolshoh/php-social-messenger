@@ -12,8 +12,18 @@ $query = new Database();
 
 $sender_id = $_SESSION['user_id'];
 ?>
-
-<!DOCTYPE html>
+<script>
+    fetch('fetch_contacts.php')
+        .then(response => response.json())
+        .then(response => {
+            if (response.status == 'succes') {
+                console.log(response.data); 
+            } else {
+                console.error('Error fetching contacts:', data.message);
+            }
+        })
+</script>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -68,4 +78,4 @@ $sender_id = $_SESSION['user_id'];
     </div>
 </body>
 
-</html>
+</html> -->

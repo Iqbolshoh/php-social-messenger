@@ -15,7 +15,8 @@ $receiver_id = isset($_POST['id']) ? intval($_POST['id']) : null;
 
 $response = [
     'status' => '',
-    'message' => ''
+    'message' => '',
+    'data' => ''
 ];
 
 if ($receiver_id) {
