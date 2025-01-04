@@ -232,13 +232,13 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             <li style="color: red"><i class="fas fa-ban"></i> Block</li>
         </ul>`;
             } else if (user == 'sender') {
-                action_menu_user.style = `top: 90px; left: 22px;`;
+                action_menu_user.style = `top: 90px; right: 90px;`;
                 action_menu_user.innerHTML = `<ul>
             <li class="edit-option" style="color: orange" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
             <li class="delete-option" style="color: red" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
         </ul>`;
             } else {
-                action_menu_user.style = `top: 90px; right: 22px;`;
+                action_menu_user.style = `top: 90px; left: 90px;`;
                 action_menu_user.innerHTML = `<ul>
             <li class="delete-option" style="color: red" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
         </ul>`;
@@ -246,7 +246,74 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
         }
     </script>
     <script>
+        let isOpen = null;
 
+        function toggleActionMenu(event, actionMenuSelector) {
+            event.stopPropagation();
+
+            const actionMenu = document.querySelector(actionMenuSelector);
+
+            if (isOpen && isOpen !== actionMenu) {
+                isOpen.style.display = 'none';
+            }
+
+            if (actionMenu.style.display === 'block') {
+                actionMenu.style.display = 'none';
+                isOpen = null;
+            } else {
+                actionMenu.style.display = 'block';
+                isOpen = actionMenu;
+            }
+        }
+
+        document.getElementById('action_menu_btn_user').addEventListener('click', function(event) {
+            toggleActionMenu(event, '.action_menu_user');
+        });
+
+        document.querySelector('.msg_card_body').addEventListener('click', function(event) {
+            if (event.target.closest('.action_menu_btn')) {
+                const messageContainer = event.target.closest('.message-container');
+                const messageId = messageContainer ? messageContainer.getAttribute('data-message-id') : null;
+
+                createMenu(messageId, messageContainer.id);
+                toggleActionMenu(event, '.action_menu_user');
+            }
+        });
+
+        document.querySelector('.action_menu_user').addEventListener('click', function(event) {
+            const clickedItem = event.target.closest('li');
+
+            if (clickedItem && clickedItem.textContent.trim() === 'View profile') {
+                const modal = document.getElementById('profileModal');
+                modal.classList.add('show');
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        document.getElementById('closeModalBtn').addEventListener('click', function() {
+            const modal = document.getElementById('profileModal');
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        document.getElementById('profileModal').addEventListener('click', function(event) {
+            const modalContent = document.querySelector('.modal-content');
+            if (!modalContent.contains(event.target)) {
+                const modal = document.getElementById('profileModal');
+                modal.classList.remove('show');
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (isOpen && !isOpen.contains(event.target) && !event.target.closest('.action_menu_btn') && !event.target.closest('#action_menu_btn_user')) {
+                isOpen.style.display = 'none';
+                isOpen = null;
+            }
+        });
     </script>
     <script>
         // Send Message
