@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -19,6 +18,7 @@ $response = [
 ];
 
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+$searchTermLike = "%" . $searchTerm . "%";
 
 $sql = 'SELECT 
         u.id AS user_id, 
@@ -40,7 +40,6 @@ $sql = 'SELECT
         last_message_time DESC, 
         u.id ASC;';
 
-$searchTermLike = "%" . $searchTerm . "%";
 $allUsers = $query->executeQuery($sql, [$sender_id, $sender_id, $searchTermLike, $searchTermLike], 'iiis')->get_result();
 
 if ($allUsers) {

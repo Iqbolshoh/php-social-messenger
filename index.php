@@ -51,7 +51,6 @@ $sender_id = $_SESSION['user_id'];
 
     <script>
         const searchInput = document.getElementById('search');
-
         let intervalId = null;
 
         searchInput.addEventListener('input', function() {
@@ -69,37 +68,44 @@ $sender_id = $_SESSION['user_id'];
         });
 
         function fetchContacts(searchTerm = '') {
-
             fetch('fetch_contacts.php?search=' + encodeURIComponent(searchTerm))
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-
                         const contacts = data.data;
                         const contactsList = document.getElementById('contacts-list');
                         contactsList.innerHTML = '';
 
                         contacts.forEach(user => {
+                            const highlightedFullName = highlightSearchTerm(user.full_name, searchTerm);
+                            const highlightedUsername = highlightSearchTerm(user.username, searchTerm);
 
                             const listItem = document.createElement('li');
                             listItem.setAttribute('onclick', `window.location.href='chat.php?id=${user.user_id}'`);
                             listItem.innerHTML = `
-                    <div class="d-flex bd-highlight">
-                        <div class="img_cont">
-                            <img src="./src/images/profile-picture/${user.profile_picture}" 
-                                 class="rounded-circle user_img" 
-                                 alt="${user.full_name}">
-                        </div>
-                        <div class="user_info">
-                            <span>${user.full_name}</span>
-                            <p>${user.username}</p>
-                        </div>
-                    </div>
-                    `;
+                            <div class="d-flex bd-highlight">
+                                <div class="img_cont">
+                                    <img src="./src/images/profile-picture/${user.profile_picture}" 
+                                         class="rounded-circle user_img" 
+                                         alt="${user.full_name}">
+                                </div>
+                                <div class="user_info">
+                                    <span>${highlightedFullName}</span>
+                                    <p>${highlightedUsername}</p>
+                                </div>
+                            </div>
+                        `;
                             contactsList.appendChild(listItem);
                         });
                     }
-                })
+                });
+        }
+
+        function highlightSearchTerm(text, searchTerm) {
+            if (!searchTerm) return text;
+
+            const regex = new RegExp(`(${searchTerm.split(' ').join('|')})`, 'gi');
+            return text.replace(regex, '<span style="color: red;">$1</span>');
         }
 
         fetchContacts();
