@@ -16,7 +16,51 @@ if (isset($result[0])) {
     $user = $result[0];
 }
 
-$username = $user['username'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $full_name = $_POST['full_name'];
+    $password = $_POST['password'];
+
+    $profile_picture = $user['profile_picture'];
+
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['profile_picture']['tmp_name'];
+        $fileName = $_FILES['profile_picture']['name'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+        $uploadFileDir = './src/images/profile-picture/';
+        $dest_path = $uploadFileDir . $newFileName;
+
+        if ($profile_picture && $profile_picture !== 'default.png') {
+            $oldFilePath = $uploadFileDir . $profile_picture;
+            if (file_exists($oldFilePath)) {
+                unlink($oldFilePath);
+            }
+        }
+
+        if (move_uploaded_file($fileTmpPath, $dest_path)) {
+            $profile_picture = $newFileName;
+        }
+    }
+
+    $updateData = [
+        'full_name' => $full_name,
+        'profile_picture' => $profile_picture
+    ];
+
+    if (!empty($password)) {
+        $updateData['password'] = $query->hashPassword($password);
+    }
+
+    $query->update('users', $updateData, 'id = ?', [$sender_id], 'i');
+
+    $_SESSION['full_name'] = $full_name;
+    $_SESSION['profile_picture'] = $profile_picture;
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -33,70 +77,65 @@ $username = $user['username'];
 
 <body>
 
-    <!-- Profile Modal -->
     <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="profileModalLabel">Profile</h5>
+                    <div class="d-flex align-items-center">
+                        <img src="./src/images/profile-picture/<?= $user['profile_picture']; ?>"
+                            alt="Profile Image"
+                            class="rounded-circle"
+                            width="50"
+                            height="50">
+                        <h5 class="modal-title ml-3" id="profileModalLabel">Edit Profile</h5>
+                    </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="profile-container">
-                        <div class="profile-form-container">
-                            <div class="profile-header">
-                                <img class="profile-picture" src="./src/images/profile-picture/<?= $user['profile_picture']; ?>"
-                                    alt="Profile Image">
-                                <h2 class="profile-name"><?= $user['username'] ?></h2>
-                            </div>
-                            <form id="profile-form" action="profile.php" method="POST" enctype="multipart/form-data"
-                                class="profile-form">
-                                <label for="full_name" class="form-label">Full Name:</label>
-                                <input type="text" id="full_name" name="full_name" class="form-input"
-                                    value="<?= $user['full_name'] ?>" required maxlength="30">
-
-                                <label for="profile_picture" class="form-label">Profile Image:</label>
-                                <div class="custom-file-input">
-                                    <input type="file" id="profile_picture" name="profile_picture" class="form-input"
-                                        accept="image/*">
-                                    <div class="file-input-content">
-                                        <span class="file-label">Choose image</span>
-                                        <i class="fa-solid fa-image"></i>
-                                    </div>
-                                </div>
-
-                                <label for="email" class="form-label">Email:</label>
-                                <input type="email" id="email" name="email" class="form-input" value="<?= $user['email'] ?>"
-                                    readonly maxlength="120">
-
-                                <label for="username" class="form-label">Username:</label>
-                                <input type="text" id="username" name="username" class="form-input" value="<?= $username; ?>"
-                                    readonly maxlength="30">
-
-                                <label for="password" class="form-label">New Password:</label>
-                                <div class="password-container">
-                                    <input type="password" id="password" name="password" class="password-input"
-                                        maxlength="255">
-                                    <a type="button" id="toggle-password" class="password-toggle"><i class="fas fa-eye"></i></a>
-                                </div>
-
-                                <button type="submit" class="submit-button">Save Changes</button>
-                            </form>
+                    <form id="profile-form" action="" method="POST" enctype="multipart/form-data" class="profile-form">
+                        <div class="form-group">
+                            <label for="full_name" class="form-label">Full Name:</label>
+                            <input type="text" id="full_name" name="full_name" class="form-control" value="<?= $user['full_name'] ?>" required maxlength="30">
                         </div>
-                    </div>
+
+                        <div class="form-group">
+                            <label for="profile_picture" class="form-label">Profile Image:</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="profile_picture" name="profile_picture" accept="image/*">
+                                <label class="custom-file-label" for="profile_picture">Choose image</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" value="<?= $user['email'] ?>" readonly maxlength="120">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username" class="form-label">Username:</label>
+                            <input type="text" id="username" name="username" class="form-control" value="<?= $user['username'] ?>" readonly maxlength="30">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">New Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" maxlength="255">
+                            <small class="form-text text-muted">Leave empty if you don't want to change the password.</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Chat UI -->
     <div class="container-fluid h-100">
         <div class="row justify-content-center h-100">
             <div class="col-md-8 col-xl-6 chat">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header" style="display: flex;">
                         <div class="input-group">
                             <span class="input-group-text menu_btn" data-toggle="modal" data-target="#profileModal">
                                 <i class="fas fa-bars"></i>
@@ -106,6 +145,9 @@ $username = $user['username'];
                                 <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
                             </div>
                         </div>
+                        <span class="input-group-prepend logout_menu" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </span>
                     </div>
                     <div class="card-body contacts_body">
                         <ul class="contacts" id="contacts-list"></ul>
@@ -116,6 +158,10 @@ $username = $user['username'];
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script>
         // Fetch and display contacts
         const searchInput = document.getElementById('search');
@@ -154,16 +200,14 @@ $username = $user['username'];
                             listItem.innerHTML = `
                         <div class="d-flex bd-highlight">
                             <div class="img_cont">
-                                <img src="./src/images/profile-picture/${user.profile_picture}" 
-                                     class="rounded-circle user_img" 
-                                     alt="${user.full_name}">
+                                <img src="./src/images/profile-picture/${user.profile_picture}" class="rounded-circle user_img" alt="${user.full_name}">
                             </div>
                             <div class="user_info">
                                 <span>${highlightedFullName}</span>
                                 <p>${highlightedUsername}</p>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
+
                             contactsList.appendChild(listItem);
                         });
                     }
@@ -177,12 +221,25 @@ $username = $user['username'];
         }
 
         fetchContacts();
-    </script>
 
-    <!-- Bootstrap JS (requires jQuery and Popper.js) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        // Logout function
+        function logout() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to log out?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, log me out!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = './logout/';
+                }
+            });
+        }
+    </script>
 
 </body>
 

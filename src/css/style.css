@@ -93,6 +93,16 @@ html {
     cursor: pointer;
 }
 
+.logout_menu {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: 0 !important;
+    color: white !important;
+    cursor: pointer;
+    border-radius: 15px;
+    margin-left: 10px;
+    padding: 10px;
+}
+
 .menu_btn {
     border-radius: 15px 0 0 15px !important;
 }
@@ -320,4 +330,8 @@ html {
     .contacts_card {
         margin-bottom: 15px !important;
     }
+}
+
+.custom-file-input:lang(en)~.custom-file-label::after {
+    content: "Browse";
 }
