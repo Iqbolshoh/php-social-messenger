@@ -372,7 +372,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                             const newMessage = result.value;
 
                             $.ajax({
-                                url: 'edit_message.php',
+                                url: 'api/edit_message.php',
                                 method: 'POST',
                                 data: {
                                     message_id: messageId,
