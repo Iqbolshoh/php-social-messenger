@@ -2,11 +2,11 @@
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ./login/");
+    header("Location: ../login/");
     exit;
 }
 
-include './config.php';
+include '../config.php';
 $query = new Database();
 
 $response = [
@@ -16,7 +16,7 @@ $response = [
 ];
 
 if (isset($_POST['content']) && !empty($_POST['content'])) {
-    
+
     $sender_id = $_SESSION['user_id'];
     $receiver_id = $_POST['receiver_id'];
     $message_text = $_POST['content'];
