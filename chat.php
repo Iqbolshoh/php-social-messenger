@@ -26,6 +26,7 @@ if (empty($query->select('users', '*', 'id = ?', [$receiver_id], 'i'))) {
 $sender_user = $query->select('users', '*', 'id = ?', [$sender_id], 'i')[0];
 $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
+$blocked_sender = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$receiver_id, $sender_id], 'ii');
 $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$sender_id, $receiver_id], 'ii');
 ?>
 
@@ -428,20 +429,49 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
         // Send Message
         document.querySelector('.send_btn').addEventListener('click', function(event) {
             event.preventDefault();
-            const messageInput = document.querySelector('.type_msg');
-            const message = messageInput.value.trim();
 
-            const receiver_id = <?= $receiver_id ?>;
-            $.ajax({
-                url: './api/send_message.php',
-                method: 'POST',
-                data: {
-                    content: message,
-                    receiver_id: receiver_id
-                },
-                success: function(response) {
-                    if (response.status === 'success') {
-                        let messageContainer = `
+            const receiverId = <?= $receiver_id ?>;
+            const block_by = "<?= $receiver_user['full_name'] ?>";
+
+            async function userBlocked() {
+                const response = await fetch('./api/check_user_status.php?receiver_id=' + receiverId);
+                const data = await response.json();
+                if (data.status === 'blocked') {
+                    return true;
+                }
+                return false;
+            }
+
+            userBlocked().then(isBlocked => {
+
+                if (isBlocked) {
+                    Swal.fire({
+                        title: `You are blocked.`,
+                        text: `You have been blocked by "${block_by}" You cannot send messages.`,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#d33',
+                        background: '#fff3f3',
+                        customClass: {
+                            title: 'swal-title',
+                            content: 'swal-content',
+                        }
+                    });
+                } else {
+                    const messageInput = document.querySelector('.type_msg');
+                    const message = messageInput.value.trim();
+
+                    const receiver_id = <?= $receiver_id ?>;
+                    $.ajax({
+                        url: './api/send_message.php',
+                        method: 'POST',
+                        data: {
+                            content: message,
+                            receiver_id: receiver_id
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                let messageContainer = `
                         <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${response.data.id}" id="sender">
                             <div style="display: flex; justify-content: center; align-items:center">
                                 <div class="relative-container" id="sender">
@@ -459,12 +489,15 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                             </div>
                         </div>
                     `;
-                        const messagesDiv = document.querySelector(".msg_card_body");
-                        messagesDiv.innerHTML += messageContainer;
-                        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                        messageInput.value = '';
-                    }
+                                const messagesDiv = document.querySelector(".msg_card_body");
+                                messagesDiv.innerHTML += messageContainer;
+                                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                                messageInput.value = '';
+                            }
+                        }
+                    });
                 }
+
             });
         });
 
