@@ -26,9 +26,8 @@ if (empty($query->select('users', '*', 'id = ?', [$receiver_id], 'i'))) {
 $sender_user = $query->select('users', '*', 'id = ?', [$sender_id], 'i')[0];
 $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
-$blocked = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$receiver_id, $sender_id], 'ii');
-
-print_r($blocked);
+$sender_blocked = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$receiver_id, $sender_id], 'ii');
+$receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$sender_id, $receiver_id], 'ii');
 ?>
 
 <!DOCTYPE html>
@@ -95,7 +94,7 @@ print_r($blocked);
                         <!-- Message Container -->
                     </div>
 
-                    <?php if (empty($blocked)) : ?>
+                    <?php if (empty($sender_blocked)) : ?>
                         <div class="card-footer">
                             <div class="input-group">
                                 <div class="input-group-append">
@@ -108,11 +107,14 @@ print_r($blocked);
                             </div>
                         </div>
                     <?php else: ?>
-
-                    <?php endif ?>
+                        <div class="card-footer">
+                            <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert" style="background-color: #f8d7da; color: #721c24;">
+                                <span><i class="fas fa-ban" style="color: #721c24;"></i> You are blocked!</span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
 
                 </div>
-
             </div>
         </div>
     </div>
@@ -217,20 +219,106 @@ print_r($blocked);
                 action_menu_user.innerHTML = `<ul>
             <li><i class="fas fa-user-circle"></i> View profile</li>
             <li style="color: orange" onclick="clearMessages()"><i class="fas fa-times-circle"></i> Clear</li>
-            <li style="color: red"><i class="fas fa-ban"></i> Block</li>
-        </ul>`;
+            <?php if (empty($receiver_blocked)) : ?>
+                <li style="color: red" onclick="block(<?= $receiver_id ?>)">
+                    <i class="fas fa-ban"></i> Block
+                </li>
+            <?php else : ?>
+                <li style="color: green" onclick="unBlock(<?= $receiver_id ?>)">
+                    <i class="fas fa-check-circle"></i> Unblock
+                </li>
+            <?php endif; ?>
+            </ul>`;
             } else if (user == 'sender') {
                 action_menu_user.style = `top: 90px; right: 90px;`;
                 action_menu_user.innerHTML = `<ul>
-            <li class="edit-option" style="color: orange" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
-            <li class="delete-option" style="color: red" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-        </ul>`;
+                    <li class="edit-option" style="color: orange" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
+                    <li class="delete-option" style="color: red" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+                </ul>`;
             } else {
                 action_menu_user.style = `top: 90px; left: 90px;`;
                 action_menu_user.innerHTML = `<ul>
-            <li class="delete-option" style="color: red" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-        </ul>`;
+                    <li class="delete-option" style="color: red" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+                </ul>`;
             }
+        }
+
+        function block(userId) {
+            const formData = new FormData();
+            formData.append('user_id', userId);
+            formData.append('action', 'block');
+
+            fetch('change_user_status.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                        window.location.reload();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message,
+                            showConfirmButton: true
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while processing your request.',
+                        showConfirmButton: true
+                    });
+                });
+        }
+
+        function unBlock(userId) {
+            const formData = new FormData();
+            formData.append('user_id', userId);
+            formData.append('action', 'unblock');
+
+            fetch('change_user_status.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                        window.location.reload();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message,
+                            showConfirmButton: true
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while processing your request.',
+                        showConfirmButton: true
+                    });
+                });
         }
     </script>
     <script>
