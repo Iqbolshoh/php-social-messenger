@@ -12,9 +12,9 @@ $query = new Database();
 
 $response = ['status' => '', 'message' => ''];
 
-if (isset($_POST['user_id'], $_POST['action'])) {
-    $user_id = $_POST['user_id'];
-    $action = $_POST['action'];
+if (isset($_GET['user_id'], $_GET['action'])) {
+    $user_id = $_GET['user_id'];
+    $action = $_GET['action'];
     $current_user_id = $_SESSION['user_id'];
 
     $existing_block = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$current_user_id, $user_id], 'ii');

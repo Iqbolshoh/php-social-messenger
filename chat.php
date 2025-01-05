@@ -25,6 +25,10 @@ if (empty($query->select('users', '*', 'id = ?', [$receiver_id], 'i'))) {
 
 $sender_user = $query->select('users', '*', 'id = ?', [$sender_id], 'i')[0];
 $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
+
+$blocked = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$receiver_id, $sender_id], 'ii');
+
+print_r($blocked);
 ?>
 
 <!DOCTYPE html>
@@ -87,19 +91,25 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         </div>
                     </div>
 
-                    <div class="card-body msg_card_body" id="messages-container"></div>
+                    <div class="card-body msg_card_body" id="messages-container">
+                        <!-- Message Container -->
+                    </div>
 
-                    <div class="card-footer">
-                        <div class="input-group">
-                            <div class="input-group-append">
-                                <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
-                            </div>
-                            <textarea class="form-control type_msg" placeholder="Type your message..."></textarea>
-                            <div class="input-group-append">
-                                <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+                    <?php if (empty($blocked)) : ?>
+                        <div class="card-footer">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                                </div>
+                                <textarea class="form-control type_msg" placeholder="Type your message..."></textarea>
+                                <div class="input-group-append">
+                                    <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php else: ?>
+
+                    <?php endif ?>
 
                 </div>
 
