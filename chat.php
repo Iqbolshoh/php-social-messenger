@@ -26,7 +26,6 @@ if (empty($query->select('users', '*', 'id = ?', [$receiver_id], 'i'))) {
 $sender_user = $query->select('users', '*', 'id = ?', [$sender_id], 'i')[0];
 $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
-$sender_blocked = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$receiver_id, $sender_id], 'ii');
 $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$sender_id, $receiver_id], 'ii');
 ?>
 
@@ -94,25 +93,41 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                         <!-- Message Container -->
                     </div>
 
-                    <?php if (empty($sender_blocked)) : ?>
-                        <div class="card-footer">
-                            <div class="input-group">
-                                <div class="input-group-append">
-                                    <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
-                                </div>
-                                <textarea class="form-control type_msg" placeholder="Type your message..."></textarea>
-                                <div class="input-group-append">
-                                    <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
-                                </div>
+
+                    <div class="card-footer">
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                            </div>
+                            <textarea class="form-control type_msg" placeholder="Type your message..."></textarea>
+                            <div class="input-group-append">
+                                <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
                             </div>
                         </div>
-                    <?php else: ?>
-                        <div class="card-footer">
-                            <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert" style="background-color: #f8d7da; color: #721c24;">
-                                <span><i class="fas fa-ban" style="color: #721c24;"></i> You are blocked!</span>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert" style="background-color: #f8d7da; color: #721c24;">
+                            <span><i class="fas fa-ban" style="color: #721c24;"></i> You are blocked!</span>
+                        </div>
+                    </div>
+
+                    <!-- 
+                    <div class="card-footer">
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                            </div>
+                            <textarea class="form-control type_msg" placeholder="Type your message..."></textarea>
+                            <div class="input-group-append">
+                                <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
                             </div>
                         </div>
-                    <?php endif; ?>
+
+                        <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert" style="background-color: #f8d7da; color: #721c24; display: none;">
+                            <span><i class="fas fa-ban" style="color: #721c24;"></i> You are blocked!</span>
+                        </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -243,6 +258,27 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
             }
         }
 
+        setInterval(function() {
+            const receiverId = <?= $receiver_id ?>;
+
+            fetch('check_user_status.php?user_id=' + receiverId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'blocked') {
+                        document.querySelector('.card-footer .input-group').style.display = 'none';
+                        document.querySelector('.card-footer .alert').style.display = 'block';
+                    } else {
+                        document.querySelector('.card-footer .input-group').style.display = 'block';
+                        document.querySelector('.card-footer .alert').style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking user status:', error);
+                });
+        }, 1000);
+
+
+        // Block Function
         function block(userId) {
             const formData = new FormData();
             formData.append('user_id', userId);
@@ -273,6 +309,7 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                 })
         }
 
+        // unBlock Function
         function unBlock(userId) {
             const formData = new FormData();
             formData.append('user_id', userId);
