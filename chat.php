@@ -35,7 +35,7 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Chat</title>
+    <title>Social Chat | <?= $receiver_user['username'] ?></title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="./src/css/style.css">
@@ -94,6 +94,8 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                     </div>
 
 
+                    <div class="blocked"></div>
+
                     <div class="card-footer">
                         <div class="input-group" id="send_msg">
                             <div class="input-group-append">
@@ -108,32 +110,25 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
 
                     <script>
                         setInterval(function() {
-                            const receiverId = <?= $receiver_id ?>; 
+                            const receiverId = <?= $receiver_id ?>;
 
                             fetch('./api/check_user_status.php?receiver_id=' + receiverId)
                                 .then(response => response.json())
                                 .then(data => {
-                                    let cartFooter =document.querySelector('.card-footer');
+
+                                    let blocked = document.querySelector('.blocked');
+                                    let cardFooter = document.querySelector('.card-footer').style.display = 'none'
+
                                     if (data.status === 'blocked') {
-                                        cartFooter.innerHTML = `<div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert" style="background-color: #f8d7da; color: #721c24;">
-                                        <span><i class="fas fa-ban" style="color: #721c24;"></i> You are blocked!</span>
-                                        </div>`
-                                    } else {
-                                        cartFooter.innerHTML = `<div class="input-group" id="send_msg">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
-                                        </div>
-                                        <textarea class="form-control type_msg" placeholder="Type your message..."></textarea>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
-                                        </div>
-                                    </div>`
+                                        blocked.innerHTML = `
+                                    <div class="blocked-message">
+                                        <i class="fas fa-ban"></i>
+                                        <p>You are blocked!</p>
+                                    </div>
+                                    `;
                                     }
                                 })
-                                .catch(error => {
-                                    console.error('Error checking user status:', error);
-                                });
-                        }, 1000); 
+                        }, 1000);
                     </script>
 
                 </div>

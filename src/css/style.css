@@ -373,3 +373,37 @@ html {
     font-size: 18px;
     font-weight: 600;
 }
+
+.blocked-message {
+    background: linear-gradient(145deg, #f8d7da, #f5c6cb);
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 12px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    width: calc(100% - 40px);
+    margin: 20px auto;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blocked-message:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.blocked-message i {
+    color: #721c24;
+    font-size: 28px;
+    margin-right: 15px;
+}
+
+.blocked-message p {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
