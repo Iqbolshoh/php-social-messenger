@@ -162,19 +162,19 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                             countElement.textContent = Messages.length;
 
                             messagesContainer.innerHTML = '';
-                            Messages.forEach(privateMessage => {
-                                const isSender = privateMessage.sender_id === senderId;
+                            Messages.forEach(Message => {
+                                const isSender = Message.sender_id === senderId;
 
                                 if (isSender) {
                                     const senderMessage = `
-                            <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${privateMessage.id}" id="sender">
+                            <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${Message.id}" id="sender">
                                 <div style="display: flex; justify-content: center; align-items:center">
                                     <div class="relative-container" id="sender">
                                         <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #78e08f;"></i></span>
                                     </div>
                                     <div class="msg_cotainer_send">
-                                        <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${privateMessage.content}</div>
-                                        <span class="msg_time_send">${privateMessage.created_at}</span>
+                                        <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${Message.content}</div>
+                                        <span class="msg_time_send">${Message.created_at}</span>
                                     </div>
                                 </div>
                                 <div class="img_cont_msg">
@@ -185,14 +185,14 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                                     messagesContainer.innerHTML += senderMessage;
                                 } else {
                                     const receiverMessage = `
-                            <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px" data-message-id="${privateMessage.id}" id="receiver">
+                            <div class="d-flex justify-content-start mb-4 message-container" style="margin-right:15px" data-message-id="${Message.id}" id="receiver">
                                 <div class="img_cont_msg">
                                     <img src="./src/images/profile-picture/${receiverProfilePicture}" class="rounded-circle user_img_msg">
                                 </div>
                                 <div style="display: flex; justify-content: center; align-items:center">
                                     <div class="msg_cotainer">
-                                        <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${privateMessage.content}</div>
-                                        <span class="msg_time">${privateMessage.created_at}</span>
+                                        <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${Message.content}</div>
+                                        <span class="msg_time">${Message.created_at}</span>
                                     </div>
                                     <div class="relative-container" id="receiver">
                                         <span class="action_menu_btn" style="cursor: pointer; padding: 5px"><i class="fas fa-ellipsis-v" style="color: #b8daff;"></i></span>
@@ -248,16 +248,45 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
             } else if (user == 'sender') {
                 action_menu_user.style = `top: 90px; right: 90px;`;
                 action_menu_user.innerHTML = `<ul>
-                    <li class="edit-option" style="color: orange" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
-                    <li class="delete-option" style="color: red" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-                </ul>`;
+                <li class="copy-option" style="color: white" onclick="copyMessage(${id})"><i class="fas fa-copy"></i> Copy</li>
+                <li class="edit-option" style="color: orange" onclick="edit(${id})"><i class="fas fa-edit"></i> Edit</li>
+                <li class="delete-option" style="color: red" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+            </ul>`;
             } else {
                 action_menu_user.style = `top: 90px; left: 90px;`;
                 action_menu_user.innerHTML = `<ul>
-                    <li class="delete-option" style="color: red" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
-                </ul>`;
+                <li class="copy-option" style="color: white" onclick="copyMessage(${id})"><i class="fas fa-copy"></i> Copy</li>
+                <li class="delete-option" style="color: red" onclick="deleteMessage(${id})"><i class="fas fa-trash-alt"></i> Delete</li>
+            </ul>`;
+            }
+
+        }
+
+        function copyMessage(id) {
+
+            const senderMessageElement = document.querySelector(`[data-message-id="${id}"] .msg_cotainer_send div`);
+            const receiverMessageElement = document.querySelector(`[data-message-id="${id}"] .msg_cotainer div`);
+
+            const messageElement = senderMessageElement || receiverMessageElement;
+
+            if (messageElement) {
+                const messageText = messageElement.innerText;
+
+                navigator.clipboard.writeText(messageText).then(() => {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Message copied to clipboard!',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true,
+                        background: '#4CAF50',
+                        color: '#fff'
+                    });
+                })
             }
         }
+
 
         // Block Function
         function block(userId) {
