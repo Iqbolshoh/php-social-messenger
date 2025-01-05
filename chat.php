@@ -303,7 +303,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
             const receiver_id = <?= $receiver_id ?>;
             $.ajax({
-                url: 'send_message.php',
+                url: 'api/send_message.php',
                 method: 'POST',
                 data: {
                     content: message,
@@ -462,7 +462,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                     const receiverId = <?= $receiver_id ?>;
 
                     $.ajax({
-                        url: 'clear_messages.php',
+                        url: 'api/clear_messages.php',
                         method: 'POST',
                         data: {
                             clear: true,
