@@ -77,12 +77,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
+    <!-- Profile Modal HTML -->
     <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex align-items-center">
-                        <img src="./src/images/profile-picture/<?= $user['profile_picture']; ?>" alt="Profile Image" class="rounded-circle" width="50" height="50">
+                        <img src="./src/images/profile-picture/default.png" id="profile-img" alt="Profile Image" class="rounded-circle" width="50" height="50">
                         <h5 class="modal-title ml-3" id="profileModalLabel">Edit Profile</h5>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -93,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form id="profile-form" action="" method="POST" enctype="multipart/form-data" class="profile-form">
                         <div class="form-group">
                             <label for="full_name" class="form-label">Full Name:</label>
-                            <input type="text" id="full_name" name="full_name" class="form-control" value="<?= $user['full_name'] ?>" required maxlength="30">
+                            <input type="text" id="full_name" name="full_name" class="form-control" required maxlength="30">
                         </div>
 
                         <div class="form-group">
@@ -106,12 +107,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="form-group">
                             <label for="email" class="form-label">Email:</label>
-                            <input type="email" id="email" name="email" class="form-control" value="<?= $user['email'] ?>" readonly maxlength="120">
+                            <input type="email" id="email" name="email" class="form-control" readonly maxlength="120">
                         </div>
 
                         <div class="form-group">
                             <label for="username" class="form-label">Username:</label>
-                            <input type="text" id="username" name="username" class="form-control" value="<?= $user['username'] ?>" readonly maxlength="30">
+                            <input type="text" id="username" name="username" class="form-control" readonly maxlength="30">
                         </div>
 
                         <div class="form-group">
@@ -126,6 +127,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+    <script>
+        function fetchUserData() {
+            fetch('./profile.php') 
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const user = data.data;
+                        document.getElementById('full_name').value = user.full_name;
+                        document.getElementById('email').value = user.email;
+                        document.getElementById('username').value = user.username;
+                        document.getElementById('profile-img').src = './src/images/profile-picture/' + user.profile_picture;
+                    } else {
+                        alert('Failed to fetch user data');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
+        }
+
+        $('#profileModal').on('show.bs.modal', function(e) {
+            fetchUserData();
+        });
+    </script>
+
 
     <div class="container-fluid h-100">
         <div class="row justify-content-center h-100">
