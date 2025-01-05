@@ -21,22 +21,20 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 <body>
 
-    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex align-items-center">
-                        <img src="./src/images/profile-picture/" alt="Profile Image" class="rounded-circle" width="50" height="50" id="modalProfilePicture">
+                        <img src="./src/images/profile-picture/default.png" alt="Profile Image" class="rounded-circle" width="50" height="50" id="modalProfilePicture">
                         <h5 class="modal-title ml-3" id="profileModalLabel">Edit Profile</h5>
                     </div>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="profile-form" action="" method="POST" enctype="multipart/form-data" class="profile-form">
+                    <form id="profile-form" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="full_name" class="form-label">Full Name:</label>
+                            <label for="full_name">Full Name:</label>
                             <input type="text" id="full_name" name="full_name" class="form-control" required maxlength="30">
                         </div>
 
@@ -49,22 +47,22 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         </div>
 
                         <div class="form-group">
-                            <label for="email" class="form-label">Email:</label>
-                            <input type="email" id="email" name="email" class="form-control" readonly maxlength="120">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" readonly>
                         </div>
 
                         <div class="form-group">
-                            <label for="username" class="form-label">Username:</label>
-                            <input type="text" id="username" name="username" class="form-control" readonly maxlength="30">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" class="form-control" readonly>
                         </div>
 
                         <div class="form-group">
-                            <label for="password" class="form-label">New Password:</label>
+                            <label for="password">New Password:</label>
                             <input type="password" id="password" name="password" class="form-control" maxlength="255">
                             <small class="form-text text-muted">Leave empty if you don't want to change the password.</small>
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
             </div>
@@ -102,6 +100,66 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function fetchUserProfile() {
+            fetch('./profile.php', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status === 'success') {
+                        const {
+                            full_name,
+                            email,
+                            username,
+                            profile_picture
+                        } = result.data;
+                        document.getElementById('full_name').value = full_name;
+                        document.getElementById('email').value = email;
+                        document.getElementById('username').value = username;
+
+                        const profilePic = profile_picture && profile_picture !== 'default.png' ?
+                            './src/images/profile-picture/' + profile_picture :
+                            './src/images/profile-picture/default.png';
+                        document.getElementById('modalProfilePicture').src = profilePic;
+                    }
+                })
+        }
+
+        document.getElementById('profile-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('./profile.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(result => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Profile Updated',
+                        text: result.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => window.location.reload());
+
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Server Error',
+                        text: 'Failed to connect to the server. Please try again later.',
+                    });
+                });
+        });
+
+        fetchUserProfile();
+    </script>
 
     <script>
         // Set Interval
