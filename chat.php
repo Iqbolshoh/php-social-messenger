@@ -122,7 +122,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
             function LoadMessages() {
                 $.ajax({
-                    url: 'fetch_messages.php',
+                    url: 'api/fetch_messages.php',
                     type: 'POST',
                     data: {
                         id: receiverId
