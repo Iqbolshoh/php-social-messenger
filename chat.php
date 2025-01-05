@@ -414,7 +414,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: 'delete_message.php',
+                        url: 'api/delete_message.php',
                         method: 'POST',
                         data: {
                             message_id: messageId
