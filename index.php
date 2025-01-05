@@ -106,7 +106,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
     <script>
         function fetchUserProfile() {
-            fetch('./profile.php', {
+            fetch('./api/fetch_profile.php', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -137,7 +137,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             event.preventDefault();
             const formData = new FormData(this);
 
-            fetch('./profile.php', {
+            fetch('./api/fetch_profile.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -191,7 +191,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
         // Fetch Contact
         function fetchContacts(searchTerm = '') {
-            fetch('api/fetch_contacts.php?search=' + encodeURIComponent(searchTerm))
+            fetch('./api/fetch_contacts.php?search=' + encodeURIComponent(searchTerm))
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {

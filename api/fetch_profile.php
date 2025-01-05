@@ -3,11 +3,11 @@
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ./login/");
+    header("Location: ../login/");
     exit;
 }
 
-include './config.php';
+include '../config.php';
 $query = new Database();
 
 $sender_id = $_SESSION['user_id'];
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileNameCmps = explode(".", $fileName);
         $fileExtension = strtolower(end($fileNameCmps));
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-        $uploadFileDir = './src/images/profile-picture/';
+        $uploadFileDir = '../src/images/profile-picture/';
         $dest_path = $uploadFileDir . $newFileName;
 
         if ($profile_picture && $profile_picture !== 'default.png') {

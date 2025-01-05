@@ -121,7 +121,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
             function LoadMessages() {
                 $.ajax({
-                    url: 'api/fetch_messages.php',
+                    url: './api/fetch_messages.php',
                     type: 'POST',
                     data: {
                         id: receiverId
@@ -302,7 +302,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
 
             const receiver_id = <?= $receiver_id ?>;
             $.ajax({
-                url: 'api/send_message.php',
+                url: './api/send_message.php',
                 method: 'POST',
                 data: {
                     content: message,
@@ -371,7 +371,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                             const newMessage = result.value;
 
                             $.ajax({
-                                url: 'api/edit_message.php',
+                                url: './api/edit_message.php',
                                 method: 'POST',
                                 data: {
                                     message_id: messageId,
@@ -413,7 +413,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: 'api/delete_message.php',
+                        url: './api/delete_message.php',
                         method: 'POST',
                         data: {
                             message_id: messageId
@@ -461,7 +461,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                     const receiverId = <?= $receiver_id ?>;
 
                     $.ajax({
-                        url: 'api/clear_messages.php',
+                        url: './api/clear_messages.php',
                         method: 'POST',
                         data: {
                             clear: true,
