@@ -63,6 +63,11 @@ html {
     overflow-y: auto;
 }
 
+#send_msg {
+    width: 100% !important;
+    display: flex !important;
+}
+
 .type_msg:focus {
     box-shadow: none !important;
     outline: 0px !important;

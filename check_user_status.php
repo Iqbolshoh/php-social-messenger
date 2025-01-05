@@ -21,5 +21,7 @@ if (!empty($blocked)) {
 } else {
     $response['status'] = 'unblocked';
 }
+$response['status'] = 'unblocked';
+
 
 echo json_encode($response);
