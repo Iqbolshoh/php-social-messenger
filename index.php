@@ -5,64 +5,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ./login/");
     exit;
 }
-
-include './config.php';
-$query = new Database();
-
-$sender_id = $_SESSION['user_id'];
-$result = $query->select('users', '*', 'id = ?', [$sender_id], 'i');
-
-if (isset($result[0])) {
-    $user = $result[0];
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $full_name = $_POST['full_name'];
-    $password = $_POST['password'];
-
-    $profile_picture = $user['profile_picture'];
-
-    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['profile_picture']['tmp_name'];
-        $fileName = $_FILES['profile_picture']['name'];
-        $fileNameCmps = explode(".", $fileName);
-        $fileExtension = strtolower(end($fileNameCmps));
-        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-        $uploadFileDir = './src/images/profile-picture/';
-        $dest_path = $uploadFileDir . $newFileName;
-
-        if ($profile_picture && $profile_picture !== 'default.png') {
-            $oldFilePath = $uploadFileDir . $profile_picture;
-            if (file_exists($oldFilePath)) {
-                unlink($oldFilePath);
-            }
-        }
-
-        if (move_uploaded_file($fileTmpPath, $dest_path)) {
-            $profile_picture = $newFileName;
-        }
-    }
-
-    $updateData = [
-        'full_name' => $full_name,
-        'profile_picture' => $profile_picture
-    ];
-
-    if (!empty($password)) {
-        $updateData['password'] = $query->hashPassword($password);
-    }
-
-    $query->update('users', $updateData, 'id = ?', [$sender_id], 'i');
-
-    $_SESSION['full_name'] = $full_name;
-    $_SESSION['profile_picture'] = $profile_picture;
-
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
-}
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,55 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
-    <script>
-        function fetchContacts(searchTerm = '') {
-            fetch('api/fetch_contacts.php?search=' + encodeURIComponent(searchTerm))
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        const contacts = data.data;
-                        const contactsList = document.getElementById('contacts-list');
-                        contactsList.innerHTML = '';
-
-                        contacts.forEach(user => {
-                            const highlightedFullName = highlightSearchTerm(user.full_name, searchTerm);
-                            const highlightedUsername = highlightSearchTerm(user.username, searchTerm);
-                            const unreadMessages = user.unread_messages;
-
-                            const listItem = document.createElement('li');
-                            listItem.setAttribute('onclick', `window.location.href='chat.php?id=${user.user_id}'`);
-
-                            listItem.innerHTML = `
-                                <div class="d-flex bd-highlight">
-                                    <div class="img_cont">
-                                        <img src="./src/images/profile-picture/${user.profile_picture}" 
-                                             class="rounded-circle user_img" 
-                                             alt="${user.full_name}">
-                                    </div>
-                                    <div
-                                    <div class="user_info">
-                                        <span>${highlightedFullName}</span>
-                                        <p>${highlightedUsername}</p>
-                                    </div>
-                                    <div class="message_count">
-                                        ${unreadMessages > 0 ? `<span class="badge badge-warning">${unreadMessages}</span>` : ''}
-                                    </div>
-                                </div>
-                            `;
-
-                            contactsList.appendChild(listItem);
-                        });
-                    }
-                });
-        }
-    </script>
-
+    <!-- Profile Modal -->
     <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex align-items-center">
-                        <img src="./src/images/profile-picture/<?= $user['profile_picture']; ?>" alt="Profile Image" class="rounded-circle" width="50" height="50">
+                        <img src="" alt="Profile Image" class="rounded-circle" width="50" height="50" id="modalProfilePicture">
                         <h5 class="modal-title ml-3" id="profileModalLabel">Edit Profile</h5>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -136,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form id="profile-form" action="" method="POST" enctype="multipart/form-data" class="profile-form">
                         <div class="form-group">
                             <label for="full_name" class="form-label">Full Name:</label>
-                            <input type="text" id="full_name" name="full_name" class="form-control" value="<?= $user['full_name'] ?>" required maxlength="30">
+                            <input type="text" id="full_name" name="full_name" class="form-control" required maxlength="30">
                         </div>
 
                         <div class="form-group">
@@ -149,12 +50,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="form-group">
                             <label for="email" class="form-label">Email:</label>
-                            <input type="email" id="email" name="email" class="form-control" value="<?= $user['email'] ?>" readonly maxlength="120">
+                            <input type="email" id="email" name="email" class="form-control" readonly maxlength="120">
                         </div>
 
                         <div class="form-group">
                             <label for="username" class="form-label">Username:</label>
-                            <input type="text" id="username" name="username" class="form-control" value="<?= $user['username'] ?>" readonly maxlength="30">
+                            <input type="text" id="username" name="username" class="form-control" readonly maxlength="30">
                         </div>
 
                         <div class="form-group">
@@ -169,6 +70,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+
+    <script>
+        // Fetch user data and populate the modal when it opens
+        function fetchProfileData() {
+            fetch('./profile.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const user = data.data;
+                        document.getElementById('modalProfilePicture').src = './src/images/profile-picture/' + user.profile_picture;
+                        document.getElementById('full_name').value = user.full_name;
+                        document.getElementById('email').value = user.email;
+                        document.getElementById('username').value = user.username;
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching profile data.');
+                });
+        }
+
+        // Show the profile modal and fetch the user data
+        $('#profileModal').on('show.bs.modal', function() {
+            fetchProfileData();
+        });
+
+        // Profile form submission handler
+        document.getElementById('profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('./profile.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        document.getElementById('modalProfilePicture').src = './src/images/profile-picture/' + data.data.profile_picture;
+                        document.getElementById('full_name').value = data.data.full_name;
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating the profile.');
+                });
+        });
+    </script>
+
+</body>
+
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Chat</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="./src/css/style.css">
+</head>
+
+<body>
 
     <div class="container-fluid h-100">
         <div class="row justify-content-center h-100">
