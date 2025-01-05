@@ -110,7 +110,7 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                         setInterval(function() {
                             const receiverId = <?= $receiver_id ?>; 
 
-                            fetch('check_user_status.php?user_id=' + receiverId)
+                            fetch('./api/check_user_status.php?receiver_id=' + receiverId)
                                 .then(response => response.json())
                                 .then(data => {
                                     let cartFooter =document.querySelector('.card-footer');
@@ -271,7 +271,7 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
             formData.append('user_id', userId);
             formData.append('action', 'block');
 
-            fetch('change_user_status.php', {
+            fetch('./api/change_user_status.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -302,7 +302,7 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
             formData.append('user_id', userId);
             formData.append('action', 'unblock');
 
-            fetch('change_user_status.php', {
+            fetch('./api/change_user_status.php', {
                     method: 'POST',
                     body: formData
                 })
