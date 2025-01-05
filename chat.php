@@ -261,8 +261,7 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                             text: data.message,
                             showConfirmButton: false,
                             timer: 1000
-                        });
-                        window.location.reload();
+                        }).then(() => window.location.reload());
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -272,14 +271,6 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                         });
                     }
                 })
-                .catch(error => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred while processing your request.',
-                        showConfirmButton: true
-                    });
-                });
         }
 
         function unBlock(userId) {
@@ -295,13 +286,13 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                 .then(data => {
                     if (data.status === 'success') {
                         Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: data.message,
-                            showConfirmButton: false,
-                            timer: 1000
-                        });
-                        window.location.reload();
+                                icon: 'success',
+                                title: 'Success',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                            .then(() => window.location.reload());
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -310,14 +301,6 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                             showConfirmButton: true
                         });
                     }
-                })
-                .catch(error => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred while processing your request.',
-                        showConfirmButton: true
-                    });
                 });
         }
     </script>
