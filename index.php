@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Fetch Contact
         function fetchContacts(searchTerm = '') {
-            fetch('fetch_contacts.php?search=' + encodeURIComponent(searchTerm))
+            fetch('api/fetch_contacts.php?search=' + encodeURIComponent(searchTerm))
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
