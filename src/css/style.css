@@ -285,7 +285,7 @@ html {
     right: 22px;
     font-size: 17px;
     display: none;
-    width: 100%;
+    width: calc(100% - 100px);
     max-width: 300px;
 }
 
@@ -344,10 +344,9 @@ html {
 }
 
 .badge {
-    font-size: 12px;
-    padding: 5px 10px;
-    border-radius: 77px;
-
+    font-size: 12px !important;
+    padding: 5px 9px !important;
+    border-radius: 50px !important;
 }
 
 .no-messages-container {

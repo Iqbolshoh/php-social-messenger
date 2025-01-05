@@ -162,8 +162,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         });
 
         fetchUserProfile();
+        
     </script>
-
     <script>
         // Set Interval
         let fetchInterval = setInterval(fetchContacts, 1000);
