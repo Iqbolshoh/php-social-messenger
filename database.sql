@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS social_chat;
+DROP DATABASE IF EXISTS social_messenger;
 
-CREATE DATABASE IF NOT EXISTS social_chat;
+CREATE DATABASE IF NOT EXISTS social_messenger;
 
-USE social_chat;
+USE social_messenger;
 
 
 CREATE TABLE IF NOT EXISTS users (
