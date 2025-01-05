@@ -15,17 +15,6 @@ $response = [
     'data' => ''
 ];
 
-$blocked = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$receiver_id, $sender_id], 'ii');
-
-if (!empty($blocked)) {
-    $response = [
-        'status' => 'error',
-        'message' => 'blocked'
-    ];
-    echo json_encode($response);
-    exit;
-}
-
 if (isset($_POST['content']) && !empty($_POST['content'])) {
 
     $sender_id = $_SESSION['user_id'];
