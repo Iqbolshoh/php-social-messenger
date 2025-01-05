@@ -22,6 +22,8 @@ if (!empty($blocked)) {
         'status' => 'error',
         'message' => 'blocked'
     ];
+    echo json_encode($response);
+    exit;
 }
 
 if (isset($_POST['content']) && !empty($_POST['content'])) {
