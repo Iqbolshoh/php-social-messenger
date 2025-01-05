@@ -117,7 +117,6 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                                 .then(data => {
 
                                     let blocked = document.querySelector('.blocked');
-                                    let cardFooter = document.querySelector('.card-footer').style.display = 'none'
 
                                     if (data.status === 'blocked') {
                                         blocked.innerHTML = `

@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS block_users (
     UNIQUE (blocked_by, blocked_user)
 );
 
+-- Default password: 1
+
 INSERT INTO
     `users` (
         `full_name`,
@@ -48,13 +50,13 @@ VALUES
         'Iqbolshoh Ilhomjonov',
         'iilhomjonov777@gmail.com',
         'iqbolshoh',
-        '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
-        '7261b37e4658f361ec3585b582455f74.jpg'
+        'a12ee744fc24c11f9587f34caf342a86bfd148089befc49542eb95bd3c68e331',
+        'c7380cd60cacb65ec9a12b56c70999d3.jpg'
     ),
     (
-        'User Two',
-        'user2@iqbolshoh.uz',
-        'user_2',
+        'client User',
+        'client@iqbolshoh.uz',
+        'client',
         '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
         'default.png'
     ),
