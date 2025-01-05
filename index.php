@@ -6,6 +6,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,13 +21,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 <body>
 
-    <!-- Profile Modal -->
     <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-flex align-items-center">
-                        <img src="" alt="Profile Image" class="rounded-circle" width="50" height="50" id="modalProfilePicture">
+                        <img src="./src/images/profile-picture/" alt="Profile Image" class="rounded-circle" width="50" height="50" id="modalProfilePicture">
                         <h5 class="modal-title ml-3" id="profileModalLabel">Edit Profile</h5>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -70,78 +70,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </div>
         </div>
     </div>
-
-    <script>
-        // Fetch user data and populate the modal when it opens
-        function fetchProfileData() {
-            fetch('./profile.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        const user = data.data;
-                        document.getElementById('modalProfilePicture').src = './src/images/profile-picture/' + user.profile_picture;
-                        document.getElementById('full_name').value = user.full_name;
-                        document.getElementById('email').value = user.email;
-                        document.getElementById('username').value = user.username;
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while fetching profile data.');
-                });
-        }
-
-        // Show the profile modal and fetch the user data
-        $('#profileModal').on('show.bs.modal', function() {
-            fetchProfileData();
-        });
-
-        // Profile form submission handler
-        document.getElementById('profile-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-
-            fetch('./profile.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        document.getElementById('modalProfilePicture').src = './src/images/profile-picture/' + data.data.profile_picture;
-                        document.getElementById('full_name').value = data.data.full_name;
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while updating the profile.');
-                });
-        });
-    </script>
-
-</body>
-
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Chat</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link rel="stylesheet" href="./src/css/style.css">
-</head>
-
-<body>
 
     <div class="container-fluid h-100">
         <div class="row justify-content-center h-100">

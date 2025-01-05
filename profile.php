@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -13,8 +14,8 @@ $sender_id = $_SESSION['user_id'];
 $result = $query->select('users', '*', 'id = ?', [$sender_id], 'i');
 
 $response = [
-    'status' => 'error',
-    'message' => 'User not found',
+    'status' => '',
+    'message' => '',
     'data' => []
 ];
 
@@ -67,11 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['full_name'] = $full_name;
     $_SESSION['profile_picture'] = $profile_picture;
 
-    echo json_encode([
+    $response = [
         'status' => 'success',
         'message' => 'Profile updated successfully',
         'data' => $updateData
-    ]);
+    ];
     exit;
 }
 
