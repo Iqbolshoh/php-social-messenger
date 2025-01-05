@@ -95,7 +95,6 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
 
 
                     <div class="card-footer">
-                        <!-- Message input area -->
                         <div class="input-group" id="send_msg">
                             <div class="input-group-append">
                                 <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
@@ -105,44 +104,36 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                                 <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
                             </div>
                         </div>
-
-                        <!-- Blocked Alert, initially hidden -->
-                        <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert" style="background-color: #f8d7da; color: #721c24; display: none;">
-                            <span><i class="fas fa-ban" style="color: #721c24;"></i> You are blocked!</span>
-                        </div>
                     </div>
 
                     <script>
                         setInterval(function() {
-                            const receiverId = <?= $receiver_id ?>; // PHP orqali receiver_id
+                            const receiverId = <?= $receiver_id ?>; 
 
                             fetch('check_user_status.php?user_id=' + receiverId)
                                 .then(response => response.json())
                                 .then(data => {
+                                    let cartFooter =document.querySelector('.card-footer');
                                     if (data.status === 'blocked') {
-                                        const messageInputGroup = document.querySelector('.card-footer .input-group');
-                                        const alertMessage = document.querySelector('.card-footer .alert');
-
-                                        // Element mavjudligini tekshirish
-                                        if (messageInputGroup && alertMessage) {
-                                            messageInputGroup.style.display = 'none';
-                                            alertMessage.style.display = 'block';
-                                        }
+                                        cartFooter.innerHTML = `<div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert" style="background-color: #f8d7da; color: #721c24;">
+                                        <span><i class="fas fa-ban" style="color: #721c24;"></i> You are blocked!</span>
+                                        </div>`
                                     } else {
-                                        const messageInputGroup = document.querySelector('.card-footer .input-group');
-                                        const alertMessage = document.querySelector('.card-footer .alert');
-
-                                        // Element mavjudligini tekshirish
-                                        if (messageInputGroup && alertMessage) {
-                                            messageInputGroup.style.display = 'block';
-                                            alertMessage.style.display = 'none';
-                                        }
+                                        cartFooter.innerHTML = `<div class="input-group" id="send_msg">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                                        </div>
+                                        <textarea class="form-control type_msg" placeholder="Type your message..."></textarea>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+                                        </div>
+                                    </div>`
                                     }
                                 })
                                 .catch(error => {
                                     console.error('Error checking user status:', error);
                                 });
-                        }, 1000); // 1000 millisekund (1 sekund)
+                        }, 1000); 
                     </script>
 
                 </div>
