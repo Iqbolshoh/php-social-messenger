@@ -17,6 +17,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="./src/css/style.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -24,45 +25,47 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header border-bottom-0">
                     <div class="d-flex align-items-center">
                         <img src="./src/images/profile-picture/default.png" alt="Profile Image" class="rounded-circle" width="50" height="50" id="modalProfilePicture">
                         <h5 class="modal-title ml-3" id="profileModalLabel">Edit Profile</h5>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" style="background-color: transparent; border: none; color: #333; font-size: 1.5rem; cursor: pointer" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <form id="profile-form" method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="full_name">Full Name:</label>
-                            <input type="text" id="full_name" name="full_name" class="form-control" required maxlength="30">
+                        <div class="form-group mb-3">
+                            <label for="full_name" class="form-label">Full Name:</label>
+                            <input type="text" id="full_name" name="full_name" class="form-control" required maxlength="30" placeholder="Enter your full name">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label for="profile_picture" class="form-label">Profile Image:</label>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="profile_picture" name="profile_picture" accept="image/*">
-                                <label class="custom-file-label" for="profile_picture">Choose image</label>
+                                <label class="custom-file-label" for="profile_picture">Choose an image</label>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="email">Email:</label>
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Email:</label>
                             <input type="email" id="email" name="email" class="form-control" readonly>
                         </div>
 
-                        <div class="form-group">
-                            <label for="username">Username:</label>
+                        <div class="form-group mb-3">
+                            <label for="username" class="form-label">Username:</label>
                             <input type="text" id="username" name="username" class="form-control" readonly>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password">New Password:</label>
-                            <input type="password" id="password" name="password" class="form-control" maxlength="255">
+                        <div class="form-group mb-4">
+                            <label for="password" class="form-label">New Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" maxlength="255" placeholder="Enter new password">
                             <small class="form-text text-muted">Leave empty if you don't want to change the password.</small>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
                     </form>
                 </div>
             </div>

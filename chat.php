@@ -62,8 +62,7 @@ $receiver_user = $query->select('users', '*', 'id = ?', [$receiver_id], 'i')[0];
                         <span id="action_menu_btn_user" style="padding: 5px;" onclick="createMenu(null, null)">
                             <i class="fas fa-ellipsis-v"></i>
                         </span>
-                        <div class="action_menu_user" style="display: none;">
-                        </div>
+                        <div class="action_menu_user" style="display: none;"></div>
                     </div>
 
                     <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
