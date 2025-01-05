@@ -262,6 +262,7 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
 
         }
 
+        // Copy Message
         function copyMessage(id) {
 
             const senderMessageElement = document.querySelector(`[data-message-id="${id}"] .msg_cotainer_send div`);
@@ -425,9 +426,9 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
         // Send Message
         document.querySelector('.send_btn').addEventListener('click', function(event) {
             event.preventDefault();
+
             const messageInput = document.querySelector('.type_msg');
             const message = messageInput.value.trim();
-
             const receiver_id = <?= $receiver_id ?>;
             $.ajax({
                 url: './api/send_message.php',
@@ -437,30 +438,39 @@ $receiver_blocked = $query->select('block_users', '*', 'blocked_by = ? AND block
                     receiver_id: receiver_id
                 },
                 success: function(response) {
-                    if (response.status === 'success') {
+                    if (response.status === 'error' && response.message === 'blocked') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Blocked!',
+                            text: 'You have been blocked by this user. You cannot send messages.',
+                        });
+                    } else if (response.status === 'success') {
                         let messageContainer = `
-                        <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${response.data.id}" id="sender">
-                            <div style="display: flex; justify-content: center; align-items:center">
-                                <div class="relative-container" id="sender">
-                                    <span class="action_menu_btn" style="cursor: pointer; padding: 5px">
-                                        <i class="fas fa-ellipsis-v" style="color: #78e08f;"></i>
-                                    </span>
-                                </div>
-                                <div class="msg_cotainer_send">
-                                    <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${response.data.content}</div>
-                                    <span class="msg_time_send">${response.data.created_at}</span>
-                                </div>
+                    <div class="d-flex justify-content-end mb-4 message-container" style="margin-left:15px" data-message-id="${response.data.id}" id="sender">
+                        <div style="display: flex; justify-content: center; align-items:center">
+                            <div class="relative-container" id="sender">
+                                <span class="action_menu_btn" style="cursor: pointer; padding: 5px">
+                                    <i class="fas fa-ellipsis-v" style="color: #78e08f;"></i>
+                                </span>
                             </div>
-                            <div class="img_cont_msg">
-                                <img src="./src/images/profile-picture/<?= $sender_user['profile_picture'] ?>" class="rounded-circle user_img_msg">
+                            <div class="msg_cotainer_send">
+                                <div style="white-space: pre-wrap; min-width: 80px; display: flex; justify-content: start">${response.data.content}</div>
+                                <span class="msg_time_send">${response.data.created_at}</span>
                             </div>
                         </div>
-                    `;
+                        <div class="img_cont_msg">
+                            <img src="./src/images/profile-picture/<?= $sender_user['profile_picture'] ?>" class="rounded-circle user_img_msg">
+                        </div>
+                    </div>
+                `;
                         const messagesDiv = document.querySelector(".msg_card_body");
                         messagesDiv.innerHTML += messageContainer;
                         messagesDiv.scrollTop = messagesDiv.scrollHeight;
                         messageInput.value = '';
                     }
+                },
+                error: function() {
+                    alert("Xabar yuborishda xatolik yuz berdi.");
                 }
             });
         });
