@@ -274,28 +274,26 @@ username=iqbolshoh&email=iilhomjonov777@gmail.com&password=password123&confirm_p
                             <pre>
 GET /api/auth/check_login.php HTTP/1.1
 Content-Type: application/json
-                            </pre>
+        </pre>
                         </code>
-
 
                         <p><strong>Example Response:</strong></p>
                         <code>
                             <pre>
-    {
-        "status": "success",
-        "message": "User is logged in",
-        "data": {
-            "loggedin": true,
-            "user_id": 1,
-            "full_name": "John Doe",
-            "email": "johndoe@example.com",
-            "username": "johndoe",
-            "profile_picture": "src/images/profile-picture/profile.jpg"
-        }
+{
+    "status": "success",
+    "message": "User is logged in",
+    "data": {
+        "loggedin": true,
+        "user_id": 1,
+        "full_name": "Iqbolshoh Ilhomjonov",
+        "email": "iilhomjonov777@gmail.com",
+        "username": "iqbolshoh",
+        "profile_picture": "src/images/profile-picture/iqbolshoh.jpg"
     }
-                            </pre>
+}
+        </pre>
                         </code>
-
 
                         <p><strong>Notes:</strong> If the user is logged in, their session information will be returned as part of the response. If the user is not logged in, the response will indicate that the user is not logged in.</p>
 
