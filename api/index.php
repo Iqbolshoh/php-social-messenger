@@ -962,18 +962,64 @@ Content-Type: application/json
 
                 <div class="list-group-item">
                     <h5><strong>13) check_user_status.php</strong></h5>
-                    <p><strong>Purpose:</strong> Changes the user's online/offline status</p>
-                    <p><strong>Method:</strong> POST</p>
-                    <p><strong>Required data:</strong> <code>status</code> (online or offline)</p>
-                    <p><strong>Response:</strong> Success or error message.</p>
-                    <span class="badge">POST</span>
-                </div>
-                <div class="list-group-item">
-                    <h5><strong>14) check_availability.php</strong></h5>
-                    <p><strong>Purpose:</strong> Checks if the system or a specific feature is available</p>
-                    <p><strong>Method:</strong> GET</p>
-                    <p><strong>Response:</strong> Availability status of the feature/system.</p>
-                    <span class="badge">GET</span>
+                    <p><strong>Purpose:</strong> Checks the user's online/offline status. This API helps determine if a user is currently online, offline, or blocked by another user.</p>
+
+                    <p><strong>Method:</strong> <code>POST</code></p>
+
+                    <p><strong>Required data:</strong> The request must include a <code>receiver_id</code> (the user whose status you want to check).</p>
+
+                    <p><strong>Response:</strong> A JSON response with information on whether the user is blocked or not.</p>
+
+                    <ul>
+                        <li><strong>If User is Not Blocked:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">unblocked</span></li>
+                                <li><strong>Message:</strong> "You are not blocked by this user."</li>
+                            </ul>
+                        </li>
+                        <li><strong>If User is Blocked:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">blocked</span></li>
+                                <li><strong>Message:</strong> "You are blocked by this user."</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Receiver ID is Missing:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
+                                <li><strong>Message:</strong> "Receiver ID is required. Please provide a valid receiver ID."</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+POST /api/check_user_status.php HTTP/1.1
+Content-Type: application/json
+{
+    "receiver_id": 123
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "unblocked",
+    "message": "You are not blocked by this user."
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>This API endpoint allows a user to check if they are blocked by another user by providing the <code>receiver_id</code>.</li>
+                        <li>If the user is blocked, the API will return a "blocked" message. If they are not blocked, the API will return an "unblocked" message.</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">POST</span>
                 </div>
             </div>
         </section>
