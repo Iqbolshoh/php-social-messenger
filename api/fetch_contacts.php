@@ -10,14 +10,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 include '../config.php';
 $query = new Database();
 
-$sender_id = $_SESSION['user_id'];
-
 $response = [
     'status' => '',
     'message' => '',
     'data' => []
 ];
 
+$sender_id = $_SESSION['user_id'];
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 $searchTermLike = "%" . $searchTerm . "%";
 

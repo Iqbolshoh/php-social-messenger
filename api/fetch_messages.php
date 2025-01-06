@@ -13,40 +13,27 @@ $query = new Database();
 $response = [
     'status' => '',
     'message' => '',
-    'data' => []
+    'data' => ''
 ];
 
 if (isset($_POST['id'])) {
 
     $sender_id = $_SESSION['user_id'];
-    $receiver_id = (int) $_POST['id'];
+    $receiver_id = $_POST['id'];
 
-    $updateData = [
-        'status' => 'read'
-    ];
+    $updateQuery = "UPDATE messages SET status = 'read' WHERE sender_id = ? AND receiver_id = ? AND status = 'unread'";
+    $query->executeQuery($updateQuery, [$receiver_id, $sender_id], 'ii');
 
-    $condition = "sender_id = ? AND receiver_id = ? AND status = 'unread'";
+    $response['status'] = 'success';
+    $response['message'] = 'Messages fetched successfully';
 
-    $updateResult = $query->update('messages', $updateData, $condition, [$sender_id, $receiver_id], 'ii');
-
-    if ($updateResult > 0) {
-        $response['status'] = 'success';
-        $response['message'] = 'Messages marked as read successfully';
-    } else {
-        $response['status'] = 'error';
-        $response['message'] = 'Failed to mark messages as read';
-    }
-
-    $messages = $query->select(
+    $response['data'] = $query->select(
         'messages',
         '*',
-        "((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)) 
-         ORDER BY created_at",
+        "((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)) ORDER BY created_at",
         [$sender_id, $receiver_id, $receiver_id, $sender_id],
         "iiii"
     );
-
-    $response['data'] = $messages;
 } else {
     $response['status'] = 'error';
     $response['message'] = 'Receiver ID is required';
