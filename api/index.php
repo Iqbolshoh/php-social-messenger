@@ -830,7 +830,7 @@ Content-Type: application/json
                     <h5><strong>11) fetch_profile.php</strong></h5>
                     <p><strong>Purpose:</strong> Retrieves the user's profile information. This API endpoint is used to fetch the profile details of the logged-in user. It provides the user's full name, username, profile picture, and other profile-related data.</p>
 
-                    <p><strong>Method:</strong> <code>GET</code></p>
+                    <p><strong>Method:</strong> <code>POST</code></p>
 
                     <p><strong>Response:</strong> The response contains a JSON object with the user's profile information. This includes the user's full name, username, profile picture, and other related data.</p>
 
@@ -862,9 +862,9 @@ Content-Type: application/json
                     <p><strong>Example Request:</strong></p>
                     <code>
                         <pre>
-GET /api/fetch_profile.php HTTP/1.1
+POST /api/fetch_profile.php HTTP/1.1
 Content-Type: application/json
-</pre>
+        </pre>
                     </code>
 
                     <p><strong>Example Response:</strong></p>
@@ -875,9 +875,9 @@ Content-Type: application/json
     "message": "Profile data retrieved successfully",
     "data": {
         "user_id": 1,
-        "full_name": "John Doe",
-        "username": "johndoe",
-        "profile_picture": "src/images/profile-picture/profile_picture.jpg",
+        "full_name": "Iqbolshoh Ilhomjonov",
+        "username": "iqbolshoh",
+        "profile_picture": "src/images/profile-picture/iqbolshoh.jpg",
         "last_message_time": "2025-01-05 14:20:00",
         "unread_messages": 2
     }
@@ -893,8 +893,9 @@ Content-Type: application/json
                     </ul>
                     </p>
 
-                    <span class="badge bg-primary">GET</span>
+                    <span class="badge bg-primary">POST</span>
                 </div>
+
 
                 <div class="list-group-item">
                     <h5><strong>12) change_user_status.php</strong></h5>
