@@ -126,7 +126,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
             event.preventDefault();
 
             const formData = new FormData(loginForm);
-            fetch('../api/login.php', {
+            fetch('../api/auth/login.php', {
                     method: 'POST',
                     body: formData
                 })

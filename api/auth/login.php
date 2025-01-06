@@ -31,7 +31,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     exit;
 }
 
-include '../config.php';
+include '../../config.php';
 $query = new Database();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

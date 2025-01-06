@@ -99,7 +99,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
         document.getElementById('email').addEventListener('input', function() {
             let email = this.value;
             if (email.length > 0) {
-                fetch('../api/check_availability.php', {
+                fetch('../api/auth/check_availability.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
@@ -124,7 +124,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
             validateForm();
             let username = this.value;
             if (username.length > 0) {
-                fetch('../api/check_availability.php', {
+                fetch('../api/auth/check_availability.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
@@ -189,7 +189,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
 
             const formData = new FormData(this);
 
-            fetch('../api/signup.php', {
+            fetch('../api/auth/signup.php', {
                     method: 'POST',
                     body: formData
                 })

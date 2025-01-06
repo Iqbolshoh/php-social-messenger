@@ -58,7 +58,7 @@ VALUES
         'client@iqbolshoh.uz',
         'client',
         '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
-        'default.png'
+        '588223e26ce06bd4c1e7970f1dca11f6.jpg'
     ),
     (
         'User Three',
