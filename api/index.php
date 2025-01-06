@@ -367,12 +367,78 @@ email=johndoe@example.com
             <div class="list-group">
                 <div class="list-group-item">
                     <h5><strong>5) send_message.php</strong></h5>
-                    <p><strong>Purpose:</strong> Sends a new message to another user</p>
-                    <p><strong>Method:</strong> POST</p>
-                    <p><strong>Required data:</strong> <code>recipient_id</code>, <code>message_content</code></p>
-                    <p><strong>Response:</strong> Success or error message.</p>
-                    <span class="badge">POST</span>
+                    <p><strong>Purpose:</strong> Sends a new message to another user. This API allows a user to send a message to another registered user within the system. The message will be stored in the database and can be retrieved later.</p>
+
+                    <p><strong>Method:</strong> <code>POST</code></p>
+
+                    <p><strong>Required Data:</strong>
+                    <ul>
+                        <li><strong><code>recipient_id</code></strong>: The ID of the user to whom the message will be sent.</li>
+                        <li><strong><code>message_content</code></strong>: The content of the message to be sent.</li>
+                    </ul>
+                    </p>
+
+                    <p><strong>Response:</strong> The API returns a success or error message depending on whether the message was sent successfully.</p>
+
+                    <ul>
+                        <li><strong>If Message Sent Successfully:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                <li><strong>Message:</strong> Message sent successfully</li>
+                                <li><strong>Data:</strong> JSON object with message details (id, content, created_at).</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Message Sending Failed:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> Failed to send the message. Please try again later.</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Required Data Missing:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
+                                <li><strong>Message:</strong> Message content and receiver ID are required.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+POST /api/messages/send_message HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+recipient_id=2&message_content=Hello%20there!
+        </pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "success",
+    "message": "Message sent successfully",
+    "data": {
+        "id": 123,
+        "content": "Hello there!",
+        "created_at": "2025-01-06 15:30:00"
+    }
+}
+        </pre>
+        
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>If the user is not logged in, the API will return an error indicating the user is not logged in.</li>
+                        <li>Both the recipient's ID and message content are required fields to send a message.</li>
+                        <li>In case of a database issue or failure to insert the message, an error message will be returned.</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">POST</span>
                 </div>
+
                 <div class="list-group-item">
                     <h5><strong>6) fetch_messages.php</strong></h5>
                     <p><strong>Purpose:</strong> Retrieves all messages for the logged-in user</p>
