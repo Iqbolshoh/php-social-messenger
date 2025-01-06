@@ -900,12 +900,66 @@ Content-Type: application/json
 
                 <div class="list-group-item">
                     <h5><strong>12) change_user_status.php</strong></h5>
-                    <p><strong>Purpose:</strong> Changes the user's online/offline status</p>
-                    <p><strong>Method:</strong> POST</p>
-                    <p><strong>Required data:</strong> <code>status</code> (online or offline)</p>
-                    <p><strong>Response:</strong> Success or error message.</p>
-                    <span class="badge">POST</span>
+                    <p><strong>Purpose:</strong> Changes the user's online/offline status. This API endpoint allows a logged-in user to change their online/offline status. It helps in managing whether a user is currently available or not.</p>
+
+                    <p><strong>Method:</strong> <code>POST</code></p>
+
+                    <p><strong>Required data:</strong> The request must include a parameter <code>status</code> to set the user's status. The value of <code>status</code> should be either <code>online</code> or <code>offline</code>.</p>
+
+                    <p><strong>Response:</strong> A JSON response with a success or error message, based on the action taken.</p>
+
+                    <ul>
+                        <li><strong>If Status is Changed Successfully:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                <li><strong>Message:</strong> The user's status was successfully updated.</li>
+                            </ul>
+                        </li>
+                        <li><strong>If No Valid Status is Provided:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> "Receiver ID is required. Please provide a valid receiver ID."</li>
+                            </ul>
+                        </li>
+                        <li><strong>If User is Blocked:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">blocked</span></li>
+                                <li><strong>Message:</strong> "You are blocked by this user."</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+POST /api/change_user_status.php HTTP/1.1
+Content-Type: application/json
+{
+    "status": "online"
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "success",
+    "message": "User's status updated successfully."
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>This API is used to change the status of the user to either "online" or "offline". If the user does not provide a valid status, an error message is returned.</li>
+                        <li>If the user is blocked by the other user (receiver), the status update will be denied with a "blocked" response.</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">POST</span>
                 </div>
+
                 <div class="list-group-item">
                     <h5><strong>13) check_user_status.php</strong></h5>
                     <p><strong>Purpose:</strong> Changes the user's online/offline status</p>
