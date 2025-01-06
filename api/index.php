@@ -249,7 +249,7 @@ username=iqbolshoh&email=iilhomjonov777@gmail.com&password=password123&confirm_p
                         <h5><strong>3) check_login.php</strong></h5>
                         <p><strong>Purpose:</strong> Checks if the user is logged in. This API verifies whether the user is currently logged into the system. If the user is logged in, it returns the user's details. If not, it will return a message stating that the user is not logged in.</p>
 
-                        <p><strong>Method:</strong> <code>GET</code></p>
+                        <p><strong>Method:</strong> <code>SESSION</code></p>
 
                         <p><strong>Response:</strong> The API returns a JSON response indicating the login status of the user.</p>
 
@@ -272,7 +272,7 @@ username=iqbolshoh&email=iilhomjonov777@gmail.com&password=password123&confirm_p
                         <p><strong>Example Request:</strong></p>
                         <code>
                             <pre>
-GET /api/auth/check_login.php HTTP/1.1
+SESSION /api/auth/check_login.php HTTP/1.1
 Content-Type: application/json
         </pre>
                         </code>
@@ -476,7 +476,7 @@ recipient_id=2&message_content=Hello%20there!
                     <p><strong>Example Request:</strong></p>
                     <code>
                         <pre>
-GET /api/messages/fetch_messages.php HTTP/1.1
+POST /api/messages/fetch_messages.php HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
 id=2
