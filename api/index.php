@@ -297,7 +297,7 @@ Content-Type: application/json
 
                         <p><strong>Notes:</strong> If the user is logged in, their session information will be returned as part of the response. If the user is not logged in, the response will indicate that the user is not logged in.</p>
 
-                        <span class="badge bg-primary">GET</span>
+                        <span class="badge bg-primary">SESSION</span>
                     </div>
 
                     <div class="list-group-item">
@@ -338,8 +338,8 @@ Content-Type: application/json
 POST /api/auth/check_availability.php HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-email=johndoe@example.com
-                            </pre>
+email=iilhomjonov777@gmail.com
+        </pre>
                         </code>
 
                         <p><strong>Example Response:</strong></p>
@@ -348,7 +348,7 @@ email=johndoe@example.com
 {
     "exists": true
 }
-                            </pre>
+        </pre>
                         </code>
 
                         <p><strong>Notes:</strong> The API checks whether a given email address or username is already registered. It can return a status indicating if the email/username is available or taken. The request must provide either the <code>email</code> or <code>username</code> field.</p>
