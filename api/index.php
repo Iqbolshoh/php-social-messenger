@@ -148,7 +148,7 @@
                         <p><strong>Example Request:</strong></p>
                         <code>
                             <pre>
-POST /api/auth/login HTTP/1.1
+POST /api/auth/login.php HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
 username=johndoe&password=yourpassword
@@ -180,12 +180,71 @@ username=johndoe&password=yourpassword
 
                     <div class="list-group-item">
                         <h5><strong>2) signup.php</strong></h5>
-                        <p><strong>Purpose:</strong> User registration (Sign Up)</p>
-                        <p><strong>Method:</strong> POST</p>
-                        <p><strong>Required data:</strong> <code>username</code>, <code>email</code>, <code>password</code>, <code>confirm_password</code></p>
-                        <p><strong>Response:</strong> Success message or error message.</p>
-                        <span class="badge">POST</span>
+
+                        <p><strong>Purpose:</strong> This API is used for user registration (Sign Up). It accepts user details such as username, email, and password, and creates a new user account in the system. After successful registration, the user is logged in automatically, and a session is started.</p>
+
+                        <p><strong>Method:</strong> <code>POST</code></p>
+
+                        <p><strong>Required Data:</strong>
+                        <ul>
+                            <li><strong><code>username</code></strong>: The desired username for the new user (a string).</li>
+                            <li><strong><code>email</code></strong>: The user's email address (a string).</li>
+                            <li><strong><code>password</code></strong>: The password the user chooses (a string).</li>
+                            <li><strong><code>confirm_password</code></strong>: The confirmation of the password to ensure the user typed it correctly (a string).</li>
+                        </ul>
+                        </p>
+
+                        <p><strong>Response:</strong> The API will return a JSON response indicating whether the registration attempt was successful or not.</p>
+
+                        <ul>
+                            <li><strong>If Registration is Successful:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                    <li><strong>Message:</strong> Registration successful</li>
+                                    <li><strong>Data:</strong> JSON object with user details (user_id, full_name, email, username, profile_picture).</li>
+                                </ul>
+                            </li>
+                            <li><strong>If Registration Fails:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                    <li><strong>Message:</strong> Registration failed. Please try again later.</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Example Request:</strong></p>
+                        <code>
+                            <pre>
+POST /api/auth/signup.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+username=johndoe&email=johndoe@example.com&password=yourpassword&confirm_password=yourpassword
+        </pre>
+                        </code>
+
+                        <p><strong>Example Response:</strong></p>
+                        <code>
+                            <pre>
+{
+    "status": "success",
+    "message": "Registration successful",
+    "data": {
+        "loggedin": true,
+        "user_id": 1,
+        "full_name": "John Doe",
+        "email": "johndoe@example.com",
+        "username": "johndoe",
+        "profile_picture": "default.png"
+    }
+}
+        </pre>
+                        </code>
+
+                        <p><strong>Notes:</strong> After a successful registration, the user is automatically logged in, and a session is created. Two cookies are also set: <code>username</code> and <code>session_token</code> for persistent login across sessions.</p>
+
+                        <span class="badge bg-primary">POST</span>
                     </div>
+
                     <div class="list-group-item">
                         <h5><strong>3) check_login.php</strong></h5>
                         <p><strong>Purpose:</strong> Checks if the user is logged in</p>
