@@ -11,15 +11,13 @@ $query = new Database();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $first_name = $query->validate($_POST['first_name']);
-    $last_name = $query->validate($_POST['last_name']);
+    $full_name = $query->validate($_POST['full_name']);
     $email = $query->validate(strtolower($_POST['email']));
     $username = $query->validate(strtolower($_POST['username']));
     $password = $query->hashPassword($_POST['password']);
 
     $data = [
-        'first_name' => $first_name,
-        'last_name' => $last_name,
+        'full_name' => $full_name,
         'email' => $email,
         'username' => $username,
         'password' => $password
@@ -82,12 +80,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Sign Up</h1>
         <form id="signupForm" method="post" action="">
             <div class="form-group">
-                <label for="first_name">First Name</label>
-                <input type="text" id="first_name" name="first_name" required maxlength="30">
-            </div>
-            <div class="form-group">
-                <label for="last_name">Last Name</label>
-                <input type="text" id="last_name" name="last_name" required maxlength="30">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" required maxlength="30">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
