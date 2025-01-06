@@ -13,7 +13,7 @@ $query = new Database();
 $response = [
     'status' => '',
     'message' => '',
-    'data' => ''
+    'data' => []
 ];
 
 if (isset($_POST['id'])) {
