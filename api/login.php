@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 include '../config.php';
@@ -8,7 +7,13 @@ $query = new Database();
 $response = [
     'status' => '',
     'message' => '',
+    'data' => []
 ];
+
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header("Location: ../");
+    exit;
+}
 
 if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
 
@@ -18,14 +23,28 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
         session_start();
     }
 
-    $result = $query->select('users', 'id', "username = ?", [$_COOKIE['username']], 's');
+    $result = $query->select('users', '*', "username = ?", [$_COOKIE['username']], 's');
 
     if (!empty($result)) {
         $user = $result[0];
 
         $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $_COOKIE['username'];
         $_SESSION['user_id'] = $user['id'];
+        $_SESSION['full_name'] = $user['full_name'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['profile_picture'] = $user['profile_picture'];
+
+        $response['status'] = 'success';
+        $response['message'] = 'Login successful';
+        $response['data'] = [
+            'loggedin' => true,
+            'user_id' => $user_id,
+            'full_name' => $full_name,
+            'email' => $email,
+            'username' => $username,
+            'profile_picture' => $user['profile_picture']
+        ];
 
         header("Location: ../");
         exit;
@@ -43,16 +62,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $result[0];
 
             if ($user['password'] == $query->hashPassword($password)) {
-
                 $_SESSION['loggedin'] = true;
                 $_SESSION['user_id'] = $user['id'];
+                $_SESSION['full_name'] = $user['full_name'];
+                $_SESSION['email'] = $user['email'];
                 $_SESSION['username'] = $user['username'];
+                $_SESSION['profile_picture'] = $user['profile_picture'];
 
                 setcookie('username', $username, time() + (86400 * 30), "/", "", true, true);
                 setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
 
                 $response['status'] = 'success';
                 $response['message'] = 'Login successful';
+                $response['data'] = [
+                    'loggedin' => true,
+                    'user_id' => $user['id'],
+                    'full_name' => $user['full_name'],
+                    'email' => $user['email'],
+                    'username' => $user['username'],
+                    'profile_picture' => $user['profile_picture']
+                ];
             } else {
                 $response['status'] = 'error';
                 $response['message'] = 'Incorrect username or password';

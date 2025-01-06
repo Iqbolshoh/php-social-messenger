@@ -5,62 +5,6 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     header("Location: ../");
     exit;
 }
-
-include '../config.php';
-$query = new Database();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $full_name = $query->validate($_POST['full_name']);
-    $email = $query->validate(strtolower($_POST['email']));
-    $username = $query->validate(strtolower($_POST['username']));
-    $password = $query->hashPassword($_POST['password']);
-
-    $data = [
-        'full_name' => $full_name,
-        'email' => $email,
-        'username' => $username,
-        'password' => $password
-    ];
-
-    $result = $query->insert('users', $data);
-
-    if (!empty($result)) {
-        $user_id = $query->select('users', 'id', 'username = ?', [$username], 's')[0]['id'];
-
-        $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $username;
-        $_SESSION['user_id'] = $user_id;
-
-        setcookie('username', $username, time() + (86400 * 30), "/", "", true, true);
-        setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
-?>
-        <script>
-            window.onload = function() {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Registration successful',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    window.location.href = '../';
-                });
-            };
-        </script>
-
-<?php
-    } else {
-        echo "<script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Registration failed. Please try again later.',
-                    });
-                </script>";
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -78,27 +22,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="form-container">
         <h1>Sign Up</h1>
-        <form id="signupForm" method="post" action="">
+        <form id="signupForm" method="post" action="api/signup.php">
             <div class="form-group">
                 <label for="full_name">Full Name</label>
                 <input type="text" id="full_name" name="full_name" required maxlength="30">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required maxlength="100">
+                <input type="email" id="email" name="email" required maxlength="150">
                 <p id="email-message"></p>
             </div>
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required maxlength="30">
                 <p id="username-message"></p>
+                <small id="username-error" style="color: red;"></small>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <div class="password-container">
                     <input type="password" id="password" name="password" required maxlength="255">
-                    <button type="button" id="toggle-password" class="password-toggle"><i
-                            class="fas fa-eye"></i></button>
+                    <button type="button" id="toggle-password" class="password-toggle"><i class="fas fa-eye"></i></button>
                 </div>
             </div>
             <div class="form-group">
@@ -116,15 +60,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         let isEmailAvailable = false;
         let isUsernameAvailable = false;
 
-        function validateUsernameFormat(username) {
-            const usernamePattern = /^[a-zA-Z0-9_]+$/;
-            return usernamePattern.test(username);
-        }
-
         document.getElementById('email').addEventListener('input', function() {
             let email = this.value;
             if (email.length > 0) {
-                fetch('check_availability.php', {
+                fetch('../api/check_availability.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
@@ -146,17 +85,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
 
         document.getElementById('username').addEventListener('input', function() {
+            validateForm();
             let username = this.value;
-            const messageElement = document.getElementById('username-message');
-
-            if (!validateUsernameFormat(username)) {
-                messageElement.textContent = 'Username can only contain letters, numbers, and underscores!';
-                isUsernameAvailable = false;
-                return;
-            }
-
             if (username.length > 0) {
-                fetch('check_availability.php', {
+                fetch('../api/check_availability.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
@@ -165,6 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     })
                     .then(response => response.json())
                     .then(data => {
+                        const messageElement = document.getElementById('username-message');
                         if (data.exists) {
                             messageElement.textContent = 'This username exists!';
                             isUsernameAvailable = false;
@@ -173,8 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             isUsernameAvailable = true;
                         }
                     });
-            } else {
-                messageElement.textContent = '';
             }
         });
 
@@ -183,33 +114,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return emailPattern.test(email);
         }
 
+        function validateForm() {
+            const usernameField = document.getElementById('username');
+            const usernameError = document.getElementById('username-error');
+            const submitButton = document.getElementById('submit');
+            const username = usernameField.value;
+            const usernamePattern = /^[a-zA-Z0-9_]+$/;
+            if (!usernamePattern.test(username)) {
+                usernameError.textContent = "Username can only contain letters, numbers, and underscores!";
+                submitButton.disabled = true;
+            } else {
+                usernameError.textContent = "";
+                submitButton.disabled = false;
+            }
+        }
+
         document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
             let email = document.getElementById('email').value;
-            const emailMessageElement = document.getElementById('email-message');
-            let username = document.getElementById('username').value;
-            const usernameMessageElement = document.getElementById('username-message');
+            const messageElement = document.getElementById('email-message');
 
             if (!validateEmailFormat(email)) {
-                emailMessageElement.textContent = 'Email format is incorrect!';
-                event.preventDefault();
-                return;
-            }
-
-            if (!validateUsernameFormat(username)) {
-                usernameMessageElement.textContent = 'Username can only contain letters, numbers, and underscores!';
-                event.preventDefault();
+                messageElement.textContent = 'Email format is incorrect!';
                 return;
             }
 
             if (isEmailAvailable === false) {
-                emailMessageElement.textContent = 'This email exists!';
-                event.preventDefault();
+                messageElement.textContent = 'This email exists!';
+                return;
             }
 
             if (isUsernameAvailable === false) {
+                const usernameMessageElement = document.getElementById('username-message');
                 usernameMessageElement.textContent = 'This username exists!';
-                event.preventDefault();
+                return;
             }
+
+            const formData = new FormData(this);
+
+            fetch('../api/signup.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registration Successful!',
+                            text: 'Redirecting to home page...',
+                            timer: 2000,
+                            willClose: () => {
+                                window.location.href = "../index.php";
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: data.message,
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred, please try again.',
+                    });
+                });
         });
 
         document.getElementById('toggle-password').addEventListener('click', function() {
@@ -227,7 +201,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
     </script>
-
 </body>
 
 </html>
