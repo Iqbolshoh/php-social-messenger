@@ -441,11 +441,11 @@ recipient_id=2&message_content=Hello%20there!
                     <h5><strong>6) fetch_messages.php</strong></h5>
                     <p><strong>Purpose:</strong> Retrieves all messages for the logged-in user. This API allows the logged-in user to fetch all messages exchanged with another user. The messages are ordered by creation date.</p>
 
-                    <p><strong>Method:</strong> <code>GET</code></p>
+                    <p><strong>Method:</strong> <code>POST</code></p>
 
                     <p><strong>Required Data:</strong>
                     <ul>
-                        <li><strong><code>receiver_id</code></strong>: The ID of the user whose messages are being retrieved. This should be the user with whom the logged-in user has exchanged messages.</li>
+                        <li><strong><code>id (receiver_id)</code></strong>: The ID of the user whose messages are being retrieved. This should be the user with whom the logged-in user has exchanged messages.</li>
                     </ul>
                     </p>
 
@@ -479,7 +479,7 @@ recipient_id=2&message_content=Hello%20there!
 GET /api/messages/fetch_messages.php HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-receiver_id=2
+id=2
         </pre>
                     </code>
 
@@ -519,7 +519,7 @@ receiver_id=2
                     </ul>
                     </p>
 
-                    <span class="badge bg-primary">GET</span>
+                    <span class="badge bg-primary">POST</span>
                 </div>
 
                 <div class="list-group-item">
@@ -777,14 +777,14 @@ clear=true&receiver_id=4
                         <pre>
 GET /api/fetch_contacts.php HTTP/1.1
 Content-Type: application/json
-</pre>
+        </pre>
                     </code>
                     <p><strong>Optional Search:</strong> You can optionally include a search term to filter contacts by full name or username using the <code>search</code> query parameter. Example:</p>
                     <code>
                         <pre>
-GET /api/fetch_contacts.php?search=johndoe HTTP/1.1
+GET /api/fetch_contacts.php?search=iqbolshoh HTTP/1.1
 Content-Type: application/json
-</pre>
+        </pre>
                     </code>
 
                     <p><strong>Example Response:</strong></p>
@@ -804,9 +804,9 @@ Content-Type: application/json
         },
         {
             "user_id": 3,
-            "full_name": "John Smith",
-            "username": "johnsmith",
-            "profile_picture": "src/images/profile-picture/johnsmith.jpg",
+            "full_name": "Iqbolshoh Ilhomjonov",
+            "username": "iqbolshoh",
+            "profile_picture": "src/images/profile-picture/iqbolshoh.jpg",
             "last_message_time": "2025-01-04 12:45:00",
             "unread_messages": 1
         }
