@@ -10,7 +10,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 include '../config.php';
 $query = new Database();
 
-$response = ['status' => '', 'message' => ''];
+$response = [
+    'status' => '',
+    'message' => ''
+];
 
 if (isset($_POST['user_id'], $_POST['action'])) {
     $user_id = (int) $_POST['user_id'];

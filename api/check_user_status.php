@@ -10,10 +10,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 include '../config.php';
 $query = new Database();
 
-$response = [];
-$sender_id = $_SESSION['user_id'];
+$response = [
+    'status' => '',
+    'message' => ''
+];
 
 if (isset($_GET['receiver_id'])) {
+    $sender_id = $_SESSION['user_id'];
     $receiver_id = (int) $_GET['receiver_id'];
 
     $blocked = $query->select('block_users', '*', 'blocked_by = ? AND blocked_user = ?', [$receiver_id, $sender_id], 'ii');
