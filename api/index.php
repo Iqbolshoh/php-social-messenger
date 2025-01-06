@@ -122,8 +122,8 @@
 
                         <p><strong>Required Data:</strong>
                         <ul>
-                            <li><strong><code>username</code></strong>: The username of the user (a string).</li>
-                            <li><strong><code>password</code></strong>: The password of the user (a string).</li>
+                            <li><strong><code>username</code></strong>: The username of the user (a string). For example, <code>iqbolshoh</code> or <code>clientuser</code>.</li>
+                            <li><strong><code>password</code></strong>: The password of the user (a string). For example, <code>mypassword123</code>.</li>
                         </ul>
                         </p>
 
@@ -151,8 +151,8 @@
 POST /api/auth/login.php HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-username=johndoe&password=yourpassword
-                            </pre>
+username=iqbolshoh&password=yourpassword123
+        </pre>
                         </code>
 
                         <p><strong>Example Response:</strong></p>
@@ -164,13 +164,13 @@ username=johndoe&password=yourpassword
     "data": {
         "loggedin": true,
         "user_id": 1,
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "username": "johndoe",
+        "full_name": "Iqbolshoh Ilhomjonov",
+        "email": "iqbolshoh@example.com",
+        "username": "iqbolshoh",
         "profile_picture": "path/to/profile.jpg"
     }
 }
-                            </pre>
+        </pre>
                         </code>
 
                         <p><strong>Notes:</strong> On success, a session is started for the user, and two cookies are set: <code>username</code> and <code>session_token</code> for persistent login.</p>
