@@ -303,12 +303,61 @@ Content-Type: application/json
                     </div>
 
                     <div class="list-group-item">
-                        <h5><strong>4) check_user_status.php</strong></h5>
-                        <p><strong>Purpose:</strong> Verifies the user's login status</p>
-                        <p><strong>Method:</strong> GET</p>
-                        <p><strong>Response:</strong> Returns user status (active, inactive, or not logged in).</p>
-                        <span class="badge">GET</span>
+                        <h5><strong>4) check_availability.php</strong></h5>
+                        <p><strong>Purpose:</strong> Verifies if a given email or username is already registered in the system. This API helps to check if a user can use a particular email address or username during registration.</p>
+
+                        <p><strong>Method:</strong> <code>POST</code></p>
+
+                        <p><strong>Required Data:</strong>
+                        <ul>
+                            <li><strong><code>email</code></strong> (optional): The email address to check for availability.</li>
+                            <li><strong><code>username</code></strong> (optional): The username to check for availability.</li>
+                        </ul>
+                        </p>
+
+                        <p><strong>Response:</strong> The API returns a JSON response indicating whether the email or username is available or already taken.</p>
+
+                        <ul>
+                            <li><strong>If Email/Username is Available:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                    <li><strong>Message:</strong> Email or username is available</li>
+                                    <li><strong>Data:</strong> <code>exists: false</code></li>
+                                </ul>
+                            </li>
+                            <li><strong>If Email/Username is Already Taken:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                    <li><strong>Message:</strong> Email or username is already taken</li>
+                                    <li><strong>Data:</strong> <code>exists: true</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Example Request:</strong></p>
+                        <code>
+                            <pre>
+POST /api/auth/check_availability.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+email=johndoe@example.com
+                            </pre>
+                        </code>
+
+                        <p><strong>Example Response:</strong></p>
+                        <code>
+                            <pre>
+{
+    "exists": true
+}
+                            </pre>
+                        </code>
+
+                        <p><strong>Notes:</strong> The API checks whether a given email address or username is already registered. It can return a status indicating if the email/username is available or taken. The request must provide either the <code>email</code> or <code>username</code> field.</p>
+
+                        <span class="badge bg-primary">POST</span>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -383,7 +432,15 @@ Content-Type: application/json
                     <span class="badge">POST</span>
                 </div>
                 <div class="list-group-item">
-                    <h5><strong>13) check_availability.php</strong></h5>
+                    <h5><strong>13) check_user_status.php</strong></h5>
+                    <p><strong>Purpose:</strong> Changes the user's online/offline status</p>
+                    <p><strong>Method:</strong> POST</p>
+                    <p><strong>Required data:</strong> <code>status</code> (online or offline)</p>
+                    <p><strong>Response:</strong> Success or error message.</p>
+                    <span class="badge">POST</span>
+                </div>
+                <div class="list-group-item">
+                    <h5><strong>14) check_availability.php</strong></h5>
                     <p><strong>Purpose:</strong> Checks if the system or a specific feature is available</p>
                     <p><strong>Method:</strong> GET</p>
                     <p><strong>Response:</strong> Availability status of the feature/system.</p>
