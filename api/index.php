@@ -743,11 +743,91 @@ clear=true&receiver_id=4
             <div class="list-group">
                 <div class="list-group-item">
                     <h5><strong>10) fetch_contacts.php</strong></h5>
-                    <p><strong>Purpose:</strong> Retrieves the list of contacts for the logged-in user</p>
-                    <p><strong>Method:</strong> GET</p>
-                    <p><strong>Response:</strong> JSON response with the list of contacts.</p>
-                    <span class="badge">GET</span>
+                    <p><strong>Purpose:</strong> Retrieves the list of contacts for the logged-in user. This API allows the logged-in user to fetch a list of all their contacts. The list includes details like the user's full name, username, profile picture, and the time of the last message exchanged with the user. If there are any unread messages, the number of unread messages will also be included for each contact.</p>
+
+                    <p><strong>Method:</strong> <code>GET</code></p>
+
+                    <p><strong>Response:</strong> The API returns a JSON response containing the list of contacts, along with information about each contact, such as unread messages and the time of the last message.</p>
+
+                    <ul>
+                        <li><strong>If Contacts are Retrieved Successfully:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                <li><strong>Message:</strong> Contacts retrieved successfully.</li>
+                                <li><strong>Data:</strong> A list of contacts, with each contact containing the following details:
+                                    <ul>
+                                        <li><strong>user_id</strong>: The unique ID of the contact</li>
+                                        <li><strong>full_name</strong>: The full name of the contact</li>
+                                        <li><strong>username</strong>: The username of the contact</li>
+                                        <li><strong>profile_picture</strong>: The profile picture URL of the contact</li>
+                                        <li><strong>last_message_time</strong>: The time of the last message exchanged with the contact</li>
+                                        <li><strong>unread_messages</strong>: The count of unread messages from the logged-in user to the contact</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>If No Contacts are Found:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> No contacts found.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+GET /api/fetch_contacts.php HTTP/1.1
+Content-Type: application/json
+</pre>
+                    </code>
+                    <p><strong>Optional Search:</strong> You can optionally include a search term to filter contacts by full name or username using the <code>search</code> query parameter. Example:</p>
+                    <code>
+                        <pre>
+GET /api/fetch_contacts.php?search=johndoe HTTP/1.1
+Content-Type: application/json
+</pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "success",
+    "message": "Contacts retrieved successfully",
+    "data": [
+        {
+            "user_id": 2,
+            "full_name": "Jane Doe",
+            "username": "janedoe",
+            "profile_picture": "src/images/profile-picture/janedoe.jpg",
+            "last_message_time": "2025-01-05 15:30:00",
+            "unread_messages": 3
+        },
+        {
+            "user_id": 3,
+            "full_name": "John Smith",
+            "username": "johnsmith",
+            "profile_picture": "src/images/profile-picture/johnsmith.jpg",
+            "last_message_time": "2025-01-04 12:45:00",
+            "unread_messages": 1
+        }
+    ]
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>If no contacts are found, an error message will be returned.</li>
+                        <li>The response includes the number of unread messages for each contact.</li>
+                        <li>The <code>search</code> query parameter can be used to filter contacts based on their full name or username.</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">GET</span>
                 </div>
+
                 <div class="list-group-item">
                     <h5><strong>11) fetch_profile.php</strong></h5>
                     <p><strong>Purpose:</strong> Retrieves the user's profile information</p>
