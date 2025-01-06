@@ -597,12 +597,77 @@ message_id=5
 
                 <div class="list-group-item">
                     <h5><strong>8) edit_message.php</strong></h5>
-                    <p><strong>Purpose:</strong> Edits an existing message</p>
-                    <p><strong>Method:</strong> POST</p>
-                    <p><strong>Required data:</strong> <code>message_id</code>, <code>new_message_content</code></p>
-                    <p><strong>Response:</strong> Success or error message.</p>
-                    <span class="badge">POST</span>
+                    <p><strong>Purpose:</strong> Edits an existing message. This API allows the logged-in user to edit their previously sent message by providing the message ID and the new content. The system ensures that only the sender of the message can edit it.</p>
+
+                    <p><strong>Method:</strong> <code>POST</code></p>
+
+                    <p><strong>Required Data:</strong>
+                    <ul>
+                        <li><strong><code>message_id</code></strong>: The ID of the message to be edited.</li>
+                        <li><strong><code>new_message_content</code></strong>: The new content to replace the original message content.</li>
+                    </ul>
+                    </p>
+
+                    <p><strong>Response:</strong> The API returns a JSON response indicating whether the edit operation was successful or if there was an error.</p>
+
+                    <ul>
+                        <li><strong>If Message is Edited Successfully:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                <li><strong>Message:</strong> Message updated successfully</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Message is Not Found or Unauthorized Edit Attempt:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> Message not found or you do not have permission to edit this message</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Content is Empty:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
+                                <li><strong>Message:</strong> Message content cannot be empty</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Required Parameters are Missing:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
+                                <li><strong>Message:</strong> Invalid request or missing parameters</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+POST /api/messages/edit_message HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+message_id=3&new_message_content=Updated%20message%20content
+        </pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "success",
+    "message": "Message updated successfully"
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>The sender of the message is the only one allowed to edit it.</li>
+                        <li>If the message content is empty, it cannot be saved.</li>
+                        <li>If the user tries to edit a message they did not send, they will receive an error response.</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">POST</span>
                 </div>
+
                 <div class="list-group-item">
                     <h5><strong>9) clear_messages.php</strong></h5>
                     <p><strong>Purpose:</strong> Clears all messages for the logged-in user</p>
