@@ -405,7 +405,7 @@ email=johndoe@example.com
                     <p><strong>Example Request:</strong></p>
                     <code>
                         <pre>
-POST /api/messages/send_message HTTP/1.1
+POST /api/messages/send_message.php HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
 recipient_id=2&message_content=Hello%20there!
