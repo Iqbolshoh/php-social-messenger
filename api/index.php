@@ -425,7 +425,7 @@ recipient_id=2&message_content=Hello%20there!
     }
 }
         </pre>
-        
+
                     </code>
 
                     <p><strong>Notes:</strong>
@@ -441,19 +441,160 @@ recipient_id=2&message_content=Hello%20there!
 
                 <div class="list-group-item">
                     <h5><strong>6) fetch_messages.php</strong></h5>
-                    <p><strong>Purpose:</strong> Retrieves all messages for the logged-in user</p>
-                    <p><strong>Method:</strong> GET</p>
-                    <p><strong>Response:</strong> JSON response with a list of messages.</p>
-                    <span class="badge">GET</span>
+                    <p><strong>Purpose:</strong> Retrieves all messages for the logged-in user. This API allows the logged-in user to fetch all messages exchanged with another user. The messages are ordered by creation date.</p>
+
+                    <p><strong>Method:</strong> <code>GET</code></p>
+
+                    <p><strong>Required Data:</strong>
+                    <ul>
+                        <li><strong><code>receiver_id</code></strong>: The ID of the user whose messages are being retrieved. This should be the user with whom the logged-in user has exchanged messages.</li>
+                    </ul>
+                    </p>
+
+                    <p><strong>Response:</strong> The API returns a JSON response with a list of messages exchanged between the logged-in user and the receiver.</p>
+
+                    <ul>
+                        <li><strong>If Messages Are Found:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                <li><strong>Message:</strong> Messages fetched successfully</li>
+                                <li><strong>Data:</strong> JSON array of message objects containing message details (sender_id, receiver_id, content, created_at, status).</li>
+                            </ul>
+                        </li>
+                        <li><strong>If No Messages Are Found:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> No messages found</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Receiver ID is Missing:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
+                                <li><strong>Message:</strong> Receiver ID is required</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+GET /api/messages/fetch_messages.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+receiver_id=2
+        </pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "success",
+    "message": "Messages fetched successfully",
+    "data": [
+        {
+            "id": 1,
+            "sender_id": 1,
+            "receiver_id": 2,
+            "content": "Hello, how are you?",
+            "created_at": "2025-01-06 14:00:00",
+            "status": "read"
+        },
+        {
+            "id": 2,
+            "sender_id": 2,
+            "receiver_id": 1,
+            "content": "I'm good, thank you!",
+            "created_at": "2025-01-06 14:05:00",
+            "status": "read"
+        }
+    ]
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>If the user is not logged in, the API will return an error indicating that the user is not logged in.</li>
+                        <li>The response will include all messages exchanged between the logged-in user and the specified receiver, ordered by creation date.</li>
+                        <li>If no messages are found, the API will return an error message stating "No messages found".</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">GET</span>
                 </div>
+
                 <div class="list-group-item">
                     <h5><strong>7) delete_message.php</strong></h5>
-                    <p><strong>Purpose:</strong> Deletes a specific message</p>
-                    <p><strong>Method:</strong> POST</p>
-                    <p><strong>Required data:</strong> <code>message_id</code></p>
-                    <p><strong>Response:</strong> Success or error message.</p>
-                    <span class="badge">POST</span>
+                    <p><strong>Purpose:</strong> Deletes a specific message. This API allows the logged-in user to delete a message by providing its ID. The system will check if the message exists and if the user is authorized to delete it.</p>
+
+                    <p><strong>Method:</strong> <code>POST</code></p>
+
+                    <p><strong>Required Data:</strong>
+                    <ul>
+                        <li><strong><code>message_id</code></strong>: The ID of the message to be deleted.</li>
+                    </ul>
+                    </p>
+
+                    <p><strong>Response:</strong> The API returns a JSON response indicating whether the deletion was successful or if there was an error.</p>
+
+                    <ul>
+                        <li><strong>If Message is Deleted Successfully:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                <li><strong>Message:</strong> Message deleted successfully</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Message is Not Found:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> Message not found</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Deletion Fails:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> Failed to delete the message. Please try again later</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Message ID is Missing:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
+                                <li><strong>Message:</strong> Message ID is required</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+POST /api/messages/delete_message.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+message_id=5
+        </pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "success",
+    "message": "Message deleted successfully"
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>Ensure that the provided <code>message_id</code> exists in the system before attempting to delete it.</li>
+                        <li>The deletion is only possible if the logged-in user has the appropriate rights (i.e., the user is the sender or the receiver of the message).</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">POST</span>
                 </div>
+
                 <div class="list-group-item">
                     <h5><strong>8) edit_message.php</strong></h5>
                     <p><strong>Purpose:</strong> Edits an existing message</p>
