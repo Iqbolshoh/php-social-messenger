@@ -1,21 +1,33 @@
 <?php
 session_start();
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0);
+}
+
+header('Content-Type: application/json');
+$response = [
+    'status' => '',
+    'message' => '',
+    'data' => []
+];
+
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     $response['status'] = 'error';
-    $response['message'] = 'Unauthorized access. Please log in.';
-    header('Content-Type: application/json');
+    $response['message'] = 'User is not logged in';
+    $response['data'] = [
+        'loggedin' => false
+    ];
     echo json_encode($response);
     exit;
 }
 
 include '../config.php';
 $query = new Database();
-
-$response = [
-    'status' => '',
-    'message' => ''
-];
 
 if (isset($_POST['user_id'], $_POST['action'])) {
     $user_id = (int) $_POST['user_id'];
@@ -61,5 +73,4 @@ if (isset($_POST['user_id'], $_POST['action'])) {
     $response['message'] = 'Invalid request. Both user_id and action parameters are required.';
 }
 
-header('Content-Type: application/json');
 echo json_encode($response);

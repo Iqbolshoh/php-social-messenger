@@ -1,19 +1,33 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
-    exit;
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0);
 }
 
-include '../config.php';
-$query = new Database();
-
+header('Content-Type: application/json');
 $response = [
     'status' => '',
     'message' => '',
     'data' => []
 ];
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    $response['status'] = 'error';
+    $response['message'] = 'User is not logged in';
+    $response['data'] = [
+        'loggedin' => false
+    ];
+    echo json_encode($response);
+    exit;
+}
+
+include '../config.php';
+$query = new Database();
 
 if (isset($_POST['id'])) {
 
@@ -51,5 +65,4 @@ if (isset($_POST['id'])) {
     $response['message'] = 'Receiver ID is required';
 }
 
-header('Content-Type: application/json');
 echo json_encode($response);

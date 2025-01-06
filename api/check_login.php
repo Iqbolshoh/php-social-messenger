@@ -1,13 +1,20 @@
 <?php
 session_start();
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0);
+}
+
+header('Content-Type: application/json');
 $response = [
     'status' => '',
     'message' => '',
     'data' => []
 ];
-
-header('Content-Type: application/json');
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     $response['status'] = 'error';
