@@ -247,11 +247,61 @@ username=johndoe&email=johndoe@example.com&password=yourpassword&confirm_passwor
 
                     <div class="list-group-item">
                         <h5><strong>3) check_login.php</strong></h5>
-                        <p><strong>Purpose:</strong> Checks if the user is logged in</p>
-                        <p><strong>Method:</strong> GET</p>
-                        <p><strong>Response:</strong> Returns login status (Logged in or not).</p>
-                        <span class="badge">GET</span>
+                        <p><strong>Purpose:</strong> Checks if the user is logged in. This API verifies whether the user is currently logged into the system. If the user is logged in, it returns the user's details. If not, it will return a message stating that the user is not logged in.</p>
+
+                        <p><strong>Method:</strong> <code>GET</code></p>
+
+                        <p><strong>Response:</strong> The API returns a JSON response indicating the login status of the user.</p>
+
+                        <ul>
+                            <li><strong>If User is Logged In:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                    <li><strong>Message:</strong> User is logged in</li>
+                                    <li><strong>Data:</strong> JSON object containing user details (user_id, full_name, email, username, profile_picture).</li>
+                                </ul>
+                            </li>
+                            <li><strong>If User is Not Logged In:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                    <li><strong>Message:</strong> User is not logged in</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Example Request:</strong></p>
+                        <code>
+                            <pre>
+GET /api/auth/check_login.php HTTP/1.1
+Content-Type: application/json
+                            </pre>
+                        </code>
+
+
+                        <p><strong>Example Response:</strong></p>
+                        <code>
+                            <pre>
+    {
+        "status": "success",
+        "message": "User is logged in",
+        "data": {
+            "loggedin": true,
+            "user_id": 1,
+            "full_name": "John Doe",
+            "email": "johndoe@example.com",
+            "username": "johndoe",
+            "profile_picture": "path/to/profile.jpg"
+        }
+    }
+                            </pre>
+                        </code>
+
+
+                        <p><strong>Notes:</strong> If the user is logged in, their session information will be returned as part of the response. If the user is not logged in, the response will indicate that the user is not logged in.</p>
+
+                        <span class="badge bg-primary">GET</span>
                     </div>
+
                     <div class="list-group-item">
                         <h5><strong>4) check_user_status.php</strong></h5>
                         <p><strong>Purpose:</strong> Verifies the user's login status</p>
@@ -259,30 +309,6 @@ username=johndoe&email=johndoe@example.com&password=yourpassword&confirm_passwor
                         <p><strong>Response:</strong> Returns user status (active, inactive, or not logged in).</p>
                         <span class="badge">GET</span>
                     </div>
-                </div>
-
-
-                <div class="list-group-item">
-                    <h5><strong>2) signup.php</strong></h5>
-                    <p><strong>Purpose:</strong> User registration (Sign Up)</p>
-                    <p><strong>Method:</strong> POST</p>
-                    <p><strong>Required data:</strong> <code>username</code>, <code>email</code>, <code>password</code>, <code>confirm_password</code></p>
-                    <p><strong>Response:</strong> Success message or error message.</p>
-                    <span class="badge">POST</span>
-                </div>
-                <div class="list-group-item">
-                    <h5><strong>3) check_login.php</strong></h5>
-                    <p><strong>Purpose:</strong> Checks if the user is logged in</p>
-                    <p><strong>Method:</strong> GET</p>
-                    <p><strong>Response:</strong> Returns login status (Logged in or not).</p>
-                    <span class="badge">GET</span>
-                </div>
-                <div class="list-group-item">
-                    <h5><strong>4) check_user_status.php</strong></h5>
-                    <p><strong>Purpose:</strong> Verifies the user's login status</p>
-                    <p><strong>Method:</strong> GET</p>
-                    <p><strong>Response:</strong> Returns user status (active, inactive, or not logged in).</p>
-                    <span class="badge">GET</span>
                 </div>
             </div>
         </section>
