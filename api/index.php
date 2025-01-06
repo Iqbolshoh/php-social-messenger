@@ -165,9 +165,9 @@ username=iqbolshoh&password=yourpassword123
         "loggedin": true,
         "user_id": 1,
         "full_name": "Iqbolshoh Ilhomjonov",
-        "email": "iqbolshoh@example.com",
+        "email": "iilhomjonov777@gmail.com",
         "username": "iqbolshoh",
-        "profile_picture": "path/to/profile.jpg"
+        "profile_picture": "src/images/profile-picture/iqbolshoh.jpg"
     }
 }
         </pre>
@@ -290,7 +290,7 @@ Content-Type: application/json
             "full_name": "John Doe",
             "email": "johndoe@example.com",
             "username": "johndoe",
-            "profile_picture": "path/to/profile.jpg"
+            "profile_picture": "src/images/profile-picture/profile.jpg"
         }
     }
                             </pre>
