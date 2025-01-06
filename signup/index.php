@@ -11,13 +11,15 @@ $query = new Database();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $full_name = $query->validate($_POST['full_name']);
-    $email = $query->validate($_POST['email']);
-    $username = $query->validate($_POST['username']);
+    $first_name = $query->validate($_POST['first_name']);
+    $last_name = $query->validate($_POST['last_name']);
+    $email = $query->validate(strtolower($_POST['email']));
+    $username = $query->validate(strtolower($_POST['username']));
     $password = $query->hashPassword($_POST['password']);
 
     $data = [
-        'full_name' => $full_name,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
         'email' => $email,
         'username' => $username,
         'password' => $password
@@ -29,11 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_id = $query->select('users', 'id', 'username = ?', [$username], 's')[0]['id'];
 
         $_SESSION['loggedin'] = true;
-        $_SESSION['user_id'] = $user_id;
-        $_SESSION['full_name'] = $full_name;
-        $_SESSION['email'] = $email;
         $_SESSION['username'] = $username;
-        $_SESSION['profile_picture'] = 'default.png';
+        $_SESSION['user_id'] = $user_id;
 
         setcookie('username', $username, time() + (86400 * 30), "/", "", true, true);
         setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
@@ -83,12 +82,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Sign Up</h1>
         <form id="signupForm" method="post" action="">
             <div class="form-group">
-                <label for="full_name">Full Name</label>
-                <input type="text" id="full_name" name="full_name" required maxlength="30">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" required maxlength="30">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" required maxlength="30">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required maxlength="150">
+                <input type="email" id="email" name="email" required maxlength="100">
                 <p id="email-message"></p>
             </div>
             <div class="form-group">
@@ -119,6 +122,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         let isEmailAvailable = false;
         let isUsernameAvailable = false;
 
+        function validateUsernameFormat(username) {
+            const usernamePattern = /^[a-zA-Z0-9_]+$/;
+            return usernamePattern.test(username);
+        }
+
         document.getElementById('email').addEventListener('input', function() {
             let email = this.value;
             if (email.length > 0) {
@@ -145,6 +153,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         document.getElementById('username').addEventListener('input', function() {
             let username = this.value;
+            const messageElement = document.getElementById('username-message');
+
+            if (!validateUsernameFormat(username)) {
+                messageElement.textContent = 'Username can only contain letters, numbers, and underscores!';
+                isUsernameAvailable = false;
+                return;
+            }
+
             if (username.length > 0) {
                 fetch('check_availability.php', {
                         method: 'POST',
@@ -155,7 +171,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     })
                     .then(response => response.json())
                     .then(data => {
-                        const messageElement = document.getElementById('username-message');
                         if (data.exists) {
                             messageElement.textContent = 'This username exists!';
                             isUsernameAvailable = false;
@@ -164,6 +179,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             isUsernameAvailable = true;
                         }
                     });
+            } else {
+                messageElement.textContent = '';
             }
         });
 
@@ -174,21 +191,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         document.getElementById('signupForm').addEventListener('submit', function(event) {
             let email = document.getElementById('email').value;
-            const messageElement = document.getElementById('email-message');
+            const emailMessageElement = document.getElementById('email-message');
+            let username = document.getElementById('username').value;
+            const usernameMessageElement = document.getElementById('username-message');
 
             if (!validateEmailFormat(email)) {
-                messageElement.textContent = 'Email format is incorrect!';
+                emailMessageElement.textContent = 'Email format is incorrect!';
+                event.preventDefault();
+                return;
+            }
+
+            if (!validateUsernameFormat(username)) {
+                usernameMessageElement.textContent = 'Username can only contain letters, numbers, and underscores!';
                 event.preventDefault();
                 return;
             }
 
             if (isEmailAvailable === false) {
-                messageElement.textContent = 'This email exists!';
+                emailMessageElement.textContent = 'This email exists!';
                 event.preventDefault();
             }
 
             if (isUsernameAvailable === false) {
-                const usernameMessageElement = document.getElementById('username-message');
                 usernameMessageElement.textContent = 'This username exists!';
                 event.preventDefault();
             }
@@ -209,6 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
     </script>
+
 </body>
 
 </html>
