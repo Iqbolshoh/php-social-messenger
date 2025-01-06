@@ -161,13 +161,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 .then(data => {
                     if (data.status === 'success') {
                         Swal.fire({
+                            position: 'top-end',
                             icon: 'success',
                             title: 'Registration Successful!',
-                            text: 'Redirecting to home page...',
-                            timer: 2000,
-                            willClose: () => {
-                                window.location.href = "../index.php";
-                            }
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = '../';
                         });
                     } else {
                         Swal.fire({
