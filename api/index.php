@@ -830,11 +830,74 @@ Content-Type: application/json
 
                 <div class="list-group-item">
                     <h5><strong>11) fetch_profile.php</strong></h5>
-                    <p><strong>Purpose:</strong> Retrieves the user's profile information</p>
-                    <p><strong>Method:</strong> GET</p>
-                    <p><strong>Response:</strong> JSON response with profile data.</p>
-                    <span class="badge">GET</span>
+                    <p><strong>Purpose:</strong> Retrieves the user's profile information. This API endpoint is used to fetch the profile details of the logged-in user. It provides the user's full name, username, profile picture, and other profile-related data.</p>
+
+                    <p><strong>Method:</strong> <code>GET</code></p>
+
+                    <p><strong>Response:</strong> The response contains a JSON object with the user's profile information. This includes the user's full name, username, profile picture, and other related data.</p>
+
+                    <ul>
+                        <li><strong>If Profile is Retrieved Successfully:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                <li><strong>Message:</strong> Profile data retrieved successfully.</li>
+                                <li><strong>Data:</strong> A JSON object containing the user's profile details:
+                                    <ul>
+                                        <li><strong>user_id</strong>: The unique ID of the user</li>
+                                        <li><strong>full_name</strong>: The full name of the user</li>
+                                        <li><strong>username</strong>: The username of the user</li>
+                                        <li><strong>profile_picture</strong>: The URL or path to the user's profile picture</li>
+                                        <li><strong>last_message_time</strong>: The time of the last message exchanged with the user (if applicable)</li>
+                                        <li><strong>unread_messages</strong>: The count of unread messages (if applicable)</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>If No Profile Found or Error Occurs:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> User is not logged in or an error occurred retrieving the profile.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+GET /api/fetch_profile.php HTTP/1.1
+Content-Type: application/json
+</pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "success",
+    "message": "Profile data retrieved successfully",
+    "data": {
+        "user_id": 1,
+        "full_name": "John Doe",
+        "username": "johndoe",
+        "profile_picture": "src/images/profile-picture/profile_picture.jpg",
+        "last_message_time": "2025-01-05 14:20:00",
+        "unread_messages": 2
+    }
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>This API is specifically for retrieving the profile data of the logged-in user. If the user is not logged in, an error response will be returned.</li>
+                        <li>The response will include the user's ID, full name, username, profile picture URL, and additional information like the time of the last message and the number of unread messages.</li>
+                        <li>In case the user is not logged in or an error occurs during the profile retrieval, the API will return an appropriate error message.</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">GET</span>
                 </div>
+
                 <div class="list-group-item">
                     <h5><strong>12) change_user_status.php</strong></h5>
                     <p><strong>Purpose:</strong> Changes the user's online/offline status</p>
