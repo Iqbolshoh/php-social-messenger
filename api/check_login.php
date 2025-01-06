@@ -1,7 +1,5 @@
 <?php
 session_start();
-include '../config.php';
-$query = new Database();
 
 $response = [
     'status' => '',
@@ -9,21 +7,32 @@ $response = [
     'data' => []
 ];
 
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    $response['status'] = 'success';
-    $response['message'] = 'User is logged in';
-    $response['data'] = [
-        'loggedin' => true,
-        'username' => $_SESSION['username'],
-        'user_id' => $_SESSION['user_id']
-    ];
-} else {
+header('Content-Type: application/json');
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     $response['status'] = 'error';
     $response['message'] = 'User is not logged in';
     $response['data'] = [
         'loggedin' => false
     ];
+    echo json_encode($response);
+    exit;
 }
 
-header('Content-Type: application/json');
+include '../config.php';
+$query = new Database();
+
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    $response['status'] = 'success';
+    $response['message'] = 'User is logged in';
+    $response['data'] = [
+        'loggedin' => true,
+        'user_id' => $_SESSION['user_id'],
+        'full_name' => $_SESSION['full_name'],
+        'email' => $_SESSION['email'],
+        'username' => $_SESSION['username'],
+        'profile_picture' => $_SESSION['profile_picture']
+    ];
+}
+
 echo json_encode($response);

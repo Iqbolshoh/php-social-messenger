@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    $response['status'] = 'error';
+    $response['message'] = 'Unauthorized access. Please log in.';
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+
 include '../config.php';
 $query = new Database();
 

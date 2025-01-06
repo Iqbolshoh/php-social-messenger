@@ -2,7 +2,10 @@
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
+    $response['status'] = 'error';
+    $response['message'] = 'Unauthorized access. Please log in.';
+    header('Content-Type: application/json');
+    echo json_encode($response);
     exit;
 }
 
