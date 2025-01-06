@@ -15,36 +15,50 @@ $response = [
     'message' => ''
 ];
 
-if (isset($_POST['message_id']) && isset($_POST['new_message'])) {
-    
-    $message_id = $_POST['message_id'];
-    $new_message = $_POST['new_message'];
-    $sender_id = $_SESSION['user_id'];
+if (isset($_POST['message_id'], $_POST['new_message'])) {
 
-    $message = $query->select(
-        'messages',
-        '*',
-        'id = ? AND sender_id = ?',
-        [$message_id, $sender_id],
-        'ii'
-    );
+    $message_id = (int) $_POST['message_id'];
+    $new_message = trim($_POST['new_message']);
 
-    if ($message) {
+    if (empty($new_message)) {
+        $response['message'] = 'Message content cannot be empty.';
+    } else {
+        $sender_id = $_SESSION['user_id'];
 
-        $data = ['content' => $new_message];
-        $result = $query->update(
+        $message = $query->select(
             'messages',
-            $data,
-            'id = ?',
-            [$message_id],
-            'i'
+            '*',
+            'id = ? AND sender_id = ?',
+            [$message_id, $sender_id],
+            'ii'
         );
 
-        if ($result > 0) {
-            $response['status'] = 'success';
-            $response['message'] = 'Message updated successfully';
+        if ($message) {
+
+            $data = ['content' => $new_message];
+            $update_result = $query->update(
+                'messages',
+                $data,
+                'id = ?',
+                [$message_id],
+                'i'
+            );
+
+            if ($update_result > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Message updated successfully';
+            } else {
+                $response['message'] = 'Failed to update message. Please try again later.';
+            }
+        } else {
+            $response['message'] = 'Message not found or you do not have permission to edit this message.';
         }
     }
+} else {
+    $response = [
+        'status' => 'error',
+        'message' => 'Invalid request or missing parameters.'
+    ];
 }
 
 header('Content-Type: application/json');
