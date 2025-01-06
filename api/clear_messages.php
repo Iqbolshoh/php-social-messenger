@@ -19,13 +19,6 @@ if (isset($_POST['clear']) && $_POST['clear'] == true && isset($_POST['receiver_
     $sender_id = $_SESSION['user_id'];
     $receiver_id = (int) $_POST['receiver_id'];
 
-    if ($sender_id == $receiver_id) {
-        $response['status'] = 'error';
-        $response['message'] = 'You cannot delete your own messages.';
-        echo json_encode($response);
-        exit;
-    }
-
     $deleted = $query->delete(
         'messages',
         "((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?))",
