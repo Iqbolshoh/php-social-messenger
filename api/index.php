@@ -187,9 +187,9 @@ username=iqbolshoh&password=yourpassword123
 
                         <p><strong>Required Data:</strong>
                         <ul>
-                            <li><strong><code>username</code></strong>: The desired username for the new user (a string).</li>
-                            <li><strong><code>email</code></strong>: The user's email address (a string).</li>
-                            <li><strong><code>password</code></strong>: The password the user chooses (a string).</li>
+                            <li><strong><code>username</code></strong>: The desired username for the new user (a string). For example, <code>iqbolshoh</code> or <code>clientuser</code>.</li>
+                            <li><strong><code>email</code></strong>: The user's email address (a string). For example, <code>iilhomjonov777@gmail.com</code> or <code>clientuser@example.com</code>.</li>
+                            <li><strong><code>password</code></strong>: The password the user chooses (a string). For example, <code>password123</code>.</li>
                             <li><strong><code>confirm_password</code></strong>: The confirmation of the password to ensure the user typed it correctly (a string).</li>
                         </ul>
                         </p>
@@ -218,7 +218,7 @@ username=iqbolshoh&password=yourpassword123
 POST /api/auth/signup.php HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-username=johndoe&email=johndoe@example.com&password=yourpassword&confirm_password=yourpassword
+username=iqbolshoh&email=iilhomjonov777@gmail.com&password=password123&confirm_password=password123
         </pre>
                         </code>
 
@@ -231,10 +231,10 @@ username=johndoe&email=johndoe@example.com&password=yourpassword&confirm_passwor
     "data": {
         "loggedin": true,
         "user_id": 1,
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "username": "johndoe",
-        "profile_picture": "default.png"
+        "full_name": "Iqbolshoh Ilhomjonov",
+        "email": "iilhomjonov777@gmail.com",
+        "username": "iqbolshoh",
+        "profile_picture": "src/images/profile-picture/iqbolshoh.jpg"
     }
 }
         </pre>
