@@ -17,13 +17,13 @@ $response = [
 
 if (isset($_POST['message_id'], $_POST['new_message'])) {
 
+    $sender_id = $_SESSION['user_id'];
     $message_id = (int) $_POST['message_id'];
     $new_message = trim($_POST['new_message']);
 
     if (empty($new_message)) {
         $response['message'] = 'Message content cannot be empty.';
     } else {
-        $sender_id = $_SESSION['user_id'];
 
         $message = $query->select(
             'messages',
@@ -48,17 +48,17 @@ if (isset($_POST['message_id'], $_POST['new_message'])) {
                 $response['status'] = 'success';
                 $response['message'] = 'Message updated successfully';
             } else {
+                $response['status'] = 'error';
                 $response['message'] = 'Failed to update message. Please try again later.';
             }
         } else {
+            $response['status'] = 'error';
             $response['message'] = 'Message not found or you do not have permission to edit this message.';
         }
     }
 } else {
-    $response = [
-        'status' => 'error',
-        'message' => 'Invalid request or missing parameters.'
-    ];
+    $response['status'] = 'error';
+    $response['message'] = 'Invalid request or missing parameters.';
 }
 
 header('Content-Type: application/json');
