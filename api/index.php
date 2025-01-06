@@ -640,7 +640,7 @@ message_id=5
                     <p><strong>Example Request:</strong></p>
                     <code>
                         <pre>
-POST /api/messages/edit_message HTTP/1.1
+POST /api/messages/edit_message.php HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
 message_id=3&new_message_content=Updated%20message%20content
@@ -670,11 +670,71 @@ message_id=3&new_message_content=Updated%20message%20content
 
                 <div class="list-group-item">
                     <h5><strong>9) clear_messages.php</strong></h5>
-                    <p><strong>Purpose:</strong> Clears all messages for the logged-in user</p>
-                    <p><strong>Method:</strong> POST</p>
-                    <p><strong>Response:</strong> Success or error message.</p>
-                    <span class="badge">POST</span>
+                    <p><strong>Purpose:</strong> Clears all messages for the logged-in user. This API allows the logged-in user to delete all their messages exchanged with a specific user. Once the request is made, the system deletes all messages between the logged-in user and the specified receiver.</p>
+
+                    <p><strong>Method:</strong> <code>POST</code></p>
+
+                    <p><strong>Required Data:</strong>
+                    <ul>
+                        <li><strong><code>clear</code></strong>: This must be set to <code>true</code> to confirm that the user wants to clear the messages.</li>
+                        <li><strong><code>receiver_id</code></strong>: The ID of the user whose messages with the logged-in user are to be deleted.</li>
+                    </ul>
+                    </p>
+
+                    <p><strong>Response:</strong> The API returns a JSON response indicating whether the deletion was successful or if there was an error.</p>
+
+                    <ul>
+                        <li><strong>If Messages are Deleted Successfully:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                <li><strong>Message:</strong> All messages successfully deleted.</li>
+                            </ul>
+                        </li>
+                        <li><strong>If No Messages are Found or an Error Occurred:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> No messages found to delete or an error occurred.</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Parameters are Missing or Invalid:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
+                                <li><strong>Message:</strong> Invalid request. Please provide necessary parameters.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+POST /api/messages/clear_messages.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+clear=true&receiver_id=4
+        </pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "success",
+    "message": "All messages successfully deleted."
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>Both the logged-in user and the receiver's messages will be deleted.</li>
+                        <li>If there are no messages between the logged-in user and the receiver, an error will be returned.</li>
+                        <li>It is important to ensure that the <code>clear</code> parameter is set to <code>true</code> to confirm the action.</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">POST</span>
                 </div>
+
             </div>
         </section>
 
