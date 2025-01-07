@@ -967,7 +967,7 @@ Content-Type: application/json
 
 
                 <div class="list-group-item">
-                    <h5><strong>13) check_user_status.php</strong></h5>
+                    <h5><strong>14) check_user_status.php</strong></h5>
                     <p><strong>Purpose:</strong> Checks the user's online/offline status. This API helps determine if a user is currently online, offline, or blocked by another user.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
