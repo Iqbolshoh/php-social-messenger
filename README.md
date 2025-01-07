@@ -2,6 +2,68 @@
 
 PHP Social Messenger is a real-time messaging application that allows users to chat with each other, edit their profiles, and manage contacts. It provides an easy-to-use interface for sending and receiving messages, managing user profiles, and handling blocked users. The app is built using PHP, MySQL, and JavaScript (AJAX), with a focus on real-time interactions. This application also includes a RESTful API for seamless integration with other services.
 
+## Features
+
+### 1. Real-Time Messaging
+   - Instant message updates: Messages are instantly displayed when received. The chat automatically refreshes every few seconds.
+   - Message status: Shows which user sent the last message and the number of unread messages.
+   - Delete or copy own messages: Users can edit, delete, or copy their own messages, but they cannot edit messages from other users.
+
+   Screenshot: Real-Time Messaging  
+   ![Real-Time Messaging](https://via.placeholder.com/600x400?text=Real-Time+Messaging)
+
+### 2. Profile Management
+   - Profile Editing: Users can update their profile picture, full name, and password directly from the user interface.
+   - View Profile: Clicking on the "View Profile" option lets users see the profile information of the person they are chatting with.
+
+   Screenshot: Profile Management  
+   ![Profile Management](https://via.placeholder.com/600x400?text=Profile+Management)
+
+### 3. Contact Search
+   - Search Contacts: Users can search for contacts using the search bar on the homepage (index.php). It dynamically filters the contacts list based on the search term.
+   - Manage Contacts: The app displays all the contacts on the main page, including unread messages, allowing users to stay updated.
+
+   Screenshot: Contact Search  
+   ![Contact Search](https://via.placeholder.com/600x400?text=Contact+Search)
+
+### 4. Block Users
+   - Block Functionality: Users can block others from sending messages. If you block someone, they will not be able to send you messages anymore, and you will not be able to message them.
+   - Blocked Notifications: If a user tries to message someone who has blocked them, they will be notified that they are blocked.
+   - Block Menu: The block option is easily accessible via the action menu in the chat interface.
+
+   Screenshot: Block Users  
+   ![Block Users](https://via.placeholder.com/600x400?text=Block+Users)
+
+### 5. Chat Interface
+   - Message History: When entering a chat (chat.php), the complete message history with the other user is shown.
+   - Message Actions: Users can delete or copy their own messages, while messages from others cannot be edited.
+   - Real-Time Syncing: The chat updates in real-time, ensuring the user always sees the most recent messages.
+
+   Screenshot: Chat Interface  
+   ![Chat Interface](https://via.placeholder.com/600x400?text=Chat+Interface)
+
+### 6. Menu Options
+   - View Profile: View the profile of the person you’re chatting with.
+   - Clear Chat: Clear the entire chat history with a specific user.
+   - Block User: Block the user to prevent them from sending you any more messages.
+
+   Screenshot: Menu Options  
+   ![Menu Options](https://via.placeholder.com/600x400?text=Menu+Options)
+
+---
+
+## API
+
+The application also exposes a RESTful API for integrating the messaging functionality into other systems. The API includes endpoints for:
+
+- Fetching user profiles
+- Fetching messages
+- Sending messages
+- Blocking users
+- Managing user accounts
+
+API documentation is available in the docs/ directory. It provides all the necessary details for interacting with the APIs and using them in your own applications.
+
 ### Technologies Used
 
 <div style="display: flex; flex-wrap: wrap; gap: 5px;">
