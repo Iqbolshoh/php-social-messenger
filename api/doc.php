@@ -245,8 +245,60 @@ username=iqbolshoh&email=iilhomjonov777@gmail.com&password=password123&confirm_p
                         <span class="badge bg-primary">POST</span>
                     </div>
 
+                    <div class="list-group-item">
+                        <h5><strong>3) logout.php</strong></h5>
 
+                        <p><strong>Purpose:</strong> This API is used for logging out the user. It terminates the user's session, deletes the session cookies, and ensures the user is logged out of the system. After successful logout, a confirmation message is returned as a JSON response.</p>
 
+                        <p><strong>Method:</strong> <code>POST</code></p>
+
+                        <p><strong>Required Data:</strong>
+                        <ul>
+                            <li><strong><code>None</code></strong>: No data is required in the request body to perform the logout action. The logout process is handled by clearing session data and deleting relevant cookies.</li>
+                        </ul>
+                        </p>
+
+                        <p><strong>Response:</strong> The API will return a JSON response indicating whether the logout process was successful or not.</p>
+
+                        <ul>
+                            <li><strong>If Logout is Successful:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                    <li><strong>Message:</strong> User successfully logged out</li>
+                                </ul>
+                            </li>
+                            <li><strong>If Logout Fails:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                    <li><strong>Message:</strong> Logout failed. Please try again later.</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Example Request:</strong></p>
+                        <code>
+                            <pre>
+POST /api/auth/logout.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+        </pre>
+                        </code>
+
+                        <p><strong>Example Response:</strong></p>
+                        <code>
+                            <pre>
+{
+    "status": "success",
+    "message": "User successfully logged out"
+}
+        </pre>
+                        </code>
+
+                        <p><strong>Notes:</strong>
+                            After successful logout, the user’s session is terminated, and cookies related to the session are deleted. The user will no longer be authenticated and must log in again to access protected resources. No user credentials are needed in the request body for this API.
+                        </p>
+
+                        <span class="badge bg-primary">POST</span>
+                    </div>
 
                     <div class="list-group-item">
                         <h5><strong>4) check_login.php</strong></h5>
