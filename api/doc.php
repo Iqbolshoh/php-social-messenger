@@ -142,7 +142,7 @@
         <h3>API Files</h3>
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="auth/login.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseLogin">
+                <a href="auth/login.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseLogin" onclick="toggleIcon(this)">
                     <strong>1) login.php</strong> - Handles user authentication and login.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -151,7 +151,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/logout.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseLogout">
+                <a href="auth/logout.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseLogout" onclick="toggleIcon(this)">
                     <strong>2) logout.php</strong> - Logs the user out and clears session data.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -160,7 +160,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/signup.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseSignup">
+                <a href="auth/signup.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseSignup" onclick="toggleIcon(this)">
                     <strong>3) signup.php</strong> - Handles user registration and account creation.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -169,7 +169,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/change_user_status.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseChangeStatus">
+                <a href="auth/change_user_status.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseChangeStatus" onclick="toggleIcon(this)">
                     <strong>4) change_user_status.php</strong> - Updates the user’s status (block/unblock).
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -178,7 +178,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/check_user_status.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseCheckStatus">
+                <a href="auth/check_user_status.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseCheckStatus" onclick="toggleIcon(this)">
                     <strong>5) check_user_status.php</strong> - Checks if the user is block or unblock.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -187,7 +187,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/clear_messages.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseClearMessages">
+                <a href="auth/clear_messages.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseClearMessages" onclick="toggleIcon(this)">
                     <strong>6) clear_messages.php</strong> - Clears or deletes messages in the system.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -196,7 +196,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/delete_message.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseDeleteMessage">
+                <a href="auth/delete_message.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseDeleteMessage" onclick="toggleIcon(this)">
                     <strong>7) delete_message.php</strong> - Deletes a specific message.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -205,7 +205,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/edit_message.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseEditMessage">
+                <a href="auth/edit_message.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseEditMessage" onclick="toggleIcon(this)">
                     <strong>8) edit_message.php</strong> - Edits a message in the system.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -214,7 +214,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/fetch_contacts.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseFetchContacts">
+                <a href="auth/fetch_contacts.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseFetchContacts" onclick="toggleIcon(this)">
                     <strong>9) fetch_contacts.php</strong> - Retrieves user’s contacts or friends list.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -223,7 +223,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/fetch_messages.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseFetchMessages">
+                <a href="auth/fetch_messages.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseFetchMessages" onclick="toggleIcon(this)">
                     <strong>10) fetch_messages.php</strong> - Retrieves messages associated with the user or conversation.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -232,7 +232,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/fetch_profile.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseFetchProfile">
+                <a href="auth/fetch_profile.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseFetchProfile" onclick="toggleIcon(this)">
                     <strong>11) fetch_profile.php</strong> - Retrieves user profile details.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -241,7 +241,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/send_message.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseSendMessage">
+                <a href="auth/send_message.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseSendMessage" onclick="toggleIcon(this)">
                     <strong>12) send_message.php</strong> - Sends a message to another user.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -250,7 +250,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/check_availability.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseCheckAvailability">
+                <a href="auth/check_availability.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseCheckAvailability" onclick="toggleIcon(this)">
                     <strong>13) check_availability.php</strong> - Checks if a user or resource is available.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -259,7 +259,7 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="auth/check_login.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseCheckLogin">
+                <a href="auth/check_login.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseCheckLogin" onclick="toggleIcon(this)">
                     <strong>14) check_login.php</strong> - Verifies if a user is logged in.
                     <i class="fa fa-chevron-down float-end"></i>
                 </a>
@@ -268,6 +268,21 @@
                 </div>
             </li>
         </ul>
+
+        <script>
+            function toggleIcon(link) {
+                var icon = link.querySelector('i');
+                // Toggle between down and up icons
+                if (icon.classList.contains('fa-chevron-down')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            }
+        </script>
+
 
         <section>
             <h2>Authentication APIs</h2>
