@@ -101,6 +101,42 @@
             color: #777;
         }
 
+
+        .list-group-item {
+            position: relative;
+            padding: 15px;
+            font-size: 16px;
+        }
+
+        .list-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .list-link:hover {
+            text-decoration: underline;
+        }
+
+        .see-more {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .see-more:hover {
+            text-decoration: underline;
+        }
+
+        span {
+            font-size: 14px;
+            color: #555;
+        }
+
         .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
@@ -140,45 +176,59 @@
         <ul class="list-group">
             <li class="list-group-item">
                 <a href="auth/login.php" class="list-link"><strong>1) auth/login.php</strong></a> - <span>Handles user authentication and login.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="auth/logout.php" class="list-link"><strong>2) auth/logout.php</strong></a> - <span>Logs the user out and clears session data.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="auth/signup.php" class="list-link"><strong>3) auth/signup.php</strong></a> - <span>Handles user registration and account creation.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="auth/check_availability.php" class="list-link"><strong>4) auth/check_availability.php</strong></a> - <span>Checks if a user or resource is available.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="auth/check_login.php" class="list-link"><strong>5) auth/check_login.php</strong></a> - <span>Verifies if a user is logged in.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="change_user_status.php" class="list-link"><strong>6) change_user_status.php</strong></a> - <span>Updates the user’s status (block/unblock).</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="check_user_status.php" class="list-link"><strong>7) check_user_status.php</strong></a> - <span>Checks if the user is blocked or unblocked.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="clear_messages.php" class="list-link"><strong>8) clear_messages.php</strong></a> - <span>Clears or deletes messages in the system.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="delete_message.php" class="list-link"><strong>9) delete_message.php</strong></a> - <span>Deletes a specific message.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="edit_message.php" class="list-link"><strong>10) edit_message.php</strong></a> - <span>Edits a message in the system.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="fetch_contacts.php" class="list-link"><strong>11) fetch_contacts.php</strong></a> - <span>Retrieves user’s contacts or friends list.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="fetch_messages.php" class="list-link"><strong>12) fetch_messages.php</strong></a> - <span>Retrieves messages associated with the user or conversation.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="fetch_profile.php" class="list-link"><strong>13) fetch_profile.php</strong></a> - <span>Retrieves user profile details.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
             <li class="list-group-item">
                 <a href="send_message.php" class="list-link"><strong>14) send_message.php</strong></a> - <span>Sends a message to another user.</span>
+                <a href="#path" class="see-more">See More...</a>
             </li>
         </ul>
 
