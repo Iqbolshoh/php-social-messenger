@@ -523,7 +523,7 @@ id=2
                 </div>
 
                 <div class="list-group-item">
-                    <h5><strong>7) delete_message.php</strong></h5>
+                    <h5><strong>8) delete_message.php</strong></h5>
                     <p><strong>Purpose:</strong> Deletes a specific message. This API allows the logged-in user to delete a message by providing its ID. The system will check if the message exists and if the user is authorized to delete it.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
