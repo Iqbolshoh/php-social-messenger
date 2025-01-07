@@ -164,6 +164,20 @@
                 font-size: 1.6rem;
             }
         }
+
+        .see-more-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 3px 7px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .see-more-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -176,59 +190,59 @@
         <ul class="list-group">
             <li class="list-group-item">
                 <a href="auth/login.php" class="list-link"><strong>1) auth/login.php</strong></a> - <span>Handles user authentication and login.</span>
-                <a href="#login" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#login'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="auth/logout.php" class="list-link"><strong>2) auth/logout.php</strong></a> - <span>Logs the user out and clears session data.</span>
-                <a href="#logout" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#logout'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="auth/signup.php" class="list-link"><strong>3) auth/signup.php</strong></a> - <span>Handles user registration and account creation.</span>
-                <a href="#signup" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#signup'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="auth/check_availability.php" class="list-link"><strong>4) auth/check_availability.php</strong></a> - <span>Checks if a user or resource is available.</span>
-                <a href="#check_availability" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#check_availability'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="auth/check_login.php" class="list-link"><strong>5) auth/check_login.php</strong></a> - <span>Verifies if a user is logged in.</span>
-                <a href="#check_login" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#check_login'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="change_user_status.php" class="list-link"><strong>6) change_user_status.php</strong></a> - <span>Updates the user’s status (block/unblock).</span>
-                <a href="#change_user_status" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#change_user_status'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="check_user_status.php" class="list-link"><strong>7) check_user_status.php</strong></a> - <span>Checks if the user is blocked or unblocked.</span>
-                <a href="#check_user_status" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#check_user_status'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="clear_messages.php" class="list-link"><strong>8) clear_messages.php</strong></a> - <span>Clears or deletes messages in the system.</span>
-                <a href="#clear_messages" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#clear_messages'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="delete_message.php" class="list-link"><strong>9) delete_message.php</strong></a> - <span>Deletes a specific message.</span>
-                <a href="#delete_message" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#delete_message'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="edit_message.php" class="list-link"><strong>10) edit_message.php</strong></a> - <span>Edits a message in the system.</span>
-                <a href="#edit_message" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#edit_message'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="fetch_contacts.php" class="list-link"><strong>11) fetch_contacts.php</strong></a> - <span>Retrieves user’s contacts or friends list.</span>
-                <a href="#fetch_contacts" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#fetch_contacts'">Learn More</button>
             </li>
             <li class="list-group-item">
-                <a href="fetch_messages.php" class="list-link"><strong>12) fetch_messages.php</strong></a> - <span>Retrieves messages associated with the user or conversation.</span>
-                <a href="#fetch_messages" class="see-more">See More...</a>
+                <a href="fetch_messages.php" class="list-link"><strong>12) fetch_messages.php</strong></a> - <span>Retrieves messages associated with the user and conversation.</span>
+                <button class="see-more-btn" onclick="window.location.href='#fetch_messages'">Learn More</button>
             </li>
             <li class="list-group-item">
                 <a href="fetch_profile.php" class="list-link"><strong>13) fetch_profile.php</strong></a> - <span>Retrieves user profile details.</span>
-                <a href="#fetch_profile" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#fetch_profile'">See More</button>
             </li>
             <li class="list-group-item">
                 <a href="send_message.php" class="list-link"><strong>14) send_message.php</strong></a> - <span>Sends a message to another user.</span>
-                <a href="#send_message" class="see-more">See More...</a>
+                <button class="see-more-btn" onclick="window.location.href='#send_message'">Learn More</button>
             </li>
         </ul>
 
@@ -539,41 +553,41 @@ Content-Type: application/json
         </section>
 
         <section>
-            <h2>Message APIs</h2>
+            <h2>Message & Other Helper APIs</h2>
             <div class="list-group">
-                <div class="list-group-item">
-                    <h5><strong>6) send_message.php</strong></h5>
-                    <p><strong>Purpose:</strong> Sends a new message to another user. This API allows a user to send a message to another registered user within the system. The message will be stored in the database and can be retrieved later.</p>
+
+                <div class="list-group-item" id="change_user_status">
+                    <h5><strong>6) change_user_status.php</strong></h5>
+                    <p><strong>Purpose:</strong> Changes the user's status between block and unblock. This API endpoint allows a logged-in user to either block or unblock another user.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
 
-                    <p><strong>Required Data:</strong>
+                    <p><strong>Required data:</strong> The request must include two parameters:
                     <ul>
-                        <li><strong><code>recipient_id</code></strong>: The ID of the user to whom the message will be sent.</li>
-                        <li><strong><code>message_content</code></strong>: The content of the message to be sent.</li>
+                        <li><strong><code>user_id</code></strong>: The ID of the user to be blocked or unblocked.</li>
+                        <li><strong><code>action</code></strong>: The action to be performed, either <code>block</code> or <code>unblock</code>.</li>
                     </ul>
                     </p>
 
-                    <p><strong>Response:</strong> The API returns a success or error message depending on whether the message was sent successfully.</p>
+                    <p><strong>Response:</strong> A JSON response with a success or error message, based on the action taken.</p>
 
                     <ul>
-                        <li><strong>If Message Sent Successfully:</strong>
+                        <li><strong>If Status is Changed Successfully:</strong>
                             <ul>
                                 <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
-                                <li><strong>Message:</strong> Message sent successfully</li>
-                                <li><strong>Data:</strong> JSON object with message details (id, content, created_at).</li>
+                                <li><strong>Message:</strong> The user's status was successfully updated.</li>
                             </ul>
                         </li>
-                        <li><strong>If Message Sending Failed:</strong>
+                        <li><strong>If No Valid Action is Provided:</strong>
                             <ul>
                                 <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
-                                <li><strong>Message:</strong> Failed to send the message. Please try again later.</li>
+                                <li><strong>Message:</strong> "Invalid action. Please provide either 'block' or 'unblock' action."</li>
                             </ul>
                         </li>
-                        <li><strong>If Required Data Missing:</strong>
+                        <li><strong>If User is Blocked:</strong>
                             <ul>
-                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
-                                <li><strong>Message:</strong> Message content and receiver ID are required.</li>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">blocked</span></li>
+                                <li><strong>Message:</strong> "You are blocked by this user."</li>
                             </ul>
                         </li>
                     </ul>
@@ -581,10 +595,12 @@ Content-Type: application/json
                     <p><strong>Example Request:</strong></p>
                     <code>
                         <pre>
-POST /api/messages/send_message.php HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-
-recipient_id=2&message_content=Hello%20there!
+POST /api/change_user_status.php HTTP/1.1
+Content-Type: application/json
+{
+    "user_id": 2,
+    "action": "block"
+}
         </pre>
                     </code>
 
@@ -593,60 +609,49 @@ recipient_id=2&message_content=Hello%20there!
                         <pre>
 {
     "status": "success",
-    "message": "Message sent successfully",
-    "data": {
-        "id": 123,
-        "content": "Hello there!",
-        "created_at": "2025-01-06 15:30:00"
-    }
+    "message": "User has been blocked successfully."
 }
         </pre>
-
                     </code>
 
                     <p><strong>Notes:</strong>
                     <ul>
-                        <li>If the user is not logged in, the API will return an error indicating the user is not logged in.</li>
-                        <li>Both the recipient's ID and message content are required fields to send a message.</li>
-                        <li>In case of a database issue or failure to insert the message, an error message will be returned.</li>
+                        <li>This API allows the logged-in user to change another user's status to either "blocked" or "unblocked".</li>
+                        <li>If the user tries to block an already blocked user or unblock an already unblocked user, an error message will be returned.</li>
+                        <li>If the user is blocked by the other user, the request will be denied with a "blocked" response.</li>
                     </ul>
                     </p>
 
                     <span class="badge bg-primary">POST</span>
                 </div>
 
-                <div class="list-group-item">
-                    <h5><strong>7) fetch_messages.php</strong></h5>
-                    <p><strong>Purpose:</strong> Retrieves all messages for the logged-in user. This API allows the logged-in user to fetch all messages exchanged with another user. The messages are ordered by creation date.</p>
+                <div class="list-group-item" id="check_user_status">
+                    <h5><strong>7) check_user_status.php</strong></h5>
+                    <p><strong>Purpose:</strong> Checks the user's online/offline status. This API helps determine if a user is currently online, offline, or blocked by another user.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
 
-                    <p><strong>Required Data:</strong>
-                    <ul>
-                        <li><strong><code>id (receiver_id)</code></strong>: The ID of the user whose messages are being retrieved. This should be the user with whom the logged-in user has exchanged messages.</li>
-                    </ul>
-                    </p>
+                    <p><strong>Required data:</strong> The request must include a <code>receiver_id</code> (the user whose status you want to check).</p>
 
-                    <p><strong>Response:</strong> The API returns a JSON response with a list of messages exchanged between the logged-in user and the receiver.</p>
+                    <p><strong>Response:</strong> A JSON response with information on whether the user is blocked or not.</p>
 
                     <ul>
-                        <li><strong>If Messages Are Found:</strong>
+                        <li><strong>If User is Not Blocked:</strong>
                             <ul>
-                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
-                                <li><strong>Message:</strong> Messages fetched successfully</li>
-                                <li><strong>Data:</strong> JSON array of message objects containing message details (sender_id, receiver_id, content, created_at, status).</li>
+                                <li><strong>Status:</strong> <span class="badge bg-success">unblocked</span></li>
+                                <li><strong>Message:</strong> "You are not blocked by this user."</li>
                             </ul>
                         </li>
-                        <li><strong>If No Messages Are Found:</strong>
+                        <li><strong>If User is Blocked:</strong>
                             <ul>
-                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
-                                <li><strong>Message:</strong> No messages found</li>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">blocked</span></li>
+                                <li><strong>Message:</strong> "You are blocked by this user."</li>
                             </ul>
                         </li>
                         <li><strong>If Receiver ID is Missing:</strong>
                             <ul>
                                 <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
-                                <li><strong>Message:</strong> Receiver ID is required</li>
+                                <li><strong>Message:</strong> "Receiver ID is required. Please provide a valid receiver ID."</li>
                             </ul>
                         </li>
                     </ul>
@@ -654,10 +659,77 @@ recipient_id=2&message_content=Hello%20there!
                     <p><strong>Example Request:</strong></p>
                     <code>
                         <pre>
-POST /api/messages/fetch_messages.php HTTP/1.1
+POST /api/check_user_status.php HTTP/1.1
+Content-Type: application/json
+{
+    "receiver_id": 123
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "unblocked",
+    "message": "You are not blocked by this user."
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>This API endpoint allows a user to check if they are blocked by another user by providing the <code>receiver_id</code>.</li>
+                        <li>If the user is blocked, the API will return a "blocked" message. If they are not blocked, the API will return an "unblocked" message.</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">POST</span>
+                </div>
+
+                <div class="list-group-item" id="clear_messages">
+                    <h5><strong>8) clear_messages.php</strong></h5>
+                    <p><strong>Purpose:</strong> Clears all messages for the logged-in user. This API allows the logged-in user to delete all their messages exchanged with a specific user. Once the request is made, the system deletes all messages between the logged-in user and the specified receiver.</p>
+
+                    <p><strong>Method:</strong> <code>POST</code></p>
+
+                    <p><strong>Required Data:</strong>
+                    <ul>
+                        <li><strong><code>clear</code></strong>: This must be set to <code>true</code> to confirm that the user wants to clear the messages.</li>
+                        <li><strong><code>receiver_id</code></strong>: The ID of the user whose messages with the logged-in user are to be deleted.</li>
+                    </ul>
+                    </p>
+
+                    <p><strong>Response:</strong> The API returns a JSON response indicating whether the deletion was successful or if there was an error.</p>
+
+                    <ul>
+                        <li><strong>If Messages are Deleted Successfully:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                <li><strong>Message:</strong> All messages successfully deleted.</li>
+                            </ul>
+                        </li>
+                        <li><strong>If No Messages are Found or an Error Occurred:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> No messages found to delete or an error occurred.</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Parameters are Missing or Invalid:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
+                                <li><strong>Message:</strong> Invalid request. Please provide necessary parameters.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+POST /api/messages/clear_messages.php HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-id=2
+clear=true&receiver_id=4
         </pre>
                     </code>
 
@@ -666,42 +738,24 @@ id=2
                         <pre>
 {
     "status": "success",
-    "message": "Messages fetched successfully",
-    "data": [
-        {
-            "id": 1,
-            "sender_id": 1,
-            "receiver_id": 2,
-            "content": "Hello, how are you?",
-            "created_at": "2025-01-06 14:00:00",
-            "status": "read"
-        },
-        {
-            "id": 2,
-            "sender_id": 2,
-            "receiver_id": 1,
-            "content": "I'm good, thank you!",
-            "created_at": "2025-01-06 14:05:00",
-            "status": "read"
-        }
-    ]
+    "message": "All messages successfully deleted."
 }
         </pre>
                     </code>
 
                     <p><strong>Notes:</strong>
                     <ul>
-                        <li>If the user is not logged in, the API will return an error indicating that the user is not logged in.</li>
-                        <li>The response will include all messages exchanged between the logged-in user and the specified receiver, ordered by creation date.</li>
-                        <li>If no messages are found, the API will return an error message stating "No messages found".</li>
+                        <li>Both the logged-in user and the receiver's messages will be deleted.</li>
+                        <li>If there are no messages between the logged-in user and the receiver, an error will be returned.</li>
+                        <li>It is important to ensure that the <code>clear</code> parameter is set to <code>true</code> to confirm the action.</li>
                     </ul>
                     </p>
 
                     <span class="badge bg-primary">POST</span>
                 </div>
 
-                <div class="list-group-item">
-                    <h5><strong>8) delete_message.php</strong></h5>
+                <div class="list-group-item" id="delete_message">
+                    <h5><strong>9) delete_message.php</strong></h5>
                     <p><strong>Purpose:</strong> Deletes a specific message. This API allows the logged-in user to delete a message by providing its ID. The system will check if the message exists and if the user is authorized to delete it.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
@@ -771,8 +825,8 @@ message_id=5
                     <span class="badge bg-primary">POST</span>
                 </div>
 
-                <div class="list-group-item">
-                    <h5><strong>9) edit_message.php</strong></h5>
+                <div class="list-group-item" id="edit_message">
+                    <h5><strong>10) edit_message.php</strong></h5>
                     <p><strong>Purpose:</strong> Edits an existing message. This API allows the logged-in user to edit their previously sent message by providing the message ID and the new content. The system ensures that only the sender of the message can edit it.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
@@ -844,80 +898,7 @@ message_id=3&new_message_content=Updated%20message%20content
                     <span class="badge bg-primary">POST</span>
                 </div>
 
-                <div class="list-group-item">
-                    <h5><strong>10) clear_messages.php</strong></h5>
-                    <p><strong>Purpose:</strong> Clears all messages for the logged-in user. This API allows the logged-in user to delete all their messages exchanged with a specific user. Once the request is made, the system deletes all messages between the logged-in user and the specified receiver.</p>
-
-                    <p><strong>Method:</strong> <code>POST</code></p>
-
-                    <p><strong>Required Data:</strong>
-                    <ul>
-                        <li><strong><code>clear</code></strong>: This must be set to <code>true</code> to confirm that the user wants to clear the messages.</li>
-                        <li><strong><code>receiver_id</code></strong>: The ID of the user whose messages with the logged-in user are to be deleted.</li>
-                    </ul>
-                    </p>
-
-                    <p><strong>Response:</strong> The API returns a JSON response indicating whether the deletion was successful or if there was an error.</p>
-
-                    <ul>
-                        <li><strong>If Messages are Deleted Successfully:</strong>
-                            <ul>
-                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
-                                <li><strong>Message:</strong> All messages successfully deleted.</li>
-                            </ul>
-                        </li>
-                        <li><strong>If No Messages are Found or an Error Occurred:</strong>
-                            <ul>
-                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
-                                <li><strong>Message:</strong> No messages found to delete or an error occurred.</li>
-                            </ul>
-                        </li>
-                        <li><strong>If Parameters are Missing or Invalid:</strong>
-                            <ul>
-                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
-                                <li><strong>Message:</strong> Invalid request. Please provide necessary parameters.</li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <p><strong>Example Request:</strong></p>
-                    <code>
-                        <pre>
-POST /api/messages/clear_messages.php HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-
-clear=true&receiver_id=4
-        </pre>
-                    </code>
-
-                    <p><strong>Example Response:</strong></p>
-                    <code>
-                        <pre>
-{
-    "status": "success",
-    "message": "All messages successfully deleted."
-}
-        </pre>
-                    </code>
-
-                    <p><strong>Notes:</strong>
-                    <ul>
-                        <li>Both the logged-in user and the receiver's messages will be deleted.</li>
-                        <li>If there are no messages between the logged-in user and the receiver, an error will be returned.</li>
-                        <li>It is important to ensure that the <code>clear</code> parameter is set to <code>true</code> to confirm the action.</li>
-                    </ul>
-                    </p>
-
-                    <span class="badge bg-primary">POST</span>
-                </div>
-
-            </div>
-        </section>
-
-        <section>
-            <h2>Other Helper APIs</h2>
-            <div class="list-group">
-                <div class="list-group-item">
+                <div class="list-group-item" id="fetch_contacts">
                     <h5><strong>11) fetch_contacts.php</strong></h5>
                     <p><strong>Purpose:</strong> Retrieves the list of contacts for the logged-in user. This API allows the logged-in user to fetch a list of all their contacts. The list includes details like the user's full name, username, profile picture, and the time of the last message exchanged with the user. If there are any unread messages, the number of unread messages will also be included for each contact.</p>
 
@@ -1004,8 +985,93 @@ Content-Type: application/json
                     <span class="badge bg-primary">GET</span>
                 </div>
 
-                <div class="list-group-item">
-                    <h5><strong>12) fetch_profile.php</strong></h5>
+                <div class="list-group-item" id="fetch_messages">
+                    <h5><strong>12) fetch_messages.php</strong></h5>
+                    <p><strong>Purpose:</strong> Retrieves all messages for the logged-in user. This API allows the logged-in user to fetch all messages exchanged with another user. The messages are ordered by creation date.</p>
+
+                    <p><strong>Method:</strong> <code>POST</code></p>
+
+                    <p><strong>Required Data:</strong>
+                    <ul>
+                        <li><strong><code>id (receiver_id)</code></strong>: The ID of the user whose messages are being retrieved. This should be the user with whom the logged-in user has exchanged messages.</li>
+                    </ul>
+                    </p>
+
+                    <p><strong>Response:</strong> The API returns a JSON response with a list of messages exchanged between the logged-in user and the receiver.</p>
+
+                    <ul>
+                        <li><strong>If Messages Are Found:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                <li><strong>Message:</strong> Messages fetched successfully</li>
+                                <li><strong>Data:</strong> JSON array of message objects containing message details (sender_id, receiver_id, content, created_at, status).</li>
+                            </ul>
+                        </li>
+                        <li><strong>If No Messages Are Found:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                <li><strong>Message:</strong> No messages found</li>
+                            </ul>
+                        </li>
+                        <li><strong>If Receiver ID is Missing:</strong>
+                            <ul>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
+                                <li><strong>Message:</strong> Receiver ID is required</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p><strong>Example Request:</strong></p>
+                    <code>
+                        <pre>
+POST /api/messages/fetch_messages.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+id=2
+        </pre>
+                    </code>
+
+                    <p><strong>Example Response:</strong></p>
+                    <code>
+                        <pre>
+{
+    "status": "success",
+    "message": "Messages fetched successfully",
+    "data": [
+        {
+            "id": 1,
+            "sender_id": 1,
+            "receiver_id": 2,
+            "content": "Hello, how are you?",
+            "created_at": "2025-01-06 14:00:00",
+            "status": "read"
+        },
+        {
+            "id": 2,
+            "sender_id": 2,
+            "receiver_id": 1,
+            "content": "I'm good, thank you!",
+            "created_at": "2025-01-06 14:05:00",
+            "status": "read"
+        }
+    ]
+}
+        </pre>
+                    </code>
+
+                    <p><strong>Notes:</strong>
+                    <ul>
+                        <li>If the user is not logged in, the API will return an error indicating that the user is not logged in.</li>
+                        <li>The response will include all messages exchanged between the logged-in user and the specified receiver, ordered by creation date.</li>
+                        <li>If no messages are found, the API will return an error message stating "No messages found".</li>
+                    </ul>
+                    </p>
+
+                    <span class="badge bg-primary">POST</span>
+                </div>
+
+                <div class="list-group-item" id="fetch_profile">
+                    <h5><strong>13) fetch_profile.php</strong></h5>
                     <p><strong>Purpose:</strong> Retrieves the user's profile information. This API endpoint is used to fetch the profile details of the logged-in user. It provides the user's full name, username, profile picture, and other profile-related data.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
@@ -1074,38 +1140,39 @@ Content-Type: application/json
                     <span class="badge bg-primary">POST</span>
                 </div>
 
-                <div class="list-group-item">
-                    <h5><strong>13) change_user_status.php</strong></h5>
-                    <p><strong>Purpose:</strong> Changes the user's status between block and unblock. This API endpoint allows a logged-in user to either block or unblock another user.</p>
+                <div class="list-group-item" id="send_message">
+                    <h5><strong>14) send_message.php</strong></h5>
+                    <p><strong>Purpose:</strong> Sends a new message to another user. This API allows a user to send a message to another registered user within the system. The message will be stored in the database and can be retrieved later.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
 
-                    <p><strong>Required data:</strong> The request must include two parameters:
+                    <p><strong>Required Data:</strong>
                     <ul>
-                        <li><strong><code>user_id</code></strong>: The ID of the user to be blocked or unblocked.</li>
-                        <li><strong><code>action</code></strong>: The action to be performed, either <code>block</code> or <code>unblock</code>.</li>
+                        <li><strong><code>recipient_id</code></strong>: The ID of the user to whom the message will be sent.</li>
+                        <li><strong><code>message_content</code></strong>: The content of the message to be sent.</li>
                     </ul>
                     </p>
 
-                    <p><strong>Response:</strong> A JSON response with a success or error message, based on the action taken.</p>
+                    <p><strong>Response:</strong> The API returns a success or error message depending on whether the message was sent successfully.</p>
 
                     <ul>
-                        <li><strong>If Status is Changed Successfully:</strong>
+                        <li><strong>If Message Sent Successfully:</strong>
                             <ul>
                                 <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
-                                <li><strong>Message:</strong> The user's status was successfully updated.</li>
+                                <li><strong>Message:</strong> Message sent successfully</li>
+                                <li><strong>Data:</strong> JSON object with message details (id, content, created_at).</li>
                             </ul>
                         </li>
-                        <li><strong>If No Valid Action is Provided:</strong>
+                        <li><strong>If Message Sending Failed:</strong>
                             <ul>
                                 <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
-                                <li><strong>Message:</strong> "Invalid action. Please provide either 'block' or 'unblock' action."</li>
+                                <li><strong>Message:</strong> Failed to send the message. Please try again later.</li>
                             </ul>
                         </li>
-                        <li><strong>If User is Blocked:</strong>
+                        <li><strong>If Required Data Missing:</strong>
                             <ul>
-                                <li><strong>Status:</strong> <span class="badge bg-warning">blocked</span></li>
-                                <li><strong>Message:</strong> "You are blocked by this user."</li>
+                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
+                                <li><strong>Message:</strong> Message content and receiver ID are required.</li>
                             </ul>
                         </li>
                     </ul>
@@ -1113,12 +1180,10 @@ Content-Type: application/json
                     <p><strong>Example Request:</strong></p>
                     <code>
                         <pre>
-POST /api/change_user_status.php HTTP/1.1
-Content-Type: application/json
-{
-    "user_id": 2,
-    "action": "block"
-}
+POST /api/messages/send_message.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+recipient_id=2&message_content=Hello%20there!
         </pre>
                     </code>
 
@@ -1127,84 +1192,28 @@ Content-Type: application/json
                         <pre>
 {
     "status": "success",
-    "message": "User has been blocked successfully."
+    "message": "Message sent successfully",
+    "data": {
+        "id": 123,
+        "content": "Hello there!",
+        "created_at": "2025-01-06 15:30:00"
+    }
 }
         </pre>
+
                     </code>
 
                     <p><strong>Notes:</strong>
                     <ul>
-                        <li>This API allows the logged-in user to change another user's status to either "blocked" or "unblocked".</li>
-                        <li>If the user tries to block an already blocked user or unblock an already unblocked user, an error message will be returned.</li>
-                        <li>If the user is blocked by the other user, the request will be denied with a "blocked" response.</li>
+                        <li>If the user is not logged in, the API will return an error indicating the user is not logged in.</li>
+                        <li>Both the recipient's ID and message content are required fields to send a message.</li>
+                        <li>In case of a database issue or failure to insert the message, an error message will be returned.</li>
                     </ul>
                     </p>
 
                     <span class="badge bg-primary">POST</span>
                 </div>
 
-
-                <div class="list-group-item">
-                    <h5><strong>14) check_user_status.php</strong></h5>
-                    <p><strong>Purpose:</strong> Checks the user's online/offline status. This API helps determine if a user is currently online, offline, or blocked by another user.</p>
-
-                    <p><strong>Method:</strong> <code>POST</code></p>
-
-                    <p><strong>Required data:</strong> The request must include a <code>receiver_id</code> (the user whose status you want to check).</p>
-
-                    <p><strong>Response:</strong> A JSON response with information on whether the user is blocked or not.</p>
-
-                    <ul>
-                        <li><strong>If User is Not Blocked:</strong>
-                            <ul>
-                                <li><strong>Status:</strong> <span class="badge bg-success">unblocked</span></li>
-                                <li><strong>Message:</strong> "You are not blocked by this user."</li>
-                            </ul>
-                        </li>
-                        <li><strong>If User is Blocked:</strong>
-                            <ul>
-                                <li><strong>Status:</strong> <span class="badge bg-danger">blocked</span></li>
-                                <li><strong>Message:</strong> "You are blocked by this user."</li>
-                            </ul>
-                        </li>
-                        <li><strong>If Receiver ID is Missing:</strong>
-                            <ul>
-                                <li><strong>Status:</strong> <span class="badge bg-warning">error</span></li>
-                                <li><strong>Message:</strong> "Receiver ID is required. Please provide a valid receiver ID."</li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <p><strong>Example Request:</strong></p>
-                    <code>
-                        <pre>
-POST /api/check_user_status.php HTTP/1.1
-Content-Type: application/json
-{
-    "receiver_id": 123
-}
-        </pre>
-                    </code>
-
-                    <p><strong>Example Response:</strong></p>
-                    <code>
-                        <pre>
-{
-    "status": "unblocked",
-    "message": "You are not blocked by this user."
-}
-        </pre>
-                    </code>
-
-                    <p><strong>Notes:</strong>
-                    <ul>
-                        <li>This API endpoint allows a user to check if they are blocked by another user by providing the <code>receiver_id</code>.</li>
-                        <li>If the user is blocked, the API will return a "blocked" message. If they are not blocked, the API will return an "unblocked" message.</li>
-                    </ul>
-                    </p>
-
-                    <span class="badge bg-primary">POST</span>
-                </div>
             </div>
         </section>
 
