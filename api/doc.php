@@ -301,8 +301,63 @@ username=iqbolshoh&password=yourpassword123
                         <span class="badge bg-primary">POST</span>
                     </div>
 
-                    <div class="list-group-item">
-                        <h5><strong>2) signup.php</strong></h5>
+                    <div class="list-group-item" id="logout">
+                        <h5><strong>2) logout.php</strong></h5>
+
+                        <p><strong>Purpose:</strong> This API is used for logging out the user. It terminates the user's session, deletes the session cookies, and ensures the user is logged out of the system. After successful logout, a confirmation message is returned as a JSON response.</p>
+
+                        <p><strong>Method:</strong> <code>POST</code></p>
+
+                        <p><strong>Required Data:</strong>
+                        <ul>
+                            <li><strong><code>None</code></strong>: No data is required in the request body to perform the logout action. The logout process is handled by clearing session data and deleting relevant cookies.</li>
+                        </ul>
+                        </p>
+
+                        <p><strong>Response:</strong> The API will return a JSON response indicating whether the logout process was successful or not.</p>
+
+                        <ul>
+                            <li><strong>If Logout is Successful:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                    <li><strong>Message:</strong> User successfully logged out</li>
+                                </ul>
+                            </li>
+                            <li><strong>If Logout Fails:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                    <li><strong>Message:</strong> Logout failed. Please try again later.</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Example Request:</strong></p>
+                        <code>
+                            <pre>
+POST /api/auth/logout.php HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+        </pre>
+                        </code>
+
+                        <p><strong>Example Response:</strong></p>
+                        <code>
+                            <pre>
+{
+    "status": "success",
+    "message": "User successfully logged out"
+}
+        </pre>
+                        </code>
+
+                        <p><strong>Notes:</strong>
+                            After successful logout, the user’s session is terminated, and cookies related to the session are deleted. The user will no longer be authenticated and must log in again to access protected resources. No user credentials are needed in the request body for this API.
+                        </p>
+
+                        <span class="badge bg-primary">POST</span>
+                    </div>
+
+                    <div class="list-group-item" id="signup">
+                        <h5><strong>3) signup.php</strong></h5>
 
                         <p><strong>Purpose:</strong> This API is used for user registration (Sign Up). It accepts user details such as username, email, and password, and creates a new user account in the system. After successful registration, the user is logged in automatically, and a session is started.</p>
 
@@ -368,118 +423,8 @@ username=iqbolshoh&email=iilhomjonov777@gmail.com&password=password123&confirm_p
                         <span class="badge bg-primary">POST</span>
                     </div>
 
-                    <div class="list-group-item">
-                        <h5><strong>3) logout.php</strong></h5>
-
-                        <p><strong>Purpose:</strong> This API is used for logging out the user. It terminates the user's session, deletes the session cookies, and ensures the user is logged out of the system. After successful logout, a confirmation message is returned as a JSON response.</p>
-
-                        <p><strong>Method:</strong> <code>POST</code></p>
-
-                        <p><strong>Required Data:</strong>
-                        <ul>
-                            <li><strong><code>None</code></strong>: No data is required in the request body to perform the logout action. The logout process is handled by clearing session data and deleting relevant cookies.</li>
-                        </ul>
-                        </p>
-
-                        <p><strong>Response:</strong> The API will return a JSON response indicating whether the logout process was successful or not.</p>
-
-                        <ul>
-                            <li><strong>If Logout is Successful:</strong>
-                                <ul>
-                                    <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
-                                    <li><strong>Message:</strong> User successfully logged out</li>
-                                </ul>
-                            </li>
-                            <li><strong>If Logout Fails:</strong>
-                                <ul>
-                                    <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
-                                    <li><strong>Message:</strong> Logout failed. Please try again later.</li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                        <p><strong>Example Request:</strong></p>
-                        <code>
-                            <pre>
-POST /api/auth/logout.php HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-        </pre>
-                        </code>
-
-                        <p><strong>Example Response:</strong></p>
-                        <code>
-                            <pre>
-{
-    "status": "success",
-    "message": "User successfully logged out"
-}
-        </pre>
-                        </code>
-
-                        <p><strong>Notes:</strong>
-                            After successful logout, the user’s session is terminated, and cookies related to the session are deleted. The user will no longer be authenticated and must log in again to access protected resources. No user credentials are needed in the request body for this API.
-                        </p>
-
-                        <span class="badge bg-primary">POST</span>
-                    </div>
-
-                    <div class="list-group-item">
-                        <h5><strong>4) check_login.php</strong></h5>
-                        <p><strong>Purpose:</strong> Checks if the user is logged in. This API verifies whether the user is currently logged into the system. If the user is logged in, it returns the user's details. If not, it will return a message stating that the user is not logged in.</p>
-
-                        <p><strong>Method:</strong> <code>SESSION</code></p>
-
-                        <p><strong>Response:</strong> The API returns a JSON response indicating the login status of the user.</p>
-
-                        <ul>
-                            <li><strong>If User is Logged In:</strong>
-                                <ul>
-                                    <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
-                                    <li><strong>Message:</strong> User is logged in</li>
-                                    <li><strong>Data:</strong> JSON object containing user details (user_id, full_name, email, username, profile_picture).</li>
-                                </ul>
-                            </li>
-                            <li><strong>If User is Not Logged In:</strong>
-                                <ul>
-                                    <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
-                                    <li><strong>Message:</strong> User is not logged in</li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                        <p><strong>Example Request:</strong></p>
-                        <code>
-                            <pre>
-SESSION /api/auth/check_login.php HTTP/1.1
-Content-Type: application/json
-        </pre>
-                        </code>
-
-                        <p><strong>Example Response:</strong></p>
-                        <code>
-                            <pre>
-{
-    "status": "success",
-    "message": "User is logged in",
-    "data": {
-        "loggedin": true,
-        "user_id": 1,
-        "full_name": "Iqbolshoh Ilhomjonov",
-        "email": "iilhomjonov777@gmail.com",
-        "username": "iqbolshoh",
-        "profile_picture": "src/images/profile-picture/iqbolshoh.jpg"
-    }
-}
-        </pre>
-                        </code>
-
-                        <p><strong>Notes:</strong> If the user is logged in, their session information will be returned as part of the response. If the user is not logged in, the response will indicate that the user is not logged in.</p>
-
-                        <span class="badge bg-primary">SESSION</span>
-                    </div>
-
-                    <div class="list-group-item">
-                        <h5><strong>5) check_availability.php</strong></h5>
+                    <div class="list-group-item" id="check_availability">
+                        <h5><strong>4) check_availability.php</strong></h5>
                         <p><strong>Purpose:</strong> Verifies if a given email or username is already registered in the system. This API helps to check if a user can use a particular email address or username during registration.</p>
 
                         <p><strong>Method:</strong> <code>POST</code></p>
@@ -532,6 +477,61 @@ email=iilhomjonov777@gmail.com
                         <p><strong>Notes:</strong> The API checks whether a given email address or username is already registered. It can return a status indicating if the email/username is available or taken. The request must provide either the <code>email</code> or <code>username</code> field.</p>
 
                         <span class="badge bg-primary">POST</span>
+                    </div>
+
+                    <div class="list-group-item" id="check_login">
+                        <h5><strong>5) check_login.php</strong></h5>
+                        <p><strong>Purpose:</strong> Checks if the user is logged in. This API verifies whether the user is currently logged into the system. If the user is logged in, it returns the user's details. If not, it will return a message stating that the user is not logged in.</p>
+
+                        <p><strong>Method:</strong> <code>SESSION</code></p>
+
+                        <p><strong>Response:</strong> The API returns a JSON response indicating the login status of the user.</p>
+
+                        <ul>
+                            <li><strong>If User is Logged In:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-success">success</span></li>
+                                    <li><strong>Message:</strong> User is logged in</li>
+                                    <li><strong>Data:</strong> JSON object containing user details (user_id, full_name, email, username, profile_picture).</li>
+                                </ul>
+                            </li>
+                            <li><strong>If User is Not Logged In:</strong>
+                                <ul>
+                                    <li><strong>Status:</strong> <span class="badge bg-danger">error</span></li>
+                                    <li><strong>Message:</strong> User is not logged in</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p><strong>Example Request:</strong></p>
+                        <code>
+                            <pre>
+SESSION /api/auth/check_login.php HTTP/1.1
+Content-Type: application/json
+        </pre>
+                        </code>
+
+                        <p><strong>Example Response:</strong></p>
+                        <code>
+                            <pre>
+{
+    "status": "success",
+    "message": "User is logged in",
+    "data": {
+        "loggedin": true,
+        "user_id": 1,
+        "full_name": "Iqbolshoh Ilhomjonov",
+        "email": "iilhomjonov777@gmail.com",
+        "username": "iqbolshoh",
+        "profile_picture": "src/images/profile-picture/iqbolshoh.jpg"
+    }
+}
+        </pre>
+                        </code>
+
+                        <p><strong>Notes:</strong> If the user is logged in, their session information will be returned as part of the response. If the user is not logged in, the response will indicate that the user is not logged in.</p>
+
+                        <span class="badge bg-primary">SESSION</span>
                     </div>
 
                 </div>
