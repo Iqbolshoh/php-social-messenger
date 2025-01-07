@@ -438,7 +438,7 @@ recipient_id=2&message_content=Hello%20there!
                 </div>
 
                 <div class="list-group-item">
-                    <h5><strong>6) fetch_messages.php</strong></h5>
+                    <h5><strong>7) fetch_messages.php</strong></h5>
                     <p><strong>Purpose:</strong> Retrieves all messages for the logged-in user. This API allows the logged-in user to fetch all messages exchanged with another user. The messages are ordered by creation date.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
