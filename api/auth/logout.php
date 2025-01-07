@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 session_unset();
 session_destroy();
 
@@ -16,5 +17,14 @@ foreach ($cookies as $cookie) {
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
+
+$response = [
+    'status' => 'success',
+    'message' => 'User successfully logged out',
+    'redirect' => 'login/'
+];
+
+header('Content-Type: application/json');
+echo json_encode($response);
 
 exit;
