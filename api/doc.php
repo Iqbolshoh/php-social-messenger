@@ -67,6 +67,33 @@
             color: #fff;
         }
 
+        .list-group {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .list-group-item {
+            background-color: #f8f9fa;
+            border: 1px solid #e1e1e1;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .list-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .list-link:hover {
+            text-decoration: underline;
+        }
+
+        .list-group-item strong {
+            margin-right: 10px;
+        }
+
         footer {
             text-align: center;
             margin-top: 60px;
@@ -108,6 +135,85 @@
 
     <div class="container">
         <h1>API Documentation</h1>
+
+        <h3>API Files</h3>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="auth/login.php" class="list-link">
+                    <strong>login.php</strong> - Handles user authentication and login.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/logout.php" class="list-link">
+                    <strong>logout.php</strong> - Logs the user out and clears session data.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/signup.php" class="list-link">
+                    <strong>signup.php</strong> - Handles user registration and account creation.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/change_user_status.php" class="list-link">
+                    <strong>change_user_status.php</strong> - Updates the user’s status (active/inactive).
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/check_user_status.php" class="list-link">
+                    <strong>check_user_status.php</strong> - Checks if the user is online or active.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/clear_messages.php" class="list-link">
+                    <strong>clear_messages.php</strong> - Clears or deletes messages in the system.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/delete_message.php" class="list-link">
+                    <strong>delete_message.php</strong> - Deletes a specific message.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/doc.php" class="list-link">
+                    <strong>doc.php</strong> - Contains API documentation.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/edit_message.php" class="list-link">
+                    <strong>edit_message.php</strong> - Edits a message in the system.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/fetch_contacts.php" class="list-link">
+                    <strong>fetch_contacts.php</strong> - Retrieves user’s contacts or friends list.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/fetch_messages.php" class="list-link">
+                    <strong>fetch_messages.php</strong> - Retrieves messages associated with the user or conversation.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/fetch_profile.php" class="list-link">
+                    <strong>fetch_profile.php</strong> - Retrieves user profile details.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/send_message.php" class="list-link">
+                    <strong>send_message.php</strong> - Sends a message to another user.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/check_availability.php" class="list-link">
+                    <strong>check_availability.php</strong> - Checks if a user or resource is available.
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="auth/check_login.php" class="list-link">
+                    <strong>check_login.php</strong> - Verifies if a user is logged in.
+                </a>
+            </li>
+        </ul>
 
         <section>
             <h2>Authentication APIs</h2>
