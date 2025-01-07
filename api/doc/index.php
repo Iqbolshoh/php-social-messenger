@@ -827,7 +827,7 @@ Content-Type: application/json
                 </div>
 
                 <div class="list-group-item">
-                    <h5><strong>11) fetch_profile.php</strong></h5>
+                    <h5><strong>12) fetch_profile.php</strong></h5>
                     <p><strong>Purpose:</strong> Retrieves the user's profile information. This API endpoint is used to fetch the profile details of the logged-in user. It provides the user's full name, username, profile picture, and other profile-related data.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
