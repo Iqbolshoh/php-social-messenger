@@ -667,7 +667,7 @@ message_id=3&new_message_content=Updated%20message%20content
                 </div>
 
                 <div class="list-group-item">
-                    <h5><strong>9) clear_messages.php</strong></h5>
+                    <h5><strong>10) clear_messages.php</strong></h5>
                     <p><strong>Purpose:</strong> Clears all messages for the logged-in user. This API allows the logged-in user to delete all their messages exchanged with a specific user. Once the request is made, the system deletes all messages between the logged-in user and the specified receiver.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
