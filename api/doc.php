@@ -143,9 +143,9 @@
         <ul class="list-group">
             <li class="list-group-item">
                 <a href="auth/login.php" class="list-link" data-bs-toggle="collapse" data-bs-target="#collapseLogin" onclick="toggleIcon(this)">
-                    <strong>1) login.php</strong> - Handles user authentication and login.
-                    <i class="fa fa-chevron-down float-end"></i>
-                </a>
+                    <strong>1) login.php</strong></a>- Handles user authentication and login.
+                <i class="fa fa-chevron-down float-end"></i>
+
                 <div id="collapseLogin" class="collapse">
                     <p>Details about login functionality...</p>
                 </div>
