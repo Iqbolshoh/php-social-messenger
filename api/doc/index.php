@@ -364,7 +364,7 @@ email=iilhomjonov777@gmail.com
             <h2>Message APIs</h2>
             <div class="list-group">
                 <div class="list-group-item">
-                    <h5><strong>5) send_message.php</strong></h5>
+                    <h5><strong>6) send_message.php</strong></h5>
                     <p><strong>Purpose:</strong> Sends a new message to another user. This API allows a user to send a message to another registered user within the system. The message will be stored in the database and can be retrieved later.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
