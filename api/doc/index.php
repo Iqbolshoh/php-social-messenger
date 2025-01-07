@@ -246,7 +246,7 @@ username=iqbolshoh&email=iilhomjonov777@gmail.com&password=password123&confirm_p
                     </div>
 
                     <div class="list-group-item">
-                        <h5><strong>3) check_login.php</strong></h5>
+                        <h5><strong>4) check_login.php</strong></h5>
                         <p><strong>Purpose:</strong> Checks if the user is logged in. This API verifies whether the user is currently logged into the system. If the user is logged in, it returns the user's details. If not, it will return a message stating that the user is not logged in.</p>
 
                         <p><strong>Method:</strong> <code>SESSION</code></p>
