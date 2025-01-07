@@ -20,8 +20,7 @@ header("Pragma: no-cache");
 
 $response = [
     'status' => 'success',
-    'message' => 'User successfully logged out',
-    'redirect' => 'login/'
+    'message' => 'User successfully logged out'
 ];
 
 header('Content-Type: application/json');
