@@ -594,7 +594,7 @@ message_id=5
                 </div>
 
                 <div class="list-group-item">
-                    <h5><strong>8) edit_message.php</strong></h5>
+                    <h5><strong>9) edit_message.php</strong></h5>
                     <p><strong>Purpose:</strong> Edits an existing message. This API allows the logged-in user to edit their previously sent message by providing the message ID and the new content. The system ensures that only the sender of the message can edit it.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
