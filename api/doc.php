@@ -155,12 +155,12 @@
             </li>
             <li class="list-group-item">
                 <a href="auth/change_user_status.php" class="list-link">
-                    <strong>4) change_user_status.php</strong> - Updates the user’s status (active/inactive).
+                    <strong>4) change_user_status.php</strong> - Updates the user’s status (block/unblock).
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/check_user_status.php" class="list-link">
-                    <strong>5) check_user_status.php</strong> - Checks if the user is online or active.
+                    <strong>5) check_user_status.php</strong> - Checks if the user is block or unblock.
                 </a>
             </li>
             <li class="list-group-item">
@@ -174,43 +174,38 @@
                 </a>
             </li>
             <li class="list-group-item">
-                <a href="auth/doc.php" class="list-link">
-                    <strong>8) doc.php</strong> - Contains API documentation.
-                </a>
-            </li>
-            <li class="list-group-item">
                 <a href="auth/edit_message.php" class="list-link">
-                    <strong>9) edit_message.php</strong> - Edits a message in the system.
+                    <strong>8) edit_message.php</strong> - Edits a message in the system.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/fetch_contacts.php" class="list-link">
-                    <strong>10) fetch_contacts.php</strong> - Retrieves user’s contacts or friends list.
+                    <strong>9) fetch_contacts.php</strong> - Retrieves user’s contacts or friends list.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/fetch_messages.php" class="list-link">
-                    <strong>11) fetch_messages.php</strong> - Retrieves messages associated with the user or conversation.
+                    <strong>10) fetch_messages.php</strong> - Retrieves messages associated with the user or conversation.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/fetch_profile.php" class="list-link">
-                    <strong>12) fetch_profile.php</strong> - Retrieves user profile details.
+                    <strong>11) fetch_profile.php</strong> - Retrieves user profile details.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/send_message.php" class="list-link">
-                    <strong>13) send_message.php</strong> - Sends a message to another user.
+                    <strong>12) send_message.php</strong> - Sends a message to another user.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/check_availability.php" class="list-link">
-                    <strong>14) check_availability.php</strong> - Checks if a user or resource is available.
+                    <strong>13) check_availability.php</strong> - Checks if a user or resource is available.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/check_login.php" class="list-link">
-                    <strong>15) check_login.php</strong> - Verifies if a user is logged in.
+                    <strong>14) check_login.php</strong> - Verifies if a user is logged in.
                 </a>
             </li>
         </ul>
