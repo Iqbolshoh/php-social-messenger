@@ -301,7 +301,7 @@ Content-Type: application/json
                     </div>
 
                     <div class="list-group-item">
-                        <h5><strong>4) check_availability.php</strong></h5>
+                        <h5><strong>5) check_availability.php</strong></h5>
                         <p><strong>Purpose:</strong> Verifies if a given email or username is already registered in the system. This API helps to check if a user can use a particular email address or username during registration.</p>
 
                         <p><strong>Method:</strong> <code>POST</code></p>
