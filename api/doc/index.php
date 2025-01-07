@@ -897,7 +897,7 @@ Content-Type: application/json
                 </div>
 
                 <div class="list-group-item">
-                    <h5><strong>12) change_user_status.php</strong></h5>
+                    <h5><strong>13) change_user_status.php</strong></h5>
                     <p><strong>Purpose:</strong> Changes the user's status between block and unblock. This API endpoint allows a logged-in user to either block or unblock another user.</p>
 
                     <p><strong>Method:</strong> <code>POST</code></p>
