@@ -740,7 +740,7 @@ clear=true&receiver_id=4
             <h2>Other Helper APIs</h2>
             <div class="list-group">
                 <div class="list-group-item">
-                    <h5><strong>10) fetch_contacts.php</strong></h5>
+                    <h5><strong>11) fetch_contacts.php</strong></h5>
                     <p><strong>Purpose:</strong> Retrieves the list of contacts for the logged-in user. This API allows the logged-in user to fetch a list of all their contacts. The list includes details like the user's full name, username, profile picture, and the time of the last message exchanged with the user. If there are any unread messages, the number of unread messages will also be included for each contact.</p>
 
                     <p><strong>Method:</strong> <code>GET</code></p>
