@@ -140,77 +140,77 @@
         <ul class="list-group">
             <li class="list-group-item">
                 <a href="auth/login.php" class="list-link">
-                    <strong>login.php</strong> - Handles user authentication and login.
+                    <strong>1) login.php</strong> - Handles user authentication and login.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/logout.php" class="list-link">
-                    <strong>logout.php</strong> - Logs the user out and clears session data.
+                    <strong>2) logout.php</strong> - Logs the user out and clears session data.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/signup.php" class="list-link">
-                    <strong>signup.php</strong> - Handles user registration and account creation.
+                    <strong>3) signup.php</strong> - Handles user registration and account creation.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/change_user_status.php" class="list-link">
-                    <strong>change_user_status.php</strong> - Updates the user’s status (active/inactive).
+                    <strong>4) change_user_status.php</strong> - Updates the user’s status (active/inactive).
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/check_user_status.php" class="list-link">
-                    <strong>check_user_status.php</strong> - Checks if the user is online or active.
+                    <strong>5) check_user_status.php</strong> - Checks if the user is online or active.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/clear_messages.php" class="list-link">
-                    <strong>clear_messages.php</strong> - Clears or deletes messages in the system.
+                    <strong>6) clear_messages.php</strong> - Clears or deletes messages in the system.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/delete_message.php" class="list-link">
-                    <strong>delete_message.php</strong> - Deletes a specific message.
+                    <strong>7) delete_message.php</strong> - Deletes a specific message.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/doc.php" class="list-link">
-                    <strong>doc.php</strong> - Contains API documentation.
+                    <strong>8) doc.php</strong> - Contains API documentation.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/edit_message.php" class="list-link">
-                    <strong>edit_message.php</strong> - Edits a message in the system.
+                    <strong>9) edit_message.php</strong> - Edits a message in the system.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/fetch_contacts.php" class="list-link">
-                    <strong>fetch_contacts.php</strong> - Retrieves user’s contacts or friends list.
+                    <strong>10) fetch_contacts.php</strong> - Retrieves user’s contacts or friends list.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/fetch_messages.php" class="list-link">
-                    <strong>fetch_messages.php</strong> - Retrieves messages associated with the user or conversation.
+                    <strong>11) fetch_messages.php</strong> - Retrieves messages associated with the user or conversation.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/fetch_profile.php" class="list-link">
-                    <strong>fetch_profile.php</strong> - Retrieves user profile details.
+                    <strong>12) fetch_profile.php</strong> - Retrieves user profile details.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/send_message.php" class="list-link">
-                    <strong>send_message.php</strong> - Sends a message to another user.
+                    <strong>13) send_message.php</strong> - Sends a message to another user.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/check_availability.php" class="list-link">
-                    <strong>check_availability.php</strong> - Checks if a user or resource is available.
+                    <strong>14) check_availability.php</strong> - Checks if a user or resource is available.
                 </a>
             </li>
             <li class="list-group-item">
                 <a href="auth/check_login.php" class="list-link">
-                    <strong>check_login.php</strong> - Verifies if a user is logged in.
+                    <strong>15) check_login.php</strong> - Verifies if a user is logged in.
                 </a>
             </li>
         </ul>
