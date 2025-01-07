@@ -1,3 +1,7 @@
+# PHP Social Messenger
+
+PHP Social Messenger is a real-time messaging application that allows users to chat with each other, edit their profiles, and manage contacts. It provides an easy-to-use interface for sending and receiving messages, managing user profiles, and handling blocked users. The app is built using PHP, MySQL, and JavaScript (AJAX), with a focus on real-time interactions. This application also includes a RESTful API for seamless integration with other services.
+
 ### Technologies Used
 
 <div style="display: flex; flex-wrap: wrap; gap: 5px;">
@@ -10,6 +14,46 @@
     <img src="https://img.shields.io/badge/MySQL-%234479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
 </div>
 
+---
+
+### Installation
+
+To get started with the PHP-MySQL Marketplace, follow these steps:
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/Iqbolshoh/php-social-messenger.git
+   ```
+
+2. **Navigate to the Project Directory:**
+   ```bash
+   cd php-social-messenger
+   ```
+
+3. **Set Up the Database:**
+   - Create a new MySQL database:
+     ```sql
+     CREATE DATABASE social_messenger;
+     ```
+
+   - Import the `database.sql` file located in the `db` directory:
+     ```bash
+     mysql -u yourusername -p social_messenger < db/database.sql
+     ```
+
+4. **Configure Database Connection:**
+   - Open the `config.php` file in the root directory.
+   - Update the database credentials:
+     ```php
+     define("DB_SERVER", "localhost");
+     define("DB_USERNAME", "root");
+     define("DB_PASSWORD", "");
+     define("DB_NAME", "social_messenger");
+     ```
+
+5. **Run the Application:**
+   - Deploy the application on a PHP-compatible server (e.g., Apache or Nginx).
+   - Access the application through your browser at `http://localhost/php-social-messenger`.
 
 ## Contributing
 
