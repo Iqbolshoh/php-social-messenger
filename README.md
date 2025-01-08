@@ -21,8 +21,7 @@ PHP Social Messenger is a real-time messaging application that allows users to c
    - Search Contacts: Users can search for contacts using the search bar on the homepage (index.php). It dynamically filters the contacts list based on the search term.
    - Manage Contacts: The app displays all the contacts on the main page, including unread messages, allowing users to stay updated.
 
-   Screenshot: Contact Search  
-   ![Contact Search](https://via.placeholder.com/600x400?text=Contact+Search)
+   ![Contact Search](./src/images/contact-search.png)
 
 ### 4. Block Users
    - Block Functionality: Users can block others from sending messages. If you block someone, they will not be able to send you messages anymore, and you will not be able to message them.
