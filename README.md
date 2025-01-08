@@ -50,11 +50,13 @@ PHP Social Messenger is a real-time messaging application that allows users to c
 
 The application also exposes a RESTful API for integrating the messaging functionality into other systems. The API includes endpoints for:
 
-- Fetching user profiles
-- Fetching messages
-- Sending messages
-- Blocking users
-- Managing user accounts
+ - Fetching profiles
+ - Fetching messages
+ - Fetching contacts
+ - Sending messages
+ - Editing messages
+ - Deleting users
+ - Managing user accounts
 
 API documentation is available in the docs/ directory. It provides all the necessary details for interacting with the APIs and using them in your own applications.
 
