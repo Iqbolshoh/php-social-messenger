@@ -28,8 +28,7 @@ PHP Social Messenger is a real-time messaging application that allows users to c
    - Blocked Notifications: If a user tries to message someone who has blocked them, they will be notified that they are blocked.
    - Block Menu: The block option is easily accessible via the action menu in the chat interface.
 
-   Screenshot: Block Users  
-   ![Block Users](https://via.placeholder.com/600x400?text=Block+Users)
+   ![Block Users](./src/images/block-users.png)
 
 ### 5. Chat Interface
    - Message History: When entering a chat (chat.php), the complete message history with the other user is shown.
