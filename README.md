@@ -15,8 +15,7 @@ PHP Social Messenger is a real-time messaging application that allows users to c
    - Profile Editing: Users can update their profile picture, full name, and password directly from the user interface.
    - View Profile: Clicking on the "View Profile" option lets users see the profile information of the person they are chatting with.
 
-   Screenshot: Profile Management  
-   ![Profile Management](https://via.placeholder.com/600x400?text=Profile+Management)
+   ![Profile Management](./src/images/profile-management.png)
 
 ### 3. Contact Search
    - Search Contacts: Users can search for contacts using the search bar on the homepage (index.php). It dynamically filters the contacts list based on the search term.
