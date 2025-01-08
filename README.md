@@ -8,9 +8,8 @@ PHP Social Messenger is a real-time messaging application that allows users to c
    - Instant message updates: Messages are instantly displayed when received. The chat automatically refreshes every few seconds.
    - Message status: Shows which user sent the last message and the number of unread messages.
    - Delete or copy own messages: Users can edit, delete, or copy their own messages, but they cannot edit messages from other users.
-
-   Screenshot: Real-Time Messaging  
-   ![Real-Time Messaging](https://via.placeholder.com/600x400?text=Real-Time+Messaging)
+ 
+   ![Real-Time Messaging](./src/images/real_time.png)
 
 ### 2. Profile Management
    - Profile Editing: Users can update their profile picture, full name, and password directly from the user interface.
