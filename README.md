@@ -42,8 +42,7 @@ PHP Social Messenger is a real-time messaging application that allows users to c
    - Clear Chat: Clear the entire chat history with a specific user.
    - Block User: Block the user to prevent them from sending you any more messages.
 
-   Screenshot: Menu Options  
-   ![Menu Options](https://via.placeholder.com/600x400?text=Menu+Options)
+   ![Menu Options](./src/images/menu-options.png)
 
 ---
 
