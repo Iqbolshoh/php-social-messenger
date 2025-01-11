@@ -81,7 +81,8 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
                 <label for="password">Password</label>
                 <div class="password-container">
                     <input type="password" id="password" name="password" required maxlength="255">
-                    <button type="button" id="toggle-password" class="password-toggle"><i class="fas fa-eye"></i></button>
+                    <button type="button" id="toggle-password" class="password-toggle"><i
+                            class="fas fa-eye"></i></button>
                 </div>
             </div>
             <div class="form-group">
@@ -99,16 +100,16 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
         let isEmailAvailable = false;
         let isUsernameAvailable = false;
 
-        document.getElementById('email').addEventListener('input', function() {
+        document.getElementById('email').addEventListener('input', function () {
             let email = this.value;
             if (email.length > 0) {
                 fetch('../api/auth/check_availability.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `email=${encodeURIComponent(email)}`
-                    })
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}`
+                })
                     .then(response => response.json())
                     .then(data => {
                         const messageElement = document.getElementById('email-message');
@@ -123,17 +124,17 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
             }
         });
 
-        document.getElementById('username').addEventListener('input', function() {
+        document.getElementById('username').addEventListener('input', function () {
             validateForm();
             let username = this.value;
             if (username.length > 0) {
                 fetch('../api/auth/check_availability.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `username=${encodeURIComponent(username)}`
-                    })
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `username=${encodeURIComponent(username)}`
+                })
                     .then(response => response.json())
                     .then(data => {
                         const messageElement = document.getElementById('username-message');
@@ -168,7 +169,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
             }
         }
 
-        document.getElementById('signupForm').addEventListener('submit', function(event) {
+        document.getElementById('signupForm').addEventListener('submit', function (event) {
             event.preventDefault();
 
             let email = document.getElementById('email').value;
@@ -193,9 +194,9 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
             const formData = new FormData(this);
 
             fetch('../api/auth/signup.php', {
-                    method: 'POST',
-                    body: formData
-                })
+                method: 'POST',
+                body: formData
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
@@ -225,7 +226,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
                 });
         });
 
-        document.getElementById('toggle-password').addEventListener('click', function() {
+        document.getElementById('toggle-password').addEventListener('click', function () {
             const passwordField = document.getElementById('password');
             const toggleIcon = this.querySelector('i');
 
