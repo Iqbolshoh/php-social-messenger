@@ -72,8 +72,6 @@ API documentation is available in the docs/ directory. It provides all the neces
     <img src="https://img.shields.io/badge/MySQL-%234479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
 </div>
 
----
-
 ### Installation
 
 To get started with the PHP-MySQL Marketplace, follow these steps:
