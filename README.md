@@ -84,7 +84,6 @@ cd php-social-messenger
 - Open your browser and go to:  
   **`http://localhost/php-social-messenger`**  
 
-
 ## 🖥 Technologies Used
 <div style="display: flex; flex-wrap: wrap; gap: 5px;">
     <img src="https://img.shields.io/badge/HTML-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" alt="HTML">
