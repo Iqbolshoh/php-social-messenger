@@ -9,40 +9,40 @@
 ✅ **Message status:** Shows the last sender and unread message count.  
 ✅ **Message actions:** Users can **edit, delete, or copy** their own messages.  
 
-🖼️ ![Real-Time Messaging](./src/images/real_time.png)  
+![Real-Time Messaging](./src/images/real_time.png)  
 
 ### 2️⃣ Profile Management 👤  
 ✅ **Edit profile:** Update your **profile picture, name, and password**.  
 ✅ **View profile:** See details of the person you are chatting with.  
 
-🖼️ ![Profile Management](./src/images/profile-management.png)  
+![Profile Management](./src/images/profile-management.png)  
 
 ### 3️⃣ Contact Search 🔍  
 ✅ **Find contacts easily** using the **dynamic search bar**.  
 ✅ **Manage contacts** & see unread messages on the homepage.  
 
-🖼️ ![Contact Search](./src/images/contact-search.png)  
+![Contact Search](./src/images/contact-search.png)  
 
 ### 4️⃣ Block Users 🚫  
 ✅ **Block people** from sending you messages.  
 ✅ **Blocked notifications:** Users get alerts if they try to message someone who blocked them.  
 ✅ **Easily accessible block menu** in the chat interface.  
 
-🖼️ ![Block Users](./src/images/block-users.png)  
+![Block Users](./src/images/block-users.png)  
 
 ### 5️⃣ Chat Interface 💬  
 ✅ **Full message history** when opening a chat.  
 ✅ **Delete or copy** your own messages.  
 ✅ **Real-time syncing** for a smooth messaging experience.  
 
-🖼️ ![Chat Interface](./src/images/chat-interface.png)  
+![Chat Interface](./src/images/chat-interface.png)  
 
 ### 6️⃣ Menu Options 🎛️  
 ✅ **View profile** of the person you’re chatting with.  
 ✅ **Clear chat** history with a specific user.  
 ✅ **Block user** to prevent them from messaging you.  
 
-🖼️ ![Menu Options](./src/images/menu-options.png)  
+![Menu Options](./src/images/menu-options.png)  
 
 ---  
 
