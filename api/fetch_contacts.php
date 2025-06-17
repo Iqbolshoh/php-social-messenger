@@ -1,14 +1,11 @@
 <?php
 session_start();
-
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
-
 header('Content-Type: application/json');
 $response = [
     'status' => '',
@@ -38,39 +35,38 @@ $sql = 'SELECT
             u.full_name, 
             u.username, 
             u.profile_picture, 
-            m.receiver_id, 
             MAX(m.created_at) AS last_message_time
         FROM 
             users u 
         LEFT JOIN 
-            messages m ON (m.receiver_id = u.id AND m.sender_id = ?)
-            OR (m.receiver_id = ? AND m.sender_id = u.id)
+            messages m 
+            ON ( (m.receiver_id = u.id AND m.sender_id = ?) OR (m.receiver_id = ? AND m.sender_id = u.id) )
         WHERE 
             u.id != ? AND 
             (u.full_name LIKE ? OR u.username LIKE ?) 
         GROUP BY 
-            u.id 
+            u.id, u.full_name, u.username, u.profile_picture
         ORDER BY 
             last_message_time DESC, 
             u.id ASC';
 
-$allUsers = $query->executeQuery($sql, [$sender_id, $sender_id, $sender_id, $searchTermLike, $searchTermLike], 'iiiis')->get_result();
+$allUsers = $query->executeQuery(
+    $sql,
+    [$sender_id, $sender_id, $sender_id, $searchTermLike, $searchTermLike],
+    'iiiis'
+)->get_result();
 
 if ($allUsers && $allUsers->num_rows > 0) {
     $result = [];
-
     while ($user = $allUsers->fetch_assoc()) {
         $unreadMessagesQuery = '
             SELECT COUNT(*) AS unread_messages 
             FROM messages 
             WHERE receiver_id = ? AND sender_id = ? AND status = "unread"';
-
         $unreadMessages = $query->executeQuery($unreadMessagesQuery, [$sender_id, $user['user_id']], 'ii')->get_result()->fetch_assoc();
-        $user['unread_messages'] = $unreadMessages['unread_messages'];
-
+        $user['unread_messages'] = $unreadMessages['unread_messages'] ?? 0;
         $result[] = $user;
     }
-
     $response['status'] = 'success';
     $response['message'] = 'Contacts retrieved successfully';
     $response['data'] = $result;
