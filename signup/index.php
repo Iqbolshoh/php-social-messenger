@@ -46,6 +46,14 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 </div>
             </div>
             <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <div class="password-container">
+                    <input type="password" id="confirm_password" name="confirm_password" required maxlength="255">
+                    <button type="button" id="toggle-confirm-password" class="password-toggle"><i class="fas fa-eye"></i></button>
+                </div>
+                <small id="confirm-password-error" style="color: #e43c5a; font-weight:600"></small>
+            </div>
+            <div class="form-group">
                 <button type="submit" id="submit">Sign Up</button>
             </div>
         </form>
@@ -127,11 +135,34 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             }
         }
 
+        // Confirm password validation
+        function validatePasswordsMatch() {
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirm_password').value.trim();
+            const errorElem = document.getElementById('confirm-password-error');
+            const submitButton = document.getElementById('submit');
+            if (confirmPassword.length > 0 && password !== confirmPassword) {
+                errorElem.textContent = "Passwords do not match!";
+                submitButton.disabled = true;
+                return false;
+            } else {
+                errorElem.textContent = "";
+                // Don't enable submit if other validation fails!
+                validateForm();
+                return true;
+            }
+        }
+        document.getElementById('confirm_password').addEventListener('input', validatePasswordsMatch);
+        document.getElementById('password').addEventListener('input', validatePasswordsMatch);
+
         document.getElementById('signupForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
             let email = document.getElementById('email').value;
             const messageElement = document.getElementById('email-message');
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirm_password').value.trim();
+            const confirmPasswordError = document.getElementById('confirm-password-error');
 
             if (!validateEmailFormat(email)) {
                 messageElement.textContent = 'Email format is incorrect!';
@@ -147,6 +178,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 const usernameMessageElement = document.getElementById('username-message');
                 usernameMessageElement.textContent = 'This username exists!';
                 return;
+            }
+
+            if (password !== confirmPassword) {
+                confirmPasswordError.textContent = "Passwords do not match!";
+                return;
+            } else {
+                confirmPasswordError.textContent = "";
             }
 
             const formData = new FormData(this);
@@ -193,6 +231,20 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 toggleIcon.classList.add('fa-eye-slash');
             } else {
                 passwordField.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        });
+
+        document.getElementById('toggle-confirm-password').addEventListener('click', function() {
+            const confirmPasswordField = document.getElementById('confirm_password');
+            const toggleIcon = this.querySelector('i');
+            if (confirmPasswordField.type === 'password') {
+                confirmPasswordField.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                confirmPasswordField.type = 'password';
                 toggleIcon.classList.remove('fa-eye-slash');
                 toggleIcon.classList.add('fa-eye');
             }

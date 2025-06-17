@@ -173,7 +173,8 @@ h1 {
 
 #email-message,
 #username-message,
-#username-error {
+#username-error,
+#confirm-password-error {
     color: #e43c5a;
     font-size: 0.97rem;
     margin-top: 7px;
