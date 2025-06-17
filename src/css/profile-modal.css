@@ -1,13 +1,12 @@
-/* Modal gradient and glassmorphism styles */
 #profileModal .modal-content {
     background: linear-gradient(120deg, #91EAE4 0%, #86A8E7 70%, #7F7FD5 100%);
     border: none;
     border-radius: 18px;
     box-shadow: 0 8px 32px 0 rgba(127, 127, 213, 0.22), 0 1.5px 7px 0 rgba(100, 100, 200, 0.18);
     backdrop-filter: blur(3px);
-    padding: 0;
     color: #32325d;
     animation: fadeInUp 0.5s cubic-bezier(.77, 0, .18, 1.01);
+    padding: 0;
 }
 
 @keyframes fadeInUp {
@@ -26,6 +25,9 @@
     border: none;
     padding: 1.2rem 2rem 0.5rem 2rem;
     background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 #profileModal .modal-title {
@@ -39,6 +41,9 @@
     color: #7F7FD5;
     opacity: 1;
     font-size: 2.1rem;
+    background: none;
+    border: none;
+    outline: none;
     transition: color .18s;
 }
 
@@ -48,15 +53,20 @@
 }
 
 #profileModal .modal-body {
-    padding: 1rem 2rem 2rem 2rem;
+    padding: 1.5rem 2rem 2rem 2rem;
     background: transparent;
 }
 
-#profileModal .text-center img {
+#profileModal .profile-img-preview {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+#profileModal .profile-img-preview img {
     border-radius: 50%;
     border: 5px solid #fff;
     box-shadow: 0 2px 15px #91EAE4aa;
-    margin-bottom: 18px;
     width: 110px;
     height: 110px;
     object-fit: cover;

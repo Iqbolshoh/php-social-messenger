@@ -1,13 +1,10 @@
 <?php
-
 session_start();
-
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ./login/");
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,169 +16,24 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
     <link rel="stylesheet" href="./src/css/style.css">
     <link rel="stylesheet" href="./src/css/profile-modal.css">
-    <style>
-        /* --- Profile Modal Creative Style --- */
-        #profileModal .modal-content {
-            background: linear-gradient(120deg, #91EAE4 0%, #86A8E7 70%, #7F7FD5 100%);
-            border: none;
-            border-radius: 18px;
-            box-shadow: 0 8px 32px 0 rgba(127, 127, 213, 0.22), 0 1.5px 7px 0 rgba(100, 100, 200, 0.18);
-            backdrop-filter: blur(3px);
-            padding: 0;
-            color: #32325d;
-            animation: fadeInUp 0.5s cubic-bezier(.77, 0, .18, 1.01);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                transform: translateY(30px) scale(0.97);
-                opacity: 0;
-            }
-
-            to {
-                transform: none;
-                opacity: 1;
-            }
-        }
-
-        #profileModal .modal-header {
-            border: none;
-            padding: 1.2rem 2rem 0.5rem 2rem;
-            background: transparent;
-        }
-
-        #profileModal .modal-title {
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            color: #7F7FD5;
-            font-size: 1.5rem;
-        }
-
-        #profileModal .close {
-            color: #7F7FD5;
-            opacity: 1;
-            font-size: 2.1rem;
-            transition: color .18s;
-        }
-
-        #profileModal .close:hover {
-            color: #23236E;
-            background: none;
-        }
-
-        #profileModal .modal-body {
-            padding: 1rem 2rem 2rem 2rem;
-            background: transparent;
-        }
-
-        #profileModal .text-center img,
-        #profileModal #modalProfilePicture {
-            border-radius: 50%;
-            border: 5px solid #fff;
-            box-shadow: 0 2px 15px #91EAE4aa;
-            margin-bottom: 18px;
-            width: 110px;
-            height: 110px;
-            object-fit: cover;
-            background: #e6eaff;
-        }
-
-        #profileModal .form-group label {
-            color: #7F7FD5;
-            font-weight: 600;
-            margin-bottom: 7px;
-            letter-spacing: 0.05em;
-        }
-
-        #profileModal .form-control,
-        #profileModal .custom-file-label {
-            background: rgba(255, 255, 255, 0.89);
-            border: 2px solid #86A8E7;
-            border-radius: 8px;
-            font-size: 1.06rem;
-            color: #233050;
-            margin-bottom: 8px;
-            transition: border 0.16s;
-        }
-
-        #profileModal .form-control:focus {
-            border: 2px solid #7F7FD5;
-            background: #f4fafe;
-            box-shadow: 0 0 0 2.5px #91EAE4;
-        }
-
-        #profileModal .custom-file-label {
-            cursor: pointer;
-            color: #7F7FD5;
-            font-weight: 500;
-            border-radius: 8px;
-        }
-
-        #profileModal .btn-primary {
-            background: linear-gradient(90deg, #91EAE4 0%, #7F7FD5 100%);
-            color: #fff;
-            border: none;
-            border-radius: 9px;
-            font-size: 1.06rem;
-            font-weight: 700;
-            box-shadow: 0 2px 10px 0 rgba(127, 127, 213, 0.16);
-            transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
-            margin-top: 12px;
-            padding: 10px 0;
-            width: 100%;
-        }
-
-        #profileModal .btn-primary:hover {
-            background: linear-gradient(90deg, #7F7FD5 0%, #91EAE4 100%);
-            box-shadow: 0 2px 18px 0 rgba(127, 127, 213, 0.25);
-            transform: translateY(-2px) scale(1.017);
-        }
-
-        #profileModal .invalid-feedback {
-            display: block;
-            color: #d02c6d;
-            font-size: 0.99rem;
-            margin-top: -8px;
-            margin-bottom: 8px;
-        }
-
-        @media (max-width: 500px) {
-            #profileModal .modal-dialog {
-                margin: 6vw;
-            }
-
-            #profileModal .modal-content {
-                padding: 0;
-            }
-
-            #profileModal .modal-body,
-            #profileModal .modal-header {
-                padding-left: 1vw;
-                padding-right: 1vw;
-            }
-        }
-    </style>
 </head>
 
 <body>
-    <!-- Profile Modal -->
+    <!-- Profile Modal: Only 1 Image (Preview), Responsive, and Clean -->
     <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
-                    <div class="d-flex align-items-center">
-                        <img src="./src/images/profile-picture/default.png" alt="Profile Image" class="rounded-circle" width="50" height="50" id="modalProfilePicture">
-                        <h5 class="modal-title ml-3" id="profileModalLabel">Edit Profile</h5>
-                    </div>
+                    <h5 class="modal-title" id="profileModalLabel">Edit Profile</h5>
                     <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" style="font-size:2rem;">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="profile-img-preview">
+                        <img src="./src/images/profile-picture/default.png" id="modalProfilePicture" alt="Profile Preview">
+                    </div>
                     <form id="profile-form" method="POST" enctype="multipart/form-data" autocomplete="off">
-                        <div class="form-group mb-3 text-center">
-                            <img src="./src/images/profile-picture/default.png" alt="Profile" id="modalProfilePicture" width="110" height="110">
-                        </div>
                         <div class="form-group mb-3">
                             <label for="full_name" class="form-label">Full Name:</label>
                             <input type="text" id="full_name" name="full_name" class="form-control" required maxlength="30" placeholder="Enter your full name">
@@ -249,7 +101,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script>
-        // Fetch user profile info
+        // Fetch user profile info and set preview
         function fetchUserProfile() {
             fetch('./api/fetch_profile.php')
                 .then(response => response.json())
@@ -267,12 +119,26 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         const profilePic = profile_picture && profile_picture !== 'default.png' ?
                             './src/images/profile-picture/' + profile_picture :
                             './src/images/profile-picture/default.png';
-                        // Set both modal images
-                        document.querySelectorAll('#modalProfilePicture').forEach(img => img.src = profilePic);
+                        document.getElementById('modalProfilePicture').src = profilePic;
+                        document.getElementById('modalProfilePictureHeader').src = profilePic;
                     }
                 });
         }
-        // Profile form password confirm validation
+
+        // Preview uploaded profile image
+        document.getElementById('profile_picture').addEventListener('change', function(e) {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    document.getElementById('modalProfilePicture').src = ev.target.result;
+                    document.getElementById('modalProfilePictureHeader').src = ev.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Password confirmation validation
         document.getElementById('profile-form').addEventListener('input', function() {
             const pass = document.getElementById('password').value;
             const conf = document.getElementById('confirm_password').value;
@@ -283,6 +149,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 errorElem.textContent = "";
             }
         });
+
         // On submit, prevent save if not valid!
         document.getElementById('profile-form').addEventListener('submit', function(e) {
             const pass = document.getElementById('password').value;
@@ -318,6 +185,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     });
                 });
         });
+
         fetchUserProfile();
 
         // Contacts search and polling
