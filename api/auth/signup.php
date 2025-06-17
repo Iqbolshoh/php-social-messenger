@@ -1,38 +1,18 @@
 <?php
-session_start();
-
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit(0);
-}
-
 header('Content-Type: application/json');
+session_start();
+
+include '../../config.php';
+$query = new Database();
+
 $response = [
     'status' => '',
     'message' => '',
     'data' => []
 ];
-
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    $response['status'] = 'success';
-    $response['message'] = 'User is logged in';
-    $response['data'] = [
-        'loggedin' => true,
-        'user_id' => $_SESSION['user_id'],
-        'full_name' => $_SESSION['full_name'],
-        'email' => $_SESSION['email'],
-        'username' => $_SESSION['username'],
-        'profile_picture' => $_SESSION['profile_picture']
-    ];
-    echo json_encode($response);
-    exit;
-}
-
-include '../../config.php';
-$query = new Database();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $full_name = $query->validate($_POST['full_name']);
@@ -44,7 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'full_name' => $full_name,
         'email' => $email,
         'username' => $username,
-        'password' => $password
+        'password' => $password,
+        'profile_picture' => 'default.png'
     ];
 
     $result = $query->insert('users', $data);

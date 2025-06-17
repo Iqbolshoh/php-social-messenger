@@ -1,17 +1,18 @@
-<?php
-session_start();
-session_unset();
-session_destroy();
+<!DOCTYPE html>
+<html lang="en">
 
-$cookies = ['username', 'session_token'];
-foreach ($cookies as $cookie) {
-    if (isset($_COOKIE[$cookie])) {
-        setcookie($cookie, '', time() - 3600, '/');
-    }
-}
+<head>
+    <meta http-equiv="refresh" content="0;url=../login/">
+    <script>
+        fetch('../api/auth/logout.php', {
+                method: 'POST'
+            })
+            .then(() => window.location.href = '../login/');
+    </script>
+</head>
 
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Pragma: no-cache");
+<body>
+    <p>Logging out...</p>
+</body>
 
-header("Location: ../login/");
-exit;
+</html>

@@ -1,12 +1,11 @@
 <?php
-session_start();
-
-session_unset();
-session_destroy();
-
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Content-Type: application/json');
+session_start();
+session_unset();
+session_destroy();
 
 $cookies = ['username', 'session_token'];
 foreach ($cookies as $cookie) {
@@ -23,6 +22,5 @@ $response = [
     'message' => 'User successfully logged out'
 ];
 
-header('Content-Type: application/json');
 echo json_encode($response);
 exit;

@@ -1,51 +1,3 @@
-<?php
-session_start();
-
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    header("Location: ../");
-    exit;
-}
-
-include '../config.php';
-$query = new Database();
-
-if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
-
-    if (session_id() !== $_COOKIE['session_token']) {
-        session_write_close();
-        session_id($_COOKIE['session_token']);
-        session_start();
-    }
-
-    $result = $query->select('users', '*', "username = ?", [$_COOKIE['username']], 's');
-
-    if (!empty($result)) {
-        $user = $result[0];
-
-        $_SESSION['loggedin'] = true;
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['full_name'] = $user['full_name'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['profile_picture'] = $user['profile_picture'];
-
-        $response['status'] = 'success';
-        $response['message'] = 'Login successful';
-        $response['data'] = [
-            'loggedin' => true,
-            'user_id' => $user_id,
-            'full_name' => $full_name,
-            'email' => $email,
-            'username' => $username,
-            'profile_picture' => $user['profile_picture']
-        ];
-
-        header("Location: ../");
-        exit;
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,11 +11,8 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
 </head>
 
 <body>
-
     <div class="form-container">
-
         <h1>Login</h1>
-
         <form id="loginForm">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -81,13 +30,10 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
                 <button type="submit" id="submit" disabled>Login</button>
             </div>
         </form>
-
         <div class="text-center">
             <p>Don't have an account? <a href="../signup/">Sign Up</a></p>
         </div>
-
     </div>
-
     <script src="../src/js/sweetalert2.js"></script>
     <script>
         const usernameField = document.getElementById('username');
@@ -106,13 +52,11 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
                 submitButton.disabled = false;
             }
         }
-
         usernameField.addEventListener('input', validateForm);
 
         document.getElementById('toggle-password').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
             const toggleIcon = this.querySelector('i');
-
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
                 toggleIcon.classList.remove('fa-eye');
@@ -126,7 +70,6 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
 
         loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
-
             const formData = new FormData(loginForm);
             fetch('../api/auth/login.php', {
                     method: 'POST',
@@ -154,7 +97,6 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
                     Swal.fire({
                         position: 'top-end',
                         icon: 'error',
@@ -164,7 +106,6 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
                 });
         });
     </script>
-
 </body>
 
 </html>
