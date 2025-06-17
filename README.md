@@ -11,12 +11,17 @@
 
 ![Real-Time Messaging](./src/images/real_time.png)
 
-## 🔑 **Default users**
+## 🔑 **Login Page**
 
-- **🖥 iqbolshoh Login:** `iqbolshoh`  
-- **👤 User one Login:** `client`  
-- **👤 User two Login:** `user_3`  
-- **🔑 Password:** `IQBOLSHOH`
+![Real-Time Messaging](./src/images/login.png)
+
+### 🛠 **Default Users for Demo**
+
+| 👤 Username  | 🔑 Password  | 📝 Description      |
+|:-------------|:--------------|:---------------------|
+| `iqbolshoh`  | `IQBOLSHOH`   | Developer            |
+| `client`     | `IQBOLSHOH`   | Test User One        |
+| `user_3`     | `IQBOLSHOH`   | Test User Two        |
 
 ### 2️⃣ Profile Management 👤  
 ✅ **Edit profile:** Update your **profile picture, name, and password**.  
