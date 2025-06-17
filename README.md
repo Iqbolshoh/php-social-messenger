@@ -11,6 +11,13 @@
 
 ![Real-Time Messaging](./src/images/real_time.png)
 
+## 🔑 **Default users**
+
+- **🖥 iqbolshoh Login:** `iqbolshoh`  
+- **👤 User one Login:** `client`  
+- **👤 User two Login:** `user_3`  
+- **🔑 Password:** `IQBOLSHOH`
+
 ### 2️⃣ Profile Management 👤  
 ✅ **Edit profile:** Update your **profile picture, name, and password**.  
 ✅ **View profile:** See details of the person you are chatting with.  

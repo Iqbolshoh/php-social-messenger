@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS social_messenger;
+DROP DATABASE IF EXISTS social_messenger_db;
 
-CREATE DATABASE IF NOT EXISTS social_messenger;
+CREATE DATABASE IF NOT EXISTS social_messenger_db;
 
-USE social_messenger;
+USE social_messenger_db;
 
 
 CREATE TABLE IF NOT EXISTS users (
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS block_users (
     UNIQUE (blocked_by, blocked_user)
 );
 
--- Default password: 1
+-- Default password: IQBOLSHOH
 
 INSERT INTO
     `users` (
@@ -50,49 +50,49 @@ VALUES
         'Iqbolshoh Ilhomjonov',
         'iilhomjonov777@gmail.com',
         'iqbolshoh',
-        'a12ee744fc24c11f9587f34caf342a86bfd148089befc49542eb95bd3c68e331',
+        '52be5ff91284c65bac56f280df55f797a5c505f7ef66317ff358e34791507027',
         'c7380cd60cacb65ec9a12b56c70999d3.jpg'
     ),
     (
         'client User',
         'client@iqbolshoh.uz',
         'client',
-        '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
+        '52be5ff91284c65bac56f280df55f797a5c505f7ef66317ff358e34791507027',
         '588223e26ce06bd4c1e7970f1dca11f6.jpg'
     ),
     (
         'User Three',
         'user3@iqbolshoh.uz',
         'user_3',
-        '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
+        '52be5ff91284c65bac56f280df55f797a5c505f7ef66317ff358e34791507027',
         'default.png'
     ),
     (
         'User Four',
         'user4@iqbolshoh.uz',
         'user_4',
-        '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
+        '52be5ff91284c65bac56f280df55f797a5c505f7ef66317ff358e34791507027',
         'default.png'
     ),
     (
         'User Five',
         'user5@iqbolshoh.uz',
         'user_5',
-        '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
+        '52be5ff91284c65bac56f280df55f797a5c505f7ef66317ff358e34791507027',
         'default.png'
     ),
     (
         'User Six',
         'user6@iqbolshoh.uz',
         'user_6',
-        '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
+        '52be5ff91284c65bac56f280df55f797a5c505f7ef66317ff358e34791507027',
         'default.png'
     ),
     (
         'User Seven',
         'user7@iqbolshoh.uz',
         'user_7',
-        '65c2a32982abe41b1e6ff888d351ee6b7ade33affd4a595667ea7db910aecaa8',
+        '52be5ff91284c65bac56f280df55f797a5c505f7ef66317ff358e34791507027',
         'default.png'
     );
 
