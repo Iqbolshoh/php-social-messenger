@@ -55,11 +55,25 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                         </div>
                         <div class="form-group mb-3">
                             <label for="password" class="form-label">New Password:</label>
-                            <input type="password" id="password" name="password" class="form-control" maxlength="255" placeholder="Enter new password">
+                            <div class="input-group">
+                                <input type="password" id="password" name="password" class="form-control" maxlength="255" placeholder="Enter new password">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-link toggle-password-btn" tabindex="-1" onclick="togglePassword('password', this)" style="padding:0 12px;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group mb-4">
                             <label for="confirm_password" class="form-label">Confirm New Password:</label>
-                            <input type="password" id="confirm_password" name="confirm_password" class="form-control" maxlength="255" placeholder="Re-type new password">
+                            <div class="input-group">
+                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" maxlength="255" placeholder="Re-type new password">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-link toggle-password-btn" tabindex="-1" onclick="togglePassword('confirm_password', this)" style="padding:0 12px;">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
                             <div class="invalid-feedback" id="confirm-password-error"></div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
@@ -101,6 +115,21 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script>
+        // Toggle password visibility
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
         // Fetch user profile info and set preview
         function fetchUserProfile() {
             fetch('./api/fetch_profile.php')
@@ -120,7 +149,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             './src/images/profile-picture/' + profile_picture :
                             './src/images/profile-picture/default.png';
                         document.getElementById('modalProfilePicture').src = profilePic;
-                        document.getElementById('modalProfilePictureHeader').src = profilePic;
                     }
                 });
         }
@@ -132,7 +160,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 const reader = new FileReader();
                 reader.onload = function(ev) {
                     document.getElementById('modalProfilePicture').src = ev.target.result;
-                    document.getElementById('modalProfilePictureHeader').src = ev.target.result;
                 }
                 reader.readAsDataURL(file);
             }
